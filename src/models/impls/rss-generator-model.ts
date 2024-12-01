@@ -1,23 +1,37 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { RssGeneratorModel } from "../rss-generator-model";
-import { RssGenerator } from "@prisma/client";
+import { PrismaClient, RssGenerator } from "@prisma/client";
+import { Prisma } from "@/lib/prisma";
 
 
 @injectable()
 export class RssGeneratorModelImpl implements RssGeneratorModel{
-    constructor() {
-        
+    constructor(
+        @inject(Prisma) private _prisma: PrismaClient
+    ) { }
+    async getGenerateRss(id: string){
+        const result = await this._prisma.rssGenerator.findUnique({
+            where: {id}
+        })
+        return result
     }
-    getGenerateRss(id: string){
-        
+    async createGenerateRss(data: Omit<RssGenerator, 'id'>){
+        const result = await this._prisma.rssGenerator.create({
+            data
+        })
+        return result
     }
-    createGenerateRss(data: Omit<RssGenerator, 'id'>){
-        
+    async putGenerateRss(data: RssGenerator){
+        const result = await this._prisma.rssGenerator.update({
+            where: {id: data.id},
+            data
+        })
+        return result
     }
-    putGenerateRss(data: RssGenerator){
-        
-    }
-    deleteGenerateRss(id: string){
-        
+    async deleteGenerateRss(id: string){
+        const result = await this._prisma.rssGenerator.delete({
+            where: {id}
+        })
+        return result.id
     }
 }

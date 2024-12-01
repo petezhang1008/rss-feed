@@ -2,6 +2,8 @@
 
 import { PrismaClient } from '@prisma/client';
 
+export const Prisma = Symbol.for('Prisma')
+
 let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === 'production') {

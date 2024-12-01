@@ -1,21 +1,24 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { RssGeneratorService } from "../rss-generator-service";
 import { RssGenerator } from "@prisma/client";
+import { RssGeneratorModel } from "@/models/rss-generator-model";
 
 @injectable()
 export class RssGeneratorServiceImpl implements RssGeneratorService{
-    constructor() {
+    constructor(
+        @inject(RssGeneratorModel) private _rssGeneratorModel: RssGeneratorModel
+    ) {
     }
     getGenerateRss(id: string){
-        return {} as unknown;
+        return this._rssGeneratorModel.getGenerateRss(id)
     }
     createGenerateRss(data: Omit<RssGenerator, 'id'>){
-        return {} as unknown;
+        return this._rssGeneratorModel.createGenerateRss(data)
     }
     putGenerateRss(data: RssGenerator){
-        return {} as unknown;
+        return this._rssGeneratorModel.putGenerateRss(data)
     }
     deleteGenerateRss(id: string){
-        return {} as unknown;
+        return this._rssGeneratorModel.deleteGenerateRss(id)
     }
 }
