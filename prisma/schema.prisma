@@ -28,6 +28,8 @@ model RssGenerator{
     lastUpdate DateTime?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    lastExecuteAt DateTime?
+    frequency String @default("daily")
     tasks     ExecuteTask[]
     user      User?    @relation(fields: [userId], references: [id])
 }
