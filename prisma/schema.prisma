@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  feeds     Feed[]
+  rssGenerators RssGenerator[]
+}
+model RssGenerator{
+    id        String   @id @default(uuid())
+    type      String
+    website   String
+    rssUrl    String?
+    link      String?
+    selector  String?
+    userId    String?
+    lastUpdate DateTime?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    tasks     ExecuteTask[]
+    user      User?    @relation(fields: [userId], references: [id])
+}
+
+model Feed{
+    id            String   @id @default(uuid())
+    title         String
+    link          String
+    description   String
+    pubDate       DateTime
+    creator       String?
+    userId        String?
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+    user          User?     @relation(fields: [userId], references: [id])
+}
+
+model ExecuteTask{
+    id        String   @id @default(uuid())
+    status   String
+    createAt DateTime @default(now())
+    count    Int
+    rssGeneratorId  String?
+    rssGenerator RssGenerator? @relation(fields: [rssGeneratorId], references: [id])
+    readed   Boolean
+    errorReason String?
+}

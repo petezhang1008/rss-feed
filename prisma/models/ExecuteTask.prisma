@@ -1,0 +1,11 @@
+
+model ExecuteTask{
+    id        String   @id @default(uuid())
+    status   String
+    createAt DateTime @default(now())
+    count    Int
+    rssGeneratorId  String?
+    rssGenerator RssGenerator? @relation(fields: [rssGeneratorId], references: [id])
+    readed   Boolean
+    errorReason String?
+}
