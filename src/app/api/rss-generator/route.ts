@@ -1,24 +1,36 @@
+import 'reflect-metadata'
+import '@/inversify'
 import { injectService } from "@/inversify.config";
 import { RssGeneratorService } from "@/services/rss-generator-service";
 import { RssGenerator } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { ErrorData, HttpServer, ResponseType } from '@/lib/http-server.interface';
+import { ErrorCode } from '@/enums/error-code';
+import { CreateGenerateRssParams } from '@/models/rss-generator-model';
 
+const httpServer = injectService<HttpServer>(HttpServer)
+const rssGeneratorService = injectService<RssGeneratorService>(RssGeneratorService);
 
-
-
-export async function GET(req: NextRequest): Promise<NextResponse<RssGenerator | null>>  {
-    const rssGeneratorService = injectService<RssGeneratorService>(RssGeneratorService);
+export async function GET(req: NextRequest): ResponseType<RssGenerator>{
     const userId: string|null = req.nextUrl.searchParams.get('useId')
     if (!userId) { 
-        return new NextResponse(JSON.stringify({ error: 'Missing userId' }), {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' },
-        });
+        return httpServer.sendError<ErrorData>(400, ErrorCode.NO_USER)
     }
     const result = await rssGeneratorService?.getGenerateRss(userId)
+    if (!result) { 
+        return httpServer?.sendError<ErrorData>(404, ErrorCode.NOT_FOUND)
+    }
+    return httpServer?.sendResponse<RssGenerator>(result)
+}
 
-    return new NextResponse(result, {
-        status: 200,
-        headers: { 'Content-Type': 'text/html; charset=utf-8' },
-    });
+
+
+export async function POST(req: NextRequest): ResponseType<RssGenerator>{
+    const data: CreateGenerateRssParams = await req.json()
+    const userId = data.userId
+    if (!userId) { 
+        return httpServer.sendError<ErrorData>(400, ErrorCode.NO_USER)
+    }
+    const result = await rssGeneratorService?.createGenerateRss(data)
+    return httpServer?.sendResponse<RssGenerator>(result)
 }

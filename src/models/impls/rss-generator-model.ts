@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { RssGeneratorModel } from "../rss-generator-model";
+import { CreateGenerateRssParams, RssGeneratorModel } from "../rss-generator-model";
 import { PrismaClient, RssGenerator } from "@prisma/client";
 import { Prisma } from "@/lib/prisma";
 
@@ -15,7 +15,7 @@ export class RssGeneratorModelImpl implements RssGeneratorModel{
         })
         return result
     }
-    async createGenerateRss(data: Omit<RssGenerator, 'id'>){
+    async createGenerateRss(data: CreateGenerateRssParams){
         const result = await this._prisma.rssGenerator.create({
             data
         })

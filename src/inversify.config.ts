@@ -8,7 +8,6 @@ const container = new Container({
 
 // 获取服务
 function injectService<T>(serviceIdentifier: interfaces.ServiceIdentifier<T>) {
-    if (!serviceIdentifier || !container) return null;
     return container.get<T>(serviceIdentifier);
 }
 

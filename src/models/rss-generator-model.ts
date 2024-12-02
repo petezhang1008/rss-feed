@@ -3,7 +3,10 @@ export const RssGeneratorModel = Symbol('RssGeneratorModel');
 
 export interface RssGeneratorModel {
     getGenerateRss(id: string): Promise<RssGenerator|null>;
-    createGenerateRss(data: Omit<RssGenerator, 'id'>): Promise<RssGenerator>;
+    createGenerateRss(data: CreateGenerateRssParams): Promise<RssGenerator>;
     putGenerateRss(data: RssGenerator): Promise<RssGenerator>;
     deleteGenerateRss(id: string): Promise<string>;
 }
+
+
+export type CreateGenerateRssParams = Omit<RssGenerator, 'id'>

@@ -6,11 +6,10 @@ model RssGenerator{
     link      String?
     selector  String?
     userId    String?
-    lastUpdate DateTime?
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    updatedAt DateTime? @updatedAt
     lastExecuteAt DateTime?
-    frequency String @default("daily")
+    frequency String? @default("daily")
     tasks     ExecuteTask[]
     user      User?    @relation(fields: [userId], references: [id])
 }
