@@ -2,7 +2,7 @@
 
 import { PrismaClient } from '@prisma/client';
 
-export const Prisma = Symbol.for('Prisma')
+export const PrismaSymbol = Symbol.for('Prisma')
 
 let prisma: PrismaClient;
 
