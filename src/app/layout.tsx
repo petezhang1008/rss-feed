@@ -3,6 +3,7 @@ import '@/inversify'
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./assets/styles/globals.scss";
+import Header from './components/header/header';
 
 const geistSans = localFont({
   src: "./assets/fonts/GeistVF.woff",
@@ -28,9 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col size-full bg-blue-50`}
       >
-        {children}
+        <Header />
+        <div className="grow overflow-auto">
+          {children}
+        </div>
       </body>
     </html>
   );
