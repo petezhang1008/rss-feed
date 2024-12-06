@@ -193,21 +193,6 @@ const useIframeEvent = () => {
             }
         };
 
-        // useNodePathStore.subscribe(
-        //     (state) => {
-        //         if (iframeRef.current) {
-        //             const iframeDocument = iframeRef.current?.contentDocument || iframeRef.current?.contentWindow?.document;
-        //             if (iframeDocument) {
-        //                 selectedNodes(iframeDocument, state.path, {
-        //                     clearPath,
-        //                     clearSelectedNodes,
-        //                     setSelectedNodes
-        //                 })
-        //             }
-        //         }
-        //     }
-        // )
-
         const currentIframe: Element|null = iframeRef.current;
         currentIframe?.addEventListener('load', handleLoad);
 
