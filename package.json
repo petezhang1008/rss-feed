@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register server.ts",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production nodemon --exec ts-node  -r tsconfig-paths/register server.ts",
     "lint": "next lint"
   },
   "dependencies": {
@@ -21,7 +21,7 @@
     "inversify": "6.1.5",
     "jsdom": "^25.0.1",
     "lodash": "^4.17.21",
-    "next": "15.0.3",
+    "next": "15.0.4",
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.7",

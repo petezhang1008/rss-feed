@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import { RssGeneratorService } from "../rss-generator-service";
 import { RssGenerator } from "@prisma/client";
-import { GenerateRssParams, RssGeneratorModel } from "@/models/rss-generator-model";
+import { GenerateRssParams, QueryGenerateRssListParams, RssGeneratorModel } from "@/models/rss-generator-model";
 
 @injectable()
 export class RssGeneratorServiceImpl implements RssGeneratorService {
@@ -20,5 +20,8 @@ export class RssGeneratorServiceImpl implements RssGeneratorService {
     }
     deleteGenerateRss(id: string) {
         return this._rssGeneratorModel.deleteGenerateRss(id)
+    }
+    queryGenerateRssList(data: QueryGenerateRssListParams) {
+        return this._rssGeneratorModel.queryGenerateRssList(data)
     }
 }

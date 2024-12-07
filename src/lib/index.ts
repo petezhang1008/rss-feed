@@ -6,5 +6,5 @@ import { HttpServerImpl } from "./http-server"
 
 export const libs = new ContainerModule((bind) => {
     bind(PrismaSymbol).toConstantValue(prisma)
-    bind(HttpServer).to(HttpServerImpl)
+    // bind(HttpServer).to(HttpServerImpl)
 })

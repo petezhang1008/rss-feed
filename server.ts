@@ -1,7 +1,5 @@
 import express from 'express'
 import next from 'next'
-import 'reflect-metadata'
-import '@/inversify/index'
 import { startRssGeneratorTask } from '@/lib/cron'
 
 const dev = process.env.NODE_ENV !== 'production'

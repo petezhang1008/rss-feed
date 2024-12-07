@@ -3,9 +3,9 @@ import { ErrorCode } from "@/enums/error-code";
 
 export const HttpServer = Symbol.for("HttpServer");
 
-export interface HttpServer { 
-    sendResponse<T>( data: T, option?: ResponseInit): NextResponse<T>;
-    sendError<T>(statusCode: number, errorCode: ErrorCode, errorData?: Record<string, unknown>, option?: ResponseInit):NextResponse<T>;
+export interface HttpServer {
+    sendResponse<T>(data: T, option?: ResponseInit): NextResponse<T>;
+    sendError<T>(statusCode: number, errorCode: ErrorCode, errorData?: Record<string, unknown>, option?: ResponseInit): NextResponse<T>;
 }
 
 export interface ErrorData {
@@ -14,4 +14,4 @@ export interface ErrorData {
 }
 
 
-export type ResponseType<T> = Promise<NextResponse< T | ErrorData >>
+export type ResponseType<T> = Promise<NextResponse<T | ErrorData>>

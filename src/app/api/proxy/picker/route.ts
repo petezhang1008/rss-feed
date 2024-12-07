@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import fetch from "node-fetch";
-import { JSDOM } from "jsdom";
+import { injectService } from "@/inversify.config";
+import { WebsiteParserService } from "@/services/website-parser-service";
 
-interface PagePickerParam{
-    link: string|null
+interface PagePickerParam {
+    link: string | null
 }
 
 export async function GET(req: NextRequest): Promise<NextResponse<string>> {
+    const websiteParserService = injectService<WebsiteParserService>(WebsiteParserService)
     const params: PagePickerParam = {
         link: req.nextUrl.searchParams.get('link')
     }
@@ -18,14 +19,7 @@ export async function GET(req: NextRequest): Promise<NextResponse<string>> {
         });
     }
     try {
-        url = decodeURIComponent(url)
-        // 获取网页内容
-        const response = await fetch(url);
-        const text = await response.text();
-
-        // 使用 JSDOM 解析 HTML
-        const dom = new JSDOM(text);
-        const document = dom.window.document;
+        const document = await websiteParserService.getWebsiteDocument(url)
 
         // 清除所有 <script> 标签
         const scripts = document.querySelectorAll('script');

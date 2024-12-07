@@ -7,9 +7,11 @@ import { NextRequest } from "next/server";
 import { ErrorData, HttpServer, ResponseType } from '@/lib/http-server.interface';
 import { ErrorCode } from '@/enums/error-code';
 import { GenerateRssParams } from '@/models/rss-generator-model';
+// import { startRssGeneratorTask } from '@/lib/cron'
 
 const httpServer = injectService<HttpServer>(HttpServer)
 const rssGeneratorService = injectService<RssGeneratorService>(RssGeneratorService);
+// startRssGeneratorTask()
 
 export async function GET(req: NextRequest): ResponseType<RssGenerator> {
     const userId: string | null = req.nextUrl.searchParams.get('useId')

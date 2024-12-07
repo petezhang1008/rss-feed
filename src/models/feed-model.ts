@@ -10,3 +10,5 @@ export interface FeedModel {
     updateFeed: (feed: Feed) => Promise<Feed>
     deleteFeed: (feedId: string) => Promise<Feed>
 }
+
+export type FeedParams = Pick<Feed, 'id' | 'title' | 'link' | 'userId'> & Partial<Feed>

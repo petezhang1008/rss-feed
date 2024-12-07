@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
-import { GenerateRssParams, RssGeneratorModel } from "../rss-generator-model";
-import { PrismaClient, RssGenerator } from "@prisma/client";
+import { GenerateRssParams, QueryGenerateRssListParams, RssGeneratorModel } from "../rss-generator-model";
+import { Prisma, PrismaClient, RssGenerator } from "@prisma/client";
 import { PrismaSymbol } from "@/lib/prisma";
 
 
@@ -33,5 +33,36 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
             where: { id }
         })
         return result.id
+    }
+    async queryGenerateRssList(data: QueryGenerateRssListParams) {
+        const { page, pageSize, type, frequency, createdAt, updatedAt, userId } = data
+        const skip = (page - 1) * pageSize
+        const take = pageSize
+        const where: Prisma.RssGeneratorWhereInput = {
+            type,
+            frequency,
+            createdAt: {
+                gte: createdAt,
+            },
+            updatedAt: {
+                gte: updatedAt
+            },
+            userId
+        }
+
+        const result = await this._prisma.rssGenerator.findMany({
+            skip,
+            take,
+            where
+        })
+        const total = await this._prisma.rssGenerator.count({
+            where
+        })
+        return {
+            result,
+            total,
+            page,
+            pageSize
+        }
     }
 }
