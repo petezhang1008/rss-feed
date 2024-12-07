@@ -1,7 +1,8 @@
 import { RssGeneratorFrequency, RssGeneratorType } from '@/enums/rss';
 import { Pagination } from '@/types/pagination';
 import { RssGenerator } from '@prisma/client'
-export const RssGeneratorModel = Symbol('RssGeneratorModel');
+
+export const RssGeneratorModel = Symbol.for('RssGeneratorModel');
 
 export interface RssGeneratorModel {
     getGenerateRss(id: string): Promise<RssGenerator | null>;

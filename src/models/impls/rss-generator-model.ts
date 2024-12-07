@@ -7,7 +7,8 @@ import { PrismaSymbol } from "@/lib/prisma";
 @injectable()
 export class RssGeneratorModelImpl implements RssGeneratorModel {
     constructor(
-        @inject(PrismaSymbol) private _prisma: PrismaClient
+        @inject(PrismaSymbol)
+        private _prisma: PrismaClient
     ) { }
     async getGenerateRss(id: string) {
         const result = await this._prisma.rssGenerator.findUnique({
@@ -36,18 +37,22 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
     }
     async queryGenerateRssList(data: QueryGenerateRssListParams) {
         const { page, pageSize, type, frequency, createdAt, updatedAt, userId } = data
-        const skip = (page - 1) * pageSize
-        const take = pageSize
+        const skip = (page - 1) * pageSize;
+        const take = pageSize;
         const where: Prisma.RssGeneratorWhereInput = {
             type,
             frequency,
-            createdAt: {
-                gte: createdAt,
-            },
-            updatedAt: {
-                gte: updatedAt
-            },
-            userId
+            ...(createdAt && {
+                createdAt: {
+                    gte: createdAt,
+                }
+            }),
+            ...(updatedAt && {
+                updatedAt: {
+                    gte: updatedAt
+                }
+            }),
+            ...(userId && { userId })
         }
 
         const result = await this._prisma.rssGenerator.findMany({

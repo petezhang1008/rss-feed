@@ -1,5 +1,4 @@
 import 'reflect-metadata'
-import '@/inversify'
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./assets/styles/globals.scss";

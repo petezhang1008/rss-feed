@@ -12,11 +12,11 @@ container.load(libs)
 container.load(models)
 container.load(services)
 
+
 // 获取服务
 function injectService<T>(serviceIdentifier: interfaces.ServiceIdentifier<T>) {
     return container.get<T>(serviceIdentifier);
 }
-
 
 export {
     container,

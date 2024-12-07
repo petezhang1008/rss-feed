@@ -4,8 +4,8 @@ import { RssGeneratorFrequency, RssGeneratorType } from '@/enums/rss';
 import { injectService } from '@/inversify.config';
 import { RssGeneratorService } from '@/services/rss-generator-service';
 
+
 var rssGeneratorTask = cron.schedule(' * * * * *', async () => {
-    console.log('===running a task every minute===');
     const rssGeneratorService = injectService<RssGeneratorService>(RssGeneratorService)
     const pageSize = 100
     let page = 1
@@ -14,7 +14,7 @@ var rssGeneratorTask = cron.schedule(' * * * * *', async () => {
             page: 1,
             pageSize: 100,
             type: RssGeneratorType.WEBSITE,
-            frequency: RssGeneratorFrequency.HOUR
+            frequency: RssGeneratorFrequency.DAY
         })
         if (rssGeneratorList.total > page * pageSize) {
             page++

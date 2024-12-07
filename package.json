@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --exec ts-node -r tsconfig-paths/register server.ts",
+    "dev": "nodemon --watch src --exec ts-node -r tsconfig-paths/register server.ts",
     "build": "next build",
-    "start": "NODE_ENV=production nodemon --exec ts-node  -r tsconfig-paths/register server.ts",
+    "start": "NODE_ENV=production nodemon --watch src --exec ts-node  -r tsconfig-paths/register server.ts",
     "lint": "next lint"
   },
   "dependencies": {

@@ -1,9 +1,9 @@
 import { ExecuteTask, PrismaClient } from "@prisma/client"
 import { ExecuteTaskModel } from "../execute-task-model"
 import { PrismaSymbol } from "@/lib/prisma"
-import { inject } from "inversify"
+import { inject, injectable } from "inversify"
 
-
+@injectable()
 export class ExecuteTaskModelImpl implements ExecuteTaskModel {
     constructor(
         @inject(PrismaSymbol) private _prisma: PrismaClient

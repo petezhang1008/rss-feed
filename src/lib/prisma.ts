@@ -2,7 +2,7 @@
 
 import { PrismaClient } from '@prisma/client';
 
-export const PrismaSymbol = Symbol.for('Prisma')
+const PrismaSymbol = Symbol.for('Prisma')
 
 let prisma: PrismaClient;
 
@@ -16,4 +16,4 @@ if (process.env.NODE_ENV === 'production') {
     prisma = global.prisma;
 }
 
-export default prisma;
+export { prisma, PrismaSymbol };

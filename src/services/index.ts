@@ -7,8 +7,10 @@ import { RssSubscribeParserService } from "./rss-subscribe-parser-service";
 import { RssSubscribeParserServiceImpl } from "./impls/rss-subscribe-parser-service";
 import { RssTaskServiceImpl } from "./impls/rss-task-service";
 import { RssTaskService } from "./rss-task-service";
-import { RssGeneratorModelImpl } from "@/models/impls/rss-generator-model";
-import { RssGeneratorModel } from "@/models/rss-generator-model";
+import { FeedService } from "./feed-service";
+import { FeedServiceImpl } from "./impls/feed-service";
+import { FeedLinkTaskService } from "./feed-link-task-service";
+import { FeedLinkTaskServiceImpl } from "./impls/feed-link-task-service";
 
 
 export const services = new ContainerModule((bind) => {
@@ -16,5 +18,6 @@ export const services = new ContainerModule((bind) => {
     bind(WebsiteParserService).to(WebsiteParserServiceImpl)
     bind(RssSubscribeParserService).to(RssSubscribeParserServiceImpl)
     bind(RssTaskService).to(RssTaskServiceImpl)
-    bind(RssGeneratorModel).to(RssGeneratorModelImpl)
+    bind(FeedService).to(FeedServiceImpl)
+    bind(FeedLinkTaskService).to(FeedLinkTaskServiceImpl)
 })

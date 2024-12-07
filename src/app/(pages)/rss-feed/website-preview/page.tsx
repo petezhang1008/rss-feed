@@ -1,3 +1,4 @@
+'use client'
 import FeedListPreview from "./components/feed-list-preview";
 import IframePreview from "./components/iframe-preview";
 import PreviewFooter from "./components/preview-footer";

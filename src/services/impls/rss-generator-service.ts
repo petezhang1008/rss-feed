@@ -6,7 +6,8 @@ import { GenerateRssParams, QueryGenerateRssListParams, RssGeneratorModel } from
 @injectable()
 export class RssGeneratorServiceImpl implements RssGeneratorService {
     constructor(
-        @inject(RssGeneratorModel) private _rssGeneratorModel: RssGeneratorModel
+        @inject(RssGeneratorModel)
+        private _rssGeneratorModel: RssGeneratorModel
     ) {
     }
     getGenerateRss(id: string) {

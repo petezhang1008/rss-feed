@@ -28,9 +28,14 @@
         "name": "next"
       }
     ],
+    "baseUrl": "./",
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "*": [
+        "node_modules/*",
+        "src/*"
       ]
     }
   },

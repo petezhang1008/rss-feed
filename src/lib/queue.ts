@@ -1,6 +1,6 @@
 import { injectService } from '@/inversify.config';
 import { GenerateRssParams } from '@/models/rss-generator-model'
-import { FeedTask, FeedTaskService } from '@/services/feed-link-task-service';
+import { FeedTask, FeedLinkTaskService } from '@/services/feed-link-task-service';
 import { RssTaskService } from '@/services/rss-task-service';
 import { Job } from 'bull'
 const Queue = require('bull');
@@ -21,9 +21,9 @@ export const addRssQueue = async (data: GenerateRssParams) => {
 const feedLinkQueue = new Queue('feed-link', process.env.REDIS_URL)
 
 feedLinkQueue.process(async (job: Job<FeedTask>, done: (error?: Error | null) => void) => {
-    const feedTaskService = injectService<FeedTaskService>(FeedTaskService)
+    const feedLinkTaskService = injectService<FeedLinkTaskService>(FeedLinkTaskService)
     const data: FeedTask = job.data
-    feedTaskService.consumeFeedTask(data)
+    feedLinkTaskService.consumeFeedTask(data)
     done()
 })
 
