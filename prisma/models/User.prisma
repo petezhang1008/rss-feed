@@ -8,4 +8,5 @@ model User {
   feeds         Feed[]
   rssGenerators RssGenerator[]
   executeTasks  ExecuteTask[]
+  bundles       Bundle[]
 }

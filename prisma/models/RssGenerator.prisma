@@ -3,15 +3,18 @@ model RssGenerator {
     type          String
     website       String
     title         String?
+    description   String?
     rssUrl        String?
     link          String?
     selector      String?
     userId        String?
+    user          User?         @relation(fields: [userId], references: [id])
+    bundleId      String?
+    bundle        Bundle?       @relation(fields: [bundleId], references: [id])
     createdAt     DateTime      @default(now())
     updatedAt     DateTime?     @updatedAt
     lastExecuteAt DateTime?
     frequency     String?       @default("daily")
     tasks         ExecuteTask[]
-    user          User?         @relation(fields: [userId], references: [id])
     feed          Feed[]
 }

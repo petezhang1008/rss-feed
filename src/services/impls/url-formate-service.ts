@@ -20,5 +20,9 @@ export class UrlFormateServiceImpl implements UrlFormateService {
         }
         return url
     }
+
+    getDomain(url: string): string {
+        return URL.parse(url).hostname
+    }
 }
 

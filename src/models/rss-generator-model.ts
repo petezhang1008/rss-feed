@@ -15,11 +15,11 @@ export interface RssGeneratorModel {
 
 export type GenerateRssParams = Pick<RssGenerator, 'type' | 'website'> & Partial<RssGenerator>
 export interface QueryGenerateRssListParams {
-    type: RssGeneratorType,
+    type?: RssGeneratorType,
     page: number,
     pageSize: number,
     userId?: string,
-    frequency: RssGeneratorFrequency,
+    frequency?: RssGeneratorFrequency,
     createdAt?: string,
     updatedAt?: string,
 }
