@@ -1,9 +1,9 @@
 import { create } from 'zustand'
 
-export interface NodePathStore { 
-    path: string | null
-    clearPath: () => void
-    setPath: (path: string) => void
+export interface NodePathStore {
+  path: string | null
+  clearPath: () => void
+  setPath: (path: string) => void
 }
 
 const useNodePathStore = create<NodePathStore>((set) => ({

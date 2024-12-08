@@ -2,6 +2,7 @@ model RssGenerator {
     id            String        @id @default(uuid())
     type          String
     website       String
+    title         String?
     rssUrl        String?
     link          String?
     selector      String?
@@ -12,4 +13,5 @@ model RssGenerator {
     frequency     String?       @default("daily")
     tasks         ExecuteTask[]
     user          User?         @relation(fields: [userId], references: [id])
+    feed          Feed[]
 }

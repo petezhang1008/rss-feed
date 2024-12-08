@@ -1,6 +1,7 @@
-import { use, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import useNodePathStore from '../store/use-node-path';
 import useSelectedNodesStore from '../store/use-selected-nodes';
+import useIframeDataStore from '../store/use-iframe-data';
 
 function initStyle(iframeDocument: Document) {
     const style = iframeDocument.createElement('style');
@@ -21,7 +22,7 @@ function initStyle(iframeDocument: Document) {
 
 function onStopLinkEvent(iframeDocument: Document) {
     iframeDocument.querySelectorAll('a').forEach(anchor => {
-        anchor.addEventListener('click', function(event) {
+        anchor.addEventListener('click', function (event) {
             event.preventDefault();
             window.stop(); // 停止加载
         });
@@ -41,9 +42,9 @@ function onSelectNode(iframeDocument: Document, {
     clearPath,
     setSelectedNodes,
     clearSelectedNodes
-}: SelectNodeOptions) { 
+}: SelectNodeOptions) {
 
-    iframeDocument.addEventListener('click', function (event) { 
+    iframeDocument.addEventListener('click', function (event) {
 
         iframeDocument.querySelectorAll('[rss-aria-selected]').forEach((element) => {
             element.removeAttribute('rss-aria-selected')
@@ -54,7 +55,7 @@ function onSelectNode(iframeDocument: Document, {
         const path = getNodePath(target);
         const selector = getNodeFromPath(path)
         const targets = iframeDocument.querySelectorAll(selector);
-        if(targets.length > 1 && hasAnchorTag(target)){
+        if (targets.length > 1 && hasAnchorTag(target)) {
             targets.forEach((element) => {
                 element.setAttribute('rss-aria-selected', 'true');
             });
@@ -65,18 +66,18 @@ function onSelectNode(iframeDocument: Document, {
 }
 
 function selectedNodes(iframeDocument: Document,
-    path: string|null,
+    path: string | null,
     {
-    clearPath,
-    clearSelectedNodes,
-    setSelectedNodes
-}: Partial<SelectNodeOptions>) { 
+        clearPath,
+        clearSelectedNodes,
+        setSelectedNodes
+    }: Partial<SelectNodeOptions>) {
     iframeDocument.querySelectorAll('[rss-aria-selected]').forEach((element) => {
         element.removeAttribute('rss-aria-selected')
         clearPath!();
         clearSelectedNodes!();
     });
-    if(!path) return;
+    if (!path) return;
     const selector = getNodeFromPath(path)
     const targets = iframeDocument.querySelectorAll(selector);
     if (targets.length > 0) {
@@ -88,7 +89,7 @@ function selectedNodes(iframeDocument: Document,
 }
 
 function onHoverNode(iframeDocument: Document) {
-    iframeDocument.addEventListener('mouseover', function (event) { 
+    iframeDocument.addEventListener('mouseover', function (event) {
         iframeDocument.querySelectorAll('[rss-aria-hovered]').forEach((element) => {
             element.removeAttribute('rss-aria-hovered')
         });
@@ -96,7 +97,7 @@ function onHoverNode(iframeDocument: Document) {
         const path = getNodePath(target);
         const selector = getNodeFromPath(path)
         const targets = iframeDocument.querySelectorAll(selector);
-        if(targets.length > 1 && hasAnchorTag(target)){
+        if (targets.length > 1 && hasAnchorTag(target)) {
             targets.forEach((element) => {
                 element.setAttribute('rss-aria-hovered', 'true');
             });
@@ -116,12 +117,12 @@ function getNodeFromPath(path: string) {
 
 
 const EXTRACT_NODES = ['html', 'body']
-function getNodePath(node: Element|null): string {
+function getNodePath(node: Element | null): string {
     const path: string[] = [];
 
     while (node) {
         let name = node.nodeName.toLowerCase();
-        
+
         // 如果是元素节点，添加 ID 或类名
         if (node.nodeType === Node.ELEMENT_NODE) {
             if (node.id) {
@@ -133,7 +134,7 @@ function getNodePath(node: Element|null): string {
 
         path.unshift(name); // 将节点名称添加到路径的开头
         const parentNode = node.parentNode;
-        if (parentNode?.nodeType === Node.ELEMENT_NODE && !EXTRACT_NODES.includes(parentNode.nodeName.toLowerCase())) { 
+        if (parentNode?.nodeType === Node.ELEMENT_NODE && !EXTRACT_NODES.includes(parentNode.nodeName.toLowerCase())) {
             node = parentNode as Element; // 移动到父节点
         } else {
             node = null
@@ -143,8 +144,8 @@ function getNodePath(node: Element|null): string {
     return path.join(' > '); // 使用 " > " 连接路径
 }
 
-function hasAnchorTag(node:Element) {
-    if (node.nodeName === 'A') { 
+function hasAnchorTag(node: Element) {
+    if (node.nodeName === 'A') {
         return true;
     }
     // 获取所有子节点
@@ -165,35 +166,42 @@ function hasAnchorTag(node:Element) {
     return containsAnchor;
 }
 
+function getTitle(iframeDocument: Document) {
+    const title = iframeDocument.title;
+    return title;
+}
+
 
 const useIframeEvent = () => {
     const iframeRef = useRef<HTMLIFrameElement | null>(null);
     const setPath = useNodePathStore((state) => state.setPath);
+    const setTitle = useIframeDataStore((state) => state.setTitle);
     const clearPath = useNodePathStore((state) => state.clearPath);
     const setSelectedNodes = useSelectedNodesStore((state) => state.setSelectedNodes);
     const clearSelectedNodes = useSelectedNodesStore((state) => state.clearSelectedNodes);
 
     useEffect(() => {
-        
+
         const handleLoad = () => {
             if (iframeRef.current) {
                 const iframeDocument = iframeRef.current?.contentDocument || iframeRef.current?.contentWindow?.document;
                 if (iframeDocument) {
-                    initStyle(iframeDocument);  
+                    initStyle(iframeDocument);
                     onStopLinkEvent(iframeDocument);
                     onHoverNode(iframeDocument);
-                    
+
                     onSelectNode(iframeDocument, {
                         setPath,
                         clearPath,
                         setSelectedNodes,
                         clearSelectedNodes
                     });
+                    setTitle(getTitle(iframeDocument));
                 }
             }
         };
 
-        const currentIframe: Element|null = iframeRef.current;
+        const currentIframe: Element | null = iframeRef.current;
         currentIframe?.addEventListener('load', handleLoad);
 
         return () => {

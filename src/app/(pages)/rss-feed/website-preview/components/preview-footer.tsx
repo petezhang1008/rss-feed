@@ -6,11 +6,13 @@ import useSelectedNodesStore from "../store/use-selected-nodes"
 import { subscribeWebsiteAction } from "@/app/lib/subscribe-actions"
 import { redirect } from 'next/navigation';
 import { RouterName } from "@/enums/router";
+import useIframeDataStore from "../store/use-iframe-data";
 
 export default function PreviewFooter() {
     const selectedNodes = useSelectedNodesStore(state => state.selectedNodes)
     const websiteLink = useWebsiteLink()
     const path = useNodePathStore(state => state.path)
+    const title = useIframeDataStore(state => state.title)
 
 
     async function submit() {
@@ -20,6 +22,7 @@ export default function PreviewFooter() {
             website: websiteLink,
             selector: path,
             frequency: "daily",
+            title: title || ""
         })
         redirect(`${RouterName.FEED}/${res.id}`)
     }

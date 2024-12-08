@@ -10,10 +10,11 @@ export interface FeedModel {
     createFeed: (feed: CreateFeedParams) => Promise<Feed>
     updateFeed: (feed: FeedParams) => Promise<Feed>
     deleteFeed: (feedId: string) => Promise<Feed>
+    getFeedByLink: (link: string) => Promise<Feed | null>
 }
 
 export type FeedParams = Pick<Feed, 'id' | 'title' | 'link' | 'userId' | 'image' | 'author' | 'domain'> & Partial<Feed>
-export type CreateFeedParams = Pick<Feed, 'title' | 'link' | 'domain'> & Partial<Feed>
+export type CreateFeedParams = Pick<Feed, 'title' | 'link' | 'domain' | 'rssId'> & Partial<Feed>
 export interface QueryUserFeedParams extends PaginationParams {
     userId: string
 }

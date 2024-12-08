@@ -14,7 +14,7 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
     }
     async consumeFeedTask(data: FeedTask): Promise<void> {
         const document = await this.websiteParserService.getWebsiteDocument(data.url)
-        const feed = this._parseFeed(document)
+        const feed = this._parseFeed(document, data)
         try {
             await this.feedService.createFeed(feed)
         } catch (error) {
@@ -22,13 +22,14 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
         }
     }
 
-    private _parseFeed(document: Document): FeedDataFromParser {
+    private _parseFeed(document: Document, data: FeedTask): FeedDataFromParser {
         const title = document.title
-        const domain = new URL(document.location.href).hostname
+        const domain = new URL(data.url).hostname
 
         return {
+            rssId: data.rssId,
+            link: data.url,
             title,
-            link: document.location.href,
             domain
         }
     }

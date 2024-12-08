@@ -16,7 +16,7 @@ export class FeedServiceImpl implements FeedService {
         return this.feedModel.getFeed(feedId)
     }
     async createFeed(feed: CreateFeedParams) {
-        const isExist = await this.feedModel.getFeed(feed.link)
+        const isExist = await this.feedModel.getFeedByLink(feed.link)
         if (isExist) {
             throw new Error('Feed already exists')
         }

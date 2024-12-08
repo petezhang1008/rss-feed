@@ -57,4 +57,11 @@ export class FeedModelImpl implements FeedModel {
             }
         })
     }
+    async getFeedByLink(link: string) {
+        return this._prisma.feed.findFirst({
+            where: {
+                link
+            }
+        })
+    }
 }

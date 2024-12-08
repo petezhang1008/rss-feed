@@ -5,6 +5,8 @@ import { addFeedLinkQueue } from "@/lib/queue"
 import { GenerateRssParams } from "@/models/rss-generator-model"
 import { RssGeneratorType } from "@/enums/rss"
 import { RssSubscribeParserService } from "../rss-subscribe-parser-service"
+import { injectService } from "@/inversify.config"
+import { UrlFormateService } from "../url-formate-service"
 
 @injectable()
 export class RssTaskServiceImpl implements RssTaskService {
@@ -12,7 +14,9 @@ export class RssTaskServiceImpl implements RssTaskService {
         @inject(WebsiteParserService)
         private _websiteParserService: WebsiteParserService,
         @inject(RssSubscribeParserService)
-        private _rssSubscribeParserService: RssSubscribeParserService
+        private _rssSubscribeParserService: RssSubscribeParserService,
+        @inject(UrlFormateService)
+        private _urlFormateService: UrlFormateService
     ) {
     }
 
@@ -25,10 +29,12 @@ export class RssTaskServiceImpl implements RssTaskService {
     }
 
     async _initWebsiteGenerator(data: GenerateRssParams): Promise<void> {
-        const links = await this._websiteParserService.getTargetLinks(data.website, data.selector!)
+        const fullUrl = this._urlFormateService.getFullUrl(data.website)
+        const links = await this._websiteParserService.getTargetLinks(fullUrl, data.selector!)
         for (const link of links) {
             addFeedLinkQueue({
-                url: link,
+                url: this._urlFormateService.getFullUrl(link, fullUrl),
+                rssId: data.id!
             })
         }
     }

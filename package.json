@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --watch src --exec ts-node -r tsconfig-paths/register server.ts",
+    "dev": "nodemon --watch src --delay 1 --exec ts-node -r tsconfig-paths/register server.ts  --turbopack",
     "build": "next build",
-    "start": "NODE_ENV=production nodemon --watch src --exec ts-node  -r tsconfig-paths/register server.ts",
+    "start": "NODE_ENV=production nodemon --watch src --delay 1 --exec ts-node  -r tsconfig-paths/register server.ts",
     "lint": "next lint"
   },
   "dependencies": {
@@ -31,6 +31,7 @@
     "sass": "^1.81.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "url": "^0.11.4",
     "zod": "^3.23.8",
     "zustand": "^5.0.1"
   },

@@ -23,6 +23,7 @@ model RssGenerator {
     id            String        @id @default(uuid())
     type          String
     website       String
+    title         String?
     rssUrl        String?
     link          String?
     selector      String?
@@ -33,10 +34,11 @@ model RssGenerator {
     frequency     String?       @default("daily")
     tasks         ExecuteTask[]
     user          User?         @relation(fields: [userId], references: [id])
+    feed          Feed[]
 }
 
 model Feed {
-    id          String    @id @default(uuid())
+    id          String       @id @default(uuid())
     title       String
     link        String
     image       String?
@@ -45,9 +47,11 @@ model Feed {
     author      String?
     domain      String?
     userId      String?
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
-    user        User?     @relation(fields: [userId], references: [id])
+    rssId       String
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    user        User?        @relation(fields: [userId], references: [id])
+    rss         RssGenerator @relation(fields: [rssId], references: [id])
 }
 
 model ExecuteTask {

@@ -1,8 +1,6 @@
-import 'reflect-metadata'
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./assets/styles/globals.scss";
-import Header from './components/home/header/header';
 
 const geistSans = localFont({
   src: "./assets/fonts/GeistVF.woff",
