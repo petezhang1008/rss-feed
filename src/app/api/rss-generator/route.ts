@@ -2,7 +2,7 @@ import { injectService } from "@/inversify.config";
 import { RssGeneratorService } from "@/services/rss-generator-service";
 import { RssGenerator } from "@prisma/client";
 import { NextRequest } from "next/server";
-import { ErrorData, HttpServer, ResponseType } from '@/lib/http-server.interface';
+import { ErrorData, ResponseType } from '@/lib/http-server.interface';
 import { ErrorCode } from '@/enums/error-code';
 import { GenerateRssParams } from '@/models/rss-generator-model';
 import { sendError, sendResponse } from "@/lib/http-server";

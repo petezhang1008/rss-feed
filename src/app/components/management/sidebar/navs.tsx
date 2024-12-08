@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import clsx from 'clsx'
 import { Crosshair2Icon, GlobeIcon, CardStackMinusIcon } from "@radix-ui/react-icons";
 import SidebarNavItem from "./nav-item";
+import { RouterName } from "@/enums/router";
 
 // Add interface for nav item type
 interface NavItem {
@@ -15,17 +16,17 @@ interface NavItem {
 const NAVS: NavItem[] = [
     {
         name: "MyFeed",
-        href: "/management/my-feeds",
+        href: RouterName.MY_FEEDS,
         icon: Crosshair2Icon
     },
     {
         name: "Bundles",
-        href: "/management/bundles",
+        href: RouterName.BUNDLES,
         icon: CardStackMinusIcon
     },
     {
         name: "Explore",
-        href: "/management/explore",
+        href: RouterName.EXPLORE,
         icon: GlobeIcon
     },
 ]

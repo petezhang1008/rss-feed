@@ -7,6 +7,8 @@ import { FeedModelImpl } from "./impls/feed-model";
 import { UserModelImpl } from "./impls/user-model";
 import { UserModel } from "./user-model";
 import { ExecuteTaskModelImpl } from "./impls/execute-task-model";
+import { BundleModelImpl } from "./impls/bundle-model";
+import { BundleModel } from "./bundle-model";
 
 
 export const models = new ContainerModule((bind) => {
@@ -14,4 +16,5 @@ export const models = new ContainerModule((bind) => {
     bind(FeedModel).to(FeedModelImpl)
     bind(UserModel).to(UserModelImpl)
     bind(ExecuteTaskModel).to(ExecuteTaskModelImpl)
+    bind(BundleModel).to(BundleModelImpl)
 })

@@ -6,5 +6,5 @@ export enum RouterName {
     FEED = '/management/feed',
     BUNDLES = '/management/bundles',
     MY_FEEDS = '/management/my-feeds',
-    EXPLORER = '/management/explorer',
+    EXPLORE = '/management/explore',
 }

@@ -46,6 +46,14 @@ export function sendResponse<T>(data: T, option?: ResponseInit): NextResponse<T>
     });
 }
 
+export function sendJsonResponse<T>(data: T, option?: ResponseInit): NextResponse<T> {
+    return new NextResponse<T>(JSON.stringify(data), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+        ...option
+    });
+}
+
 export function sendError<T>(statusCode: number, errorCode: ErrorCode, errorData?: Record<string, unknown>, option?: ResponseInit): NextResponse<T> {
     const _errorData = {
         ..._getErrorMessage(errorCode),

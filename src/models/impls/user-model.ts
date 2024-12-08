@@ -1,5 +1,5 @@
 import { PrismaClient, User } from "@prisma/client"
-import { UserModel } from "../user-model"
+import { UserData, UserModel } from "../user-model"
 import { injectable, inject } from "inversify"
 import { PrismaSymbol } from "@/lib/prisma";
 
@@ -8,19 +8,26 @@ export class UserModelImpl implements UserModel {
     constructor(
         @inject(PrismaSymbol) private _prisma: PrismaClient
     ) { }
-    async getUser(userId: string) {
+    async getUserById(userId: string) {
         return this._prisma.user.findUnique({
             where: {
                 id: userId
             }
         })
     }
-    async createUser(user: User) {
-        return this._prisma.user.create({
-            data: user
+    async getUserByEmail(email: string) {
+        return this._prisma.user.findUnique({
+            where: {
+                email: email
+            }
         })
     }
-    async updateUser(user: User) {
+    async createUser(user: UserData) {
+        return this._prisma.user.create({
+            data: user
+        }).then(user => user.id)
+    }
+    async updateUser(user: UserData) {
         return this._prisma.user.update({
             where: {
                 id: user.id

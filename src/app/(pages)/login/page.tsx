@@ -1,5 +1,9 @@
+import LoginPanel from "./components/login-panel";
+
 export default function Login() {
     return (
-        <h4>Login</h4>
+        <div className="flex h-screen w-full items-center justify-center">
+            <LoginPanel />
+        </div>
     )
 }

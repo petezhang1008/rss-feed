@@ -1,0 +1,17 @@
+import { Pagination, PaginationParams } from "@/types/pagination"
+import { Bundle } from "@prisma/client"
+
+export const BundleModel = Symbol('BundleModel')
+
+export interface BundleModel {
+    createBundle: (data: BundleData) => Promise<Bundle>
+    getBundles: (data: QueryBundlePaginationParams) => Promise<Pagination<Bundle[]>>
+    getBundleById: (id: string) => Promise<Bundle | null>
+    updateBundle: (id: string, data: BundleData) => Promise<Bundle>
+    deleteBundle: (id: string) => Promise<Bundle>
+}
+
+export type BundleData = Pick<Bundle, 'title' | 'description' | 'pinned' | 'userId'>
+export type QueryBundlePaginationParams = PaginationParams & {
+    userId: string
+}
