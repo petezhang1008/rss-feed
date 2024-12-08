@@ -1,7 +1,7 @@
 import { Feed } from "@prisma/client"
 import { inject, injectable } from "inversify"
 import { FeedService } from "../feed-service"
-import { CreateFeedParams, FeedModel, FeedParams, QueryUserFeedParams } from "@/models/feed-model"
+import { CreateFeedParams, FeedModel, FeedParams, GetFeedParams, QueryUserFeedParams } from "@/models/feed-model"
 
 @injectable()
 export class FeedServiceImpl implements FeedService {
@@ -12,8 +12,8 @@ export class FeedServiceImpl implements FeedService {
     queryUserFeed(data: QueryUserFeedParams) {
         return this.feedModel.queryUserFeed(data)
     }
-    getFeed(feedId: string) {
-        return this.feedModel.getFeed(feedId)
+    getFeed(data: GetFeedParams) {
+        return this.feedModel.getFeed(data)
     }
     async createFeed(feed: CreateFeedParams) {
         const isExist = await this.feedModel.getFeedByLink(feed.link)

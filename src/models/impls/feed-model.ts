@@ -1,7 +1,7 @@
 import { PrismaSymbol } from "@/lib/prisma"
 import { Feed, Prisma, PrismaClient } from "@prisma/client"
 import { inject, injectable } from "inversify"
-import { CreateFeedParams, FeedModel, FeedParams, QueryUserFeedParams } from "../feed-model"
+import { CreateFeedParams, FeedModel, FeedParams, GetFeedParams, QueryUserFeedParams } from "../feed-model"
 
 @injectable()
 export class FeedModelImpl implements FeedModel {
@@ -30,12 +30,28 @@ export class FeedModelImpl implements FeedModel {
             pageSize
         }
     }
-    async getFeed(feedId: string) {
-        return this._prisma.feed.findUnique({
+    async getFeed(data: GetFeedParams) {
+        const { page, pageSize, feedId } = data
+        const skip = (page - 1) * pageSize;
+        const take = pageSize;
+        const result = await this._prisma.feed.findMany({
+            skip,
+            take,
             where: {
-                id: feedId
+                rssId: feedId
             }
         })
+        const total = await this._prisma.feed.count({
+            where: {
+                rssId: feedId
+            }
+        })
+        return {
+            result,
+            total,
+            page,
+            pageSize
+        }
     }
     async createFeed(feed: CreateFeedParams) {
         return this._prisma.feed.create({
