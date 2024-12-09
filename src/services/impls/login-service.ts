@@ -1,17 +1,16 @@
-import { User } from "@prisma/client"
 import { inject, injectable } from "inversify"
 import { LoginService } from "../login-service"
-import { UserService } from "../user-service"
 import bcrypt from 'bcrypt'
+import { UserModel } from "@/models/user-model"
 
 @injectable()
 export class LoginServiceImpl implements LoginService {
     constructor(
-        @inject(UserService)
-        private _userService: UserService
+        @inject(UserModel)
+        private _userModel: UserModel
     ) { }
     async login(email: string, password: string) {
-        const currentUser = await this._userService.getUserByEmail(email)
+        const currentUser = await this._userModel.getUserByEmailWithPassword(email)
         if (!currentUser) {
             throw new Error('User not found')
         }

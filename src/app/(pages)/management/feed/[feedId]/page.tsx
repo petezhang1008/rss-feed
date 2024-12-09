@@ -9,21 +9,21 @@ export default async function Feed({ params }: { params: { feedId: string } }) {
     const feedId = data.feedId
     const getFeeds = useFeeds()
     const res = await getFeeds.
-    getFeed({
-        page: 1,
-        pageSize: 50,
-        feedId
-    })
+        getFeed({
+            page: 1,
+            pageSize: 50,
+            feedId
+        })
     const getRssDetail = useRssDetail()
     const rssDetail = await getRssDetail.getRssDetail(feedId)
 
 
     return (
-        <div className="flex flex-col size-full">
+        <div className="flex flex-col size-full overflow-hidden">
             <ManagementHeader>
                 <FeedHeader rssDetail={rssDetail!} />
             </ManagementHeader>
-            <div className="p-4 gap-4 flex flex-col">
+            <div className="p-4 overflow-auto flex-1">
                 <FeedContent feeds={res.result} />
             </div>
         </div>

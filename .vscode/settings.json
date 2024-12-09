@@ -4,5 +4,6 @@
         "inversify",
         "Navs",
         "zustand"
-    ]
+    ],
+    "svg.preview.background": "transparent"
 }

@@ -1,7 +1,12 @@
+import Link from "next/link"
+import Logo from "../../../assets/images/logo.svg"
+
 export default function HeaderLogo() {
     return (
         <div>
-            <h1>Header Logo</h1>
+            <Link href="/">
+                <Logo height={150} />
+            </Link>
         </div>
     )
 }

@@ -1,5 +1,4 @@
 import { UserData, UserModel } from "@/models/user-model"
-import { User } from "@prisma/client"
 import { injectable, inject } from "inversify"
 import { UserService } from "../user-service"
 import bcrypt from 'bcrypt'

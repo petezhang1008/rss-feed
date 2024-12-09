@@ -17,6 +17,8 @@ import { BundleService } from "./bundle-service";
 import { BundleServiceImpl } from "./impls/bundle-service";
 import { UserServiceImpl } from "./impls/user-service";
 import { UserService } from "./user-service";
+import { LoginServiceImpl } from "./impls/login-service";
+import { LoginService } from "./login-service";
 
 
 export const services = new ContainerModule((bind) => {
@@ -29,4 +31,5 @@ export const services = new ContainerModule((bind) => {
     bind(UrlFormateService).to(UrlFormateServiceImpl)
     bind(BundleService).to(BundleServiceImpl)
     bind(UserService).to(UserServiceImpl)
+    bind(LoginService).to(LoginServiceImpl)
 })
