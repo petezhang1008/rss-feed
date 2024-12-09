@@ -1,8 +1,7 @@
 import { BundleData, BundleModel, QueryBundlePaginationParams } from "@/models/bundle-model"
-import { Pagination } from "@/types/pagination"
-import { Bundle } from "@prisma/client"
 import { injectable, inject } from "inversify"
 import { BundleService } from "../bundle-service"
+import { auth } from "@/auth"
 
 @injectable()
 export class BundleServiceImpl implements BundleService {
@@ -10,8 +9,10 @@ export class BundleServiceImpl implements BundleService {
         @inject(BundleModel)
         private _bundleModel: BundleModel
     ) { }
-    createBundle(data: BundleData) {
-        return this._bundleModel.createBundle(data)
+    async createBundle(data: BundleData) {
+        return this._bundleModel.createBundle({
+            ...data,
+        })
     }
     getBundles(data: QueryBundlePaginationParams) {
         return this._bundleModel.getBundles(data)

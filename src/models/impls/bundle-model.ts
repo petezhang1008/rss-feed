@@ -23,7 +23,10 @@ export class BundleModelImpl implements BundleModel {
         const bundles = await this._prisma.bundle.findMany({
             where,
             skip,
-            take
+            take,
+            include: {
+                rssGenerators: true
+            }
         })
         const total = await this._prisma.bundle.count({ where })
         return {

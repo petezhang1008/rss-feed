@@ -13,8 +13,14 @@ export const authConfig = {
                 return false; // Redirect unauthenticated users to login page
             } else if (isLoggedIn && isOnLogin) {
                 return Response.redirect(new URL('/', nextUrl));
+            } else if (!isLoggedIn) {
+                return Response.redirect(new URL('/login', nextUrl));
             }
             return true;
+        },
+        session({ session, token }) {
+            session.user.id = token.sub as string;
+            return session;
         },
     },
     providers: [], // Add providers with an empty array for now

@@ -1,33 +1,13 @@
+import { Bundle } from '@prisma/client'
 import BundleItem from './bundle-item'
 
-const bundleList = [{
-    title: 'Tech',
-    count: 3,
-    createdAt: '2024-01-01'
-}, {
-    title: 'Tech',
-    count: 3,
-    createdAt: '2024-01-01'
-}, {
-    title: 'Tech',
-    count: 3,
-    createdAt: '2024-01-01'
-}, {
-    title: 'Tech',
-    count: 3,
-    createdAt: '2024-01-01'
-}, {
-    title: 'Tech',
-    count: 3,
-    createdAt: '2024-01-01'
-}]
 
-export default function BundleContent() {
+export default function BundleContent({ bundles }: { bundles: Bundle[] }) {
     return (
         <div className='grid gap-4 grid-cols-3 overflow-hidden w-full'>
             {
-                bundleList.map(bundle => {
-                    return (<BundleItem bundle={bundle}></BundleItem>)
+                bundles.map(bundle => {
+                    return (<BundleItem key={bundle.id} bundle={bundle}></BundleItem>)
                 })
             }
         </div>

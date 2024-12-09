@@ -16,7 +16,7 @@ export default async function MyFeedList() {
         <div className="flex flex-col size-full">
             <ManagementHeader>
                 <div className="flex items-center justify-between">
-                    <h1>My Feeds ({res.total})</h1>
+                    <h1 className="text-2xl font-bold">My Feeds ({res.total})</h1>
                     <Link href={RouterName.RSS_BUILDER}>
                         <button className="btn btn-sm btn-primary">New Feed</button>
                     </Link>
