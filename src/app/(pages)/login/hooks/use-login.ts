@@ -1,4 +1,4 @@
-import { loginAction } from "@/app/lib/login-action"
+import { loginAction } from "@/app/lib/auth-action"
 import { useState } from "react"
 
 export const useLogin = () => {

@@ -13,7 +13,7 @@ export default async function MyFeedList() {
     })
 
     return (
-        <div className="flex flex-col size-full">
+        <div className="flex flex-col size-full overflow-hidden">
             <ManagementHeader>
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">My Feeds ({res.total})</h1>
@@ -22,7 +22,7 @@ export default async function MyFeedList() {
                     </Link>
                 </div>
             </ManagementHeader>
-            <div className="p-4 gap-4 flex flex-col">
+            <div className="p-4 gap-4 flex flex-col overflow-y-auto">
                 <FeedsHeader />
                 <MyFeedContent feedList={res.result} />
             </div>

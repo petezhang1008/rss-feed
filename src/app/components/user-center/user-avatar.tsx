@@ -1,13 +1,20 @@
 'use client'
 import { useSession } from 'next-auth/react';
+import TippyPopover from '../common/tippy-popover';
+import UserCenter from './user-center';
 
 export default function UserAvatar() {
     const { data: session } = useSession()
+    const props = {
+        placement: 'bottom-start'
+    }
     return (
         <div className="avatar placeholder" >
-            <div className="bg-neutral text-neutral-content w-8 rounded-full" >
-                <span className="text-xs font-bold" > {session?.user?.email?.charAt(0).toUpperCase()} </span>
-            </div>
+            <TippyPopover content={<UserCenter />} props={props}>
+                <div className="bg-neutral text-neutral-content size-8 rounded-full cursor-pointer flex items-center justify-center" >
+                    <span className="text-xs font-bold" > {session?.user?.email?.charAt(0).toUpperCase()} </span>
+                </div>
+            </TippyPopover>
         </div>
     )
 }

@@ -2,6 +2,7 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { RssGenerator } from '@prisma/client'
 import Link from 'next/link'
 import useMyFeeds from '../../hooks/use-my-feeds'
+import ActionBtn from './action-btn'
 
 export default function MyFeedItem({ feed }: { feed: RssGenerator }) {
     const { getDomain } = useMyFeeds()
@@ -11,7 +12,7 @@ export default function MyFeedItem({ feed }: { feed: RssGenerator }) {
                 {/* <div className="flex justify-end">
                 <DotsVerticalIcon></DotsVerticalIcon>
             </div> */}
-                <div className='flex items-center gap-4'>
+                <div className='flex items-start gap-4'>
                     <div className="avatar placeholder">
                         <div className="bg-neutral text-neutral-content w-10 rounded-lg">
                             <span className="text-xs">{feed.title?.slice(0, 2)}</span>
@@ -24,9 +25,7 @@ export default function MyFeedItem({ feed }: { feed: RssGenerator }) {
                 </div>
                 <div className='flex justify-between items-center'>
                     <div className="badge badge-ghost">{getDomain(feed.website)}</div>
-                    <div>
-                        <DotsHorizontalIcon className='hover:bg-gray-200 rounded-md p-1 size-6'></DotsHorizontalIcon>
-                    </div>
+                    <ActionBtn />
                 </div>
             </div>
         </Link>

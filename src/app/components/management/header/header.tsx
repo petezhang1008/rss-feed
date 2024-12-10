@@ -6,7 +6,7 @@ export default function ManagementHeader({
 }>) {
 
     return (
-        <div className="management-header bg-white h-14 w-full justify-between items-center px-4 flex shrink-0 border-b border-gray-100 gap-4">
+        <div className="management-header bg-white h-14 w-full justify-between items-center px-4 flex shrink-0 border-b border-gray-200 gap-4">
             <div className="flex-1"> {children} </div>
             <div className="flex items-center gap-4">
                 <UserAvatar />

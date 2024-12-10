@@ -3,7 +3,7 @@ import MyRssItem from './feed-item'
 
 export default function MyFeedsContent({ feedList }: { feedList: RssGenerator[] }) {
     return (
-        <div className='grid gap-4 grid-cols-3 overflow-hidden w-full'>
+        <div className='grid gap-4 grid-cols-3 w-full'>
             {
                 feedList.map(feed => {
                     return (<MyRssItem feed={feed}></MyRssItem>)
