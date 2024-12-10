@@ -109,10 +109,10 @@ function onHoverNode(iframeDocument: Document) {
 // 获取对应的节点
 function getNodeFromPath(path: string) {
     // 将路径中的 '#document' 替换为 'document'
-    const cleanPath = path.replace('#document', '').split(' > ').map(name => name.trim()).join(' ');
+    // const cleanPath = path.replace('#document', '').split(' > ').map(name => name.trim()).join(' ');
 
     // 使用 eval 来动态执行获取节点的代码
-    return cleanPath
+    return path
 }
 
 
@@ -122,15 +122,6 @@ function getNodePath(node: Element | null): string {
 
     while (node) {
         let name = node.nodeName.toLowerCase();
-
-        // 如果是元素节点，添加 ID 或类名
-        if (node.nodeType === Node.ELEMENT_NODE) {
-            if (node.id) {
-                name += `#${node.id}`;
-            } else if (node.className) {
-                name += `.${Array.from(node.classList).join('.')}`;
-            }
-        }
 
         path.unshift(name); // 将节点名称添加到路径的开头
         const parentNode = node.parentNode;
@@ -148,22 +139,22 @@ function hasAnchorTag(node: Element) {
     if (node.nodeName === 'A') {
         return true;
     }
-    // 获取所有子节点
-    const childNodes = node.children; // 只获取元素节点
-    let containsAnchor = false;
+    // // 获取所有子节点
+    // const childNodes = node.children; // 只获取元素节点
+    // let containsAnchor = false;
 
-    // 遍历所有子节点
-    for (let i = 0; i < childNodes.length; i++) {
-        const child = childNodes[i];
+    // // 遍历所有子节点
+    // for (let i = 0; i < childNodes.length; i++) {
+    //     const child = childNodes[i];
 
-        // 检查当前子节点是否包含 <a> 标签
-        if (child.querySelector('a')) {
-            containsAnchor = true;
-            break; // 找到后退出循环
-        }
-    }
+    //     // 检查当前子节点是否包含 <a> 标签
+    //     if (child.querySelector('a')) {
+    //         containsAnchor = true;
+    //         break; // 找到后退出循环
+    //     }
+    // }
 
-    return containsAnchor;
+    // return containsAnchor;
 }
 
 function getTitle(iframeDocument: Document) {

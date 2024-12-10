@@ -1,30 +1,13 @@
-'use client';
-import Link from "next/link";
-import { RouterName } from "@/enums/router";
-import { useMemo, useState } from "react";
-export default function RssBuilder() {
-    const [ websiteLink, setWebsiteLink ] = useState('');
+import Header from "@/app/components/home/header/header";
+import RssContent from "./components/rss-content";
+import RssSuggestion from "./components/rss-suggestion";
 
-    function handleWebsiteLink(e: React.ChangeEvent<HTMLInputElement>) { 
-        setWebsiteLink(e.target.value);
-    }
-
-    const encodeWebsiteLink = useMemo(() => {
-        return `${RouterName.WEBSITE_PREVIEW}?website_link=${encodeURIComponent(websiteLink)}`;
-    }, [websiteLink])
-
+export default function Rss() {
     return (
-        <div className="flex items-center justify-center pt-10">
-            <div className="join">
-                <input
-                    value={websiteLink}
-                    onChange={handleWebsiteLink}
-                    className="input input-bordered join-item rounded-l-full  w-[400px]"
-                    placeholder="Href" />
-                <Link href={encodeWebsiteLink} >
-                    <button className="btn join-item rounded-r-full">Subscribe</button>
-                </Link>
-            </div>
+        <div className="flex flex-col size-full">
+            <Header />
+            <RssContent />
+            <RssSuggestion />
         </div>
     )
 }

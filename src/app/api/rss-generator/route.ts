@@ -6,9 +6,12 @@ import { ErrorData, ResponseType } from '@/lib/http-server.interface';
 import { ErrorCode } from '@/enums/error-code';
 import { GenerateRssParams } from '@/models/rss-generator-model';
 import { sendError, sendResponse } from "@/lib/http-server";
+import { auth } from "@/auth";
+import { RssTaskService } from "@/services/rss-task-service";
 
 // const httpServer = injectService<HttpServer>(HttpServer)
 const rssGeneratorService = injectService<RssGeneratorService>(RssGeneratorService);
+const rssTaskService = injectService<RssTaskService>(RssTaskService)
 
 export async function GET(req: NextRequest): ResponseType<RssGenerator> {
     const userId: string | null = req.nextUrl.searchParams.get('useId')
@@ -26,10 +29,11 @@ export async function GET(req: NextRequest): ResponseType<RssGenerator> {
 
 export async function POST(req: NextRequest): ResponseType<RssGenerator> {
     const data: GenerateRssParams = await req.json()
-    const userId = data.userId
-    if (!userId) {
-        return sendError<ErrorData>(400, ErrorCode.NO_USER)
-    }
-    const result = await rssGeneratorService?.createGenerateRss(data)
+    const session = await auth()
+    const result = await rssGeneratorService?.createGenerateRss({
+        ...data,
+        userId: session?.user?.id
+    })
+    rssTaskService.consumeRssTask(result)
     return sendResponse<RssGenerator>(result)
 }

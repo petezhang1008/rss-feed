@@ -3,7 +3,7 @@ import { RssGeneratorType } from "@/enums/rss";
 import useWebsiteLink from "../hooks/use-website-link";
 import useNodePathStore from "../store/use-node-path";
 import useSelectedNodesStore from "../store/use-selected-nodes"
-import { subscribeWebsiteAction } from "@/app/lib/subscribe-actions"
+import { createRssAction } from "@/app/lib/create-rss-action"
 import { redirect } from 'next/navigation';
 import { RouterName } from "@/enums/router";
 import useIframeDataStore from "../store/use-iframe-data";
@@ -17,7 +17,7 @@ export default function PreviewFooter() {
 
     async function submit() {
         if (!websiteLink || !path) return
-        const res = await subscribeWebsiteAction({
+        const res = await createRssAction({
             type: RssGeneratorType.WEBSITE,
             website: websiteLink,
             selector: path,

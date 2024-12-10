@@ -73,10 +73,11 @@ export class FeedModelImpl implements FeedModel {
             }
         })
     }
-    async getFeedByLink(link: string) {
+    async getFeedByLink(link: string, rssId: string) {
         return this._prisma.feed.findFirst({
             where: {
-                link
+                link,
+                rssId
             }
         })
     }

@@ -4,19 +4,21 @@ import { WebsiteParserService } from "../website-parser-service"
 import { addFeedLinkQueue } from "@/lib/queue"
 import { GenerateRssParams } from "@/models/rss-generator-model"
 import { RssGeneratorType } from "@/enums/rss"
-import { RssSubscribeParserService } from "../rss-subscribe-parser-service"
-import { injectService } from "@/inversify.config"
+import { RssParserService } from "../rss-parser-service"
 import { UrlFormateService } from "../url-formate-service"
+import { FeedService } from "../feed-service"
 
 @injectable()
 export class RssTaskServiceImpl implements RssTaskService {
     constructor(
         @inject(WebsiteParserService)
         private _websiteParserService: WebsiteParserService,
-        @inject(RssSubscribeParserService)
-        private _rssSubscribeParserService: RssSubscribeParserService,
+        @inject(RssParserService)
+        private _rssParserService: RssParserService,
         @inject(UrlFormateService)
-        private _urlFormateService: UrlFormateService
+        private _urlFormateService: UrlFormateService,
+        @inject(FeedService)
+        private _feedService: FeedService
     ) {
     }
 
@@ -40,6 +42,14 @@ export class RssTaskServiceImpl implements RssTaskService {
     }
 
     async _initRssSubscribeGenerator(data: GenerateRssParams): Promise<void> {
-        await this._rssSubscribeParserService.parseRss(data.rssUrl!)
+        const feedList = await this._rssParserService.parseRss(data.website!)
+        for (const feed of feedList) {
+            await this._feedService.createFeed({
+                ...feed,
+                pubDate: feed.pubDate ? new Date(feed.pubDate) : null,
+                rssId: data.id!,
+                domain: this._urlFormateService.getDomain(data.website!)
+            })
+        }
     }
 }
