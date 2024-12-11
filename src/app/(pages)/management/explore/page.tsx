@@ -1,6 +1,7 @@
 import ManagementHeader from "@/app/components/management/header/header";
 
 export default function Explore() {
+
     return (
         <div className="flex flex-col size-full">
             <ManagementHeader>

@@ -18,7 +18,10 @@ export class FeedModelImpl implements FeedModel {
         const result = await this._prisma.feed.findMany({
             where,
             skip,
-            take
+            take,
+            include: {
+                bundle: true
+            }
         })
         const total = await this._prisma.feed.count({
             where
@@ -65,7 +68,7 @@ export class FeedModelImpl implements FeedModel {
         const result = await this._prisma.feed.findMany({
             skip,
             take,
-            where
+            where,
         })
         const total = await this._prisma.feed.count({
             where

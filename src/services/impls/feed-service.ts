@@ -11,8 +11,15 @@ export class FeedServiceImpl implements FeedService {
         @inject(RssGeneratorService)
         private rssGeneratorService: RssGeneratorService
     ) { }
-    queryUserFeed(data: QueryUserFeedParams) {
-        return this.feedModel.queryUserFeed(data)
+    async queryUserFeed(data: QueryUserFeedParams) {
+        const { page, pageSize, userId } = data
+        const rssList = await this.rssGeneratorService.queryAllRssList({ userId })
+        const rssIds = rssList.map(item => item.id)
+        return this.feedModel.getFeedByIds({
+            rssIds,
+            page,
+            pageSize
+        })
     }
     getFeed(data: GetFeedParams) {
         return this.feedModel.getFeed(data)

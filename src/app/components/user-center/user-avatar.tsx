@@ -2,11 +2,11 @@
 import { useSession } from 'next-auth/react';
 import TippyPopover from '../common/tippy-popover';
 import UserCenter from './user-center';
-
+import { Placement } from 'tippy.js';
 export default function UserAvatar() {
     const { data: session } = useSession()
     const props = {
-        placement: 'bottom-start'
+        placement: 'bottom-start' as Placement
     }
     return (
         <div className="avatar placeholder" >

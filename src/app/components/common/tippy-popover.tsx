@@ -12,6 +12,7 @@ interface TippyPopoverProps {
 }
 
 export default function TippyPopover({ content, children, reference, props }: TippyPopoverProps) {
+    const isClient = typeof window !== 'undefined';
 
     return (
         <Tippy
@@ -21,6 +22,7 @@ export default function TippyPopover({ content, children, reference, props }: Ti
             arrow={false}
             interactive={true}
             placement='bottom'
+            appendTo={isClient ? document.body : 'parent'}
             {...props}
         >
             <div className='flex items-center justify-center'>
