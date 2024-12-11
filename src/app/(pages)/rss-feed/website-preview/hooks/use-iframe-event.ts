@@ -52,8 +52,8 @@ function onSelectNode(iframeDocument: Document, {
             clearSelectedNodes();
         });
         const target = event.target as HTMLElement;
-        const path = getNodePath(target);
-        const selector = getNodeFromPath(path)
+        const path = getNodePath(target, iframeDocument);
+        const selector = path
         const targets = iframeDocument.querySelectorAll(selector);
         if (targets.length > 1 && hasAnchorTag(target)) {
             targets.forEach((element) => {
@@ -65,37 +65,14 @@ function onSelectNode(iframeDocument: Document, {
     })
 }
 
-function selectedNodes(iframeDocument: Document,
-    path: string | null,
-    {
-        clearPath,
-        clearSelectedNodes,
-        setSelectedNodes
-    }: Partial<SelectNodeOptions>) {
-    iframeDocument.querySelectorAll('[rss-aria-selected]').forEach((element) => {
-        element.removeAttribute('rss-aria-selected')
-        clearPath!();
-        clearSelectedNodes!();
-    });
-    if (!path) return;
-    const selector = getNodeFromPath(path)
-    const targets = iframeDocument.querySelectorAll(selector);
-    if (targets.length > 0) {
-        targets.forEach((element) => {
-            element.setAttribute('rss-aria-selected', 'true');
-            setSelectedNodes!(Array.from(targets));
-        });
-    }
-}
-
 function onHoverNode(iframeDocument: Document) {
     iframeDocument.addEventListener('mouseover', function (event) {
         iframeDocument.querySelectorAll('[rss-aria-hovered]').forEach((element) => {
             element.removeAttribute('rss-aria-hovered')
         });
         const target = event.target as HTMLElement;
-        const path = getNodePath(target);
-        const selector = getNodeFromPath(path)
+        const path = getNodePath(target, iframeDocument);
+        const selector = path;
         const targets = iframeDocument.querySelectorAll(selector);
         if (targets.length > 1 && hasAnchorTag(target)) {
             targets.forEach((element) => {
@@ -106,24 +83,17 @@ function onHoverNode(iframeDocument: Document) {
     })
 }
 
-// 获取对应的节点
-function getNodeFromPath(path: string) {
-    // 将路径中的 '#document' 替换为 'document'
-    // const cleanPath = path.replace('#document', '').split(' > ').map(name => name.trim()).join(' ');
-
-    // 使用 eval 来动态执行获取节点的代码
-    return path
-}
-
-
-const EXTRACT_NODES = ['html', 'body']
-function getNodePath(node: Element | null): string {
+const EXTRACT_NODES = ['html']
+function getNodePath(node: Element | null, iframeDocument: Document): string {
     const path: string[] = [];
 
     while (node) {
-        let name = node.nodeName.toLowerCase();
+        let selector = node.nodeName.toLowerCase();
+        if (node.className) {
+            selector += `.${Array.from(node.classList).join('.')}`;
+        }
 
-        path.unshift(name); // 将节点名称添加到路径的开头
+        path.unshift(selector); // 将节点名称添加到路径的开头
         const parentNode = node.parentNode;
         if (parentNode?.nodeType === Node.ELEMENT_NODE && !EXTRACT_NODES.includes(parentNode.nodeName.toLowerCase())) {
             node = parentNode as Element; // 移动到父节点
@@ -131,30 +101,27 @@ function getNodePath(node: Element | null): string {
             node = null
         }
     }
+    let selector = path.join(' > ');
+    let elementList = iframeDocument.querySelectorAll(selector)
+    let index = path.length - 1
+    while (elementList.length <= 1 && index > 0) {
+        path[index] = removeClassNameAndId(path[index])
+        selector = path.join(' > ');
+        elementList = iframeDocument.querySelectorAll(selector)
+        index--
+    }
 
     return path.join(' > '); // 使用 " > " 连接路径
+}
+
+function removeClassNameAndId(selector: string) {
+    return selector.replace(/\.[\w-]+|\#[\w-]+/g, '');
 }
 
 function hasAnchorTag(node: Element) {
     if (node.nodeName === 'A') {
         return true;
     }
-    // // 获取所有子节点
-    // const childNodes = node.children; // 只获取元素节点
-    // let containsAnchor = false;
-
-    // // 遍历所有子节点
-    // for (let i = 0; i < childNodes.length; i++) {
-    //     const child = childNodes[i];
-
-    //     // 检查当前子节点是否包含 <a> 标签
-    //     if (child.querySelector('a')) {
-    //         containsAnchor = true;
-    //         break; // 找到后退出循环
-    //     }
-    // }
-
-    // return containsAnchor;
 }
 
 function getTitle(iframeDocument: Document) {

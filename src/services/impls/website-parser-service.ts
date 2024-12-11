@@ -1,10 +1,14 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { WebsiteParserService } from "../website-parser-service";
 import { JSDOM } from "jsdom";
+import { UrlFormateService } from "../url-formate-service";
 
 @injectable()
 export class WebsiteParserServiceImpl implements WebsiteParserService {
-    constructor() {
+    constructor(
+        @inject(UrlFormateService)
+        private _urlFormateService: UrlFormateService
+    ) {
     }
 
     async getWebsiteDocument(url: string) {
@@ -79,12 +83,15 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
         const metaKeywords = document.querySelector('meta[name="keywords"]')?.getAttribute('content') ||
             document.querySelector('meta[property="og:keywords"]')?.getAttribute('content')
 
+        const domain = this._urlFormateService.getDomain(url)
+
         return {
             title: title || "",
             description: metaDescription || "",
             image: metaImage || "",
             author: metaAuthor || "",
-            keywords: metaKeywords || ""
+            keywords: metaKeywords || "",
+            domain
         }
     }
 }

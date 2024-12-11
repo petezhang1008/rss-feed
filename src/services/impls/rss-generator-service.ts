@@ -4,6 +4,7 @@ import { RssGenerator } from "@prisma/client";
 import { GenerateRssParams, PaginationQueryGenerateRssListParams, PutGenerateRssParams, QueryGenerateRssListParams, RssGeneratorModel } from "@/models/rss-generator-model";
 import { RssGeneratorType } from "@/enums/rss";
 import { RssParserService } from "../rss-parser-service";
+import { WebsiteParserService } from "../website-parser-service";
 
 @injectable()
 export class RssGeneratorServiceImpl implements RssGeneratorService {
@@ -12,6 +13,8 @@ export class RssGeneratorServiceImpl implements RssGeneratorService {
         private _rssGeneratorModel: RssGeneratorModel,
         @inject(RssParserService)
         private _rssParserService: RssParserService,
+        @inject(WebsiteParserService)
+        private _websiteParserService: WebsiteParserService
     ) {
     }
     getGenerateRss(id: string) {
@@ -25,6 +28,16 @@ export class RssGeneratorServiceImpl implements RssGeneratorService {
             data.image = rssInfo.image
             data.author = rssInfo.author
             data.keywords = rssInfo.keywords
+        } else {
+            const info = await this._websiteParserService.getWebsiteInfo(data.website)
+            data = {
+                ...data,
+                title: info.title,
+                description: info.description,
+                image: info.image,
+                author: info.author,
+                keywords: info.keywords
+            }
         }
         return this._rssGeneratorModel.createGenerateRss(data)
     }

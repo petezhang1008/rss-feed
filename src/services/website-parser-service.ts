@@ -13,4 +13,5 @@ export interface WebsiteInfo {
     image?: string
     author?: string
     keywords?: string
+    domain: string
 }

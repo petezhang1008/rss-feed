@@ -8,31 +8,6 @@ export class FeedModelImpl implements FeedModel {
     constructor(
         @inject(PrismaSymbol) private _prisma: PrismaClient
     ) { }
-    async queryUserFeed(data: QueryUserFeedParams) {
-        const { page, pageSize, userId } = data
-        const skip = (page - 1) * pageSize;
-        const take = pageSize;
-        const where: Prisma.FeedWhereInput = {
-            userId
-        }
-        const result = await this._prisma.feed.findMany({
-            where,
-            skip,
-            take,
-            include: {
-                bundle: true
-            }
-        })
-        const total = await this._prisma.feed.count({
-            where
-        })
-        return {
-            result,
-            total,
-            page,
-            pageSize
-        }
-    }
     async getFeed(data: GetFeedParams) {
         const { page, pageSize, rssId } = data
         const skip = (page - 1) * pageSize;

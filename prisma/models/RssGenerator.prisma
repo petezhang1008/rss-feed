@@ -8,14 +8,14 @@ model RssGenerator {
     author        String?
     keywords      String?
     selector      String?
-    userId        String?
-    user          User?         @relation(fields: [userId], references: [id])
-    bundleId      String?
-    bundle        Bundle?       @relation(fields: [bundleId], references: [id])
     createdAt     DateTime      @default(now())
     updatedAt     DateTime?     @updatedAt
     lastExecuteAt DateTime?
     frequency     String?       @default("daily")
+    userId        String?
+    user          User?         @relation(fields: [userId], references: [id])
+    bundleId      String?
+    bundle        Bundle?       @relation(fields: [bundleId], references: [id])
     tasks         ExecuteTask[]
     feed          Feed[]
 }

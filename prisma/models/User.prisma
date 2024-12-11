@@ -5,7 +5,6 @@ model User {
   password      String
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  feeds         Feed[]
   rssGenerators RssGenerator[]
   executeTasks  ExecuteTask[]
   bundles       Bundle[]

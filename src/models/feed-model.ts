@@ -5,7 +5,6 @@ import { Feed } from "@prisma/client"
 export const FeedModel = Symbol.for('FeedModel')
 
 export interface FeedModel {
-    queryUserFeed: (data: QueryUserFeedParams) => Promise<Pagination<Feed[]>>
     getFeed: (data: GetFeedParams) => Promise<Pagination<Feed[]>>
     getFeedByIds: (data: GetBatchFeedParams) => Promise<Pagination<Feed[]>>
     createFeed: (feed: CreateFeedParams) => Promise<Feed>
@@ -14,7 +13,7 @@ export interface FeedModel {
     getFeedByLink: (link: string, rssId: string) => Promise<Feed | null>
 }
 
-export type FeedParams = Pick<Feed, 'id' | 'title' | 'link' | 'userId' | 'image' | 'author' | 'domain'> & Partial<Feed>
+export type FeedParams = Pick<Feed, 'id' | 'title' | 'link' | 'image' | 'author' | 'domain'> & Partial<Feed>
 export type CreateFeedParams = Pick<Feed, 'title' | 'link' | 'domain' | 'rssId'> & Partial<Feed>
 export interface QueryUserFeedParams extends PaginationParams {
     userId: string

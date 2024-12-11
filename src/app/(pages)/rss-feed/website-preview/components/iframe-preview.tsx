@@ -10,7 +10,7 @@ export default function IframePreview() {
     const iframeSrc = `/api/proxy/picker?link=${websiteLink}`;
 
     return (
-        <div className="h-full w-2/3">
+        <div className="h-full w-full">
             <iframe
                 ref={iframeRef}
                 className={style.iframePreview}
