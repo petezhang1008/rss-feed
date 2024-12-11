@@ -4,18 +4,18 @@ import FeedContent from "../components/content/content";
 import useFeeds from "../hooks/use-feeds";
 import useRssDetail from "../hooks/use-rss-detail";
 
-export default async function Feed({ params }: { params: { feedId: string } }) {
+export default async function Feed({ params }: { params: { rssId: string } }) {
     const data = await params
-    const feedId = data.feedId
+    const rssId = data.rssId
     const getFeeds = useFeeds()
     const res = await getFeeds.
         getFeed({
             page: 1,
             pageSize: 50,
-            feedId
+            rssId
         })
     const getRssDetail = useRssDetail()
-    const rssDetail = await getRssDetail.getRssDetail(feedId)
+    const rssDetail = await getRssDetail.getRssDetail(rssId)
 
 
     return (

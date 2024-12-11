@@ -1,7 +1,8 @@
 import { inject, injectable } from "inversify";
-import { GenerateRssParams, QueryGenerateRssListParams, RssGeneratorModel } from "../rss-generator-model";
+import { GenerateRssParams, PaginationQueryGenerateRssListParams, PutGenerateRssParams, QueryGenerateRssListParams, RssGeneratorModel } from "../rss-generator-model";
 import { Prisma, PrismaClient, RssGenerator } from "@prisma/client";
 import { PrismaSymbol } from "@/lib/prisma";
+import { includes } from "lodash";
 
 
 @injectable()
@@ -22,7 +23,7 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
         })
         return result
     }
-    async putGenerateRss(data: RssGenerator) {
+    async putGenerateRss(data: PutGenerateRssParams) {
         const result = await this._prisma.rssGenerator.update({
             where: { id: data.id },
             data
@@ -35,8 +36,8 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
         })
         return result.id
     }
-    async queryGenerateRssList(data: QueryGenerateRssListParams) {
-        const { page, pageSize, type, frequency, createdAt, updatedAt, userId } = data
+    async queryGenerateRssList(data: PaginationQueryGenerateRssListParams) {
+        const { page, pageSize, type, frequency, createdAt, updatedAt, userId, bundleId } = data
         const skip = (page - 1) * pageSize;
         const take = pageSize;
         const where: Prisma.RssGeneratorWhereInput = {
@@ -52,13 +53,17 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
                     gte: updatedAt
                 }
             }),
-            ...(userId && { userId })
+            ...(userId && { userId }),
+            ...(bundleId && { bundleId })
         }
 
         const result = await this._prisma.rssGenerator.findMany({
             skip,
             take,
-            where
+            where,
+            include: {
+                bundle: true
+            }
         })
         const total = await this._prisma.rssGenerator.count({
             where
@@ -69,5 +74,28 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
             page,
             pageSize
         }
+    }
+    async queryAllRssList(data: QueryGenerateRssListParams) {
+        const { type, frequency, createdAt, updatedAt, userId, bundleId } = data
+        const where: Prisma.RssGeneratorWhereInput = {
+            type,
+            frequency,
+            ...(createdAt && {
+                createdAt: {
+                    gte: createdAt,
+                }
+            }),
+            ...(updatedAt && {
+                updatedAt: {
+                    gte: updatedAt
+                }
+            }),
+            ...(userId && { userId }),
+            ...(bundleId && { bundleId })
+        }
+        const result = await this._prisma.rssGenerator.findMany({
+            where
+        })
+        return result
     }
 }

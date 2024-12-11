@@ -1,7 +1,7 @@
 import { PrismaSymbol } from "@/lib/prisma"
 import { Feed, Prisma, PrismaClient } from "@prisma/client"
 import { inject, injectable } from "inversify"
-import { CreateFeedParams, FeedModel, FeedParams, GetFeedParams, QueryUserFeedParams } from "../feed-model"
+import { CreateFeedParams, FeedModel, FeedParams, GetBatchFeedParams, GetFeedParams, QueryUserFeedParams } from "../feed-model"
 
 @injectable()
 export class FeedModelImpl implements FeedModel {
@@ -31,19 +31,19 @@ export class FeedModelImpl implements FeedModel {
         }
     }
     async getFeed(data: GetFeedParams) {
-        const { page, pageSize, feedId } = data
+        const { page, pageSize, rssId } = data
         const skip = (page - 1) * pageSize;
         const take = pageSize;
         const result = await this._prisma.feed.findMany({
             skip,
             take,
             where: {
-                rssId: feedId
+                rssId: rssId
             }
         })
         const total = await this._prisma.feed.count({
             where: {
-                rssId: feedId
+                rssId: rssId
             }
         })
         return {
@@ -53,6 +53,31 @@ export class FeedModelImpl implements FeedModel {
             pageSize
         }
     }
+    async getFeedByIds(data: GetBatchFeedParams) {
+        const { page, pageSize, rssIds } = data
+        const skip = (page - 1) * pageSize;
+        const take = pageSize;
+        const where: Prisma.FeedWhereInput = {
+            rssId: {
+                in: rssIds
+            }
+        }
+        const result = await this._prisma.feed.findMany({
+            skip,
+            take,
+            where
+        })
+        const total = await this._prisma.feed.count({
+            where
+        })
+        return {
+            result,
+            total,
+            page,
+            pageSize
+        }
+    }
+
     async createFeed(feed: CreateFeedParams) {
         return this._prisma.feed.create({
             data: feed
@@ -66,10 +91,10 @@ export class FeedModelImpl implements FeedModel {
             data: feed
         })
     }
-    async deleteFeed(feedId: string) {
+    async deleteFeed(rssId: string) {
         return this._prisma.feed.delete({
             where: {
-                id: feedId
+                id: rssId
             }
         })
     }

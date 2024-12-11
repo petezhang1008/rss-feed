@@ -8,4 +8,5 @@ model Bundle {
     createdAt     DateTime       @default(now())
     updatedAt     DateTime       @updatedAt
     rssGenerators RssGenerator[]
+    feeds         Feed[]
 }

@@ -24,7 +24,7 @@ export default async function MyFeedList() {
             </ManagementHeader>
             <div className="p-4 gap-4 flex flex-col overflow-y-auto">
                 <FeedsHeader />
-                <MyFeedContent feedList={res.result} />
+                <MyFeedContent rssList={res.result} />
             </div>
         </div>
     )

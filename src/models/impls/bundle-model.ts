@@ -36,6 +36,13 @@ export class BundleModelImpl implements BundleModel {
             result: bundles
         }
     }
+    async getBundlesByUserId(userId: string) {
+        return this._prisma.bundle.findMany({
+            where: {
+                userId
+            }
+        })
+    }
     async getBundleById(id: string) {
         return this._prisma.bundle.findUnique({
             where: {

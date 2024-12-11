@@ -17,6 +17,9 @@ export class BundleServiceImpl implements BundleService {
     getBundles(data: QueryBundlePaginationParams) {
         return this._bundleModel.getBundles(data)
     }
+    getBundlesByUserId(userId: string) {
+        return this._bundleModel.getBundlesByUserId(userId)
+    }
     getBundleById(id: string) {
         return this._bundleModel.getBundleById(id)
     }

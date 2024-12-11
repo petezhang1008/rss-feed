@@ -7,6 +7,7 @@ export const FeedModel = Symbol.for('FeedModel')
 export interface FeedModel {
     queryUserFeed: (data: QueryUserFeedParams) => Promise<Pagination<Feed[]>>
     getFeed: (data: GetFeedParams) => Promise<Pagination<Feed[]>>
+    getFeedByIds: (data: GetBatchFeedParams) => Promise<Pagination<Feed[]>>
     createFeed: (feed: CreateFeedParams) => Promise<Feed>
     updateFeed: (feed: FeedParams) => Promise<Feed>
     deleteFeed: (feedId: string) => Promise<Feed>
@@ -20,5 +21,14 @@ export interface QueryUserFeedParams extends PaginationParams {
 }
 
 export interface GetFeedParams extends PaginationParams {
-    feedId: string
+    rssId: string
+}
+
+export interface GetBatchFeedParams extends PaginationParams {
+    rssIds: string[]
+}
+
+
+export interface GetBundleFeedParams extends PaginationParams {
+    bundleId: string
 }

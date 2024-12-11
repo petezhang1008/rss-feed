@@ -12,6 +12,7 @@ interface TippyPopoverProps {
 }
 
 export default function TippyPopover({ content, children, reference, props }: TippyPopoverProps) {
+
     return (
         <Tippy
             content={content}
@@ -20,7 +21,6 @@ export default function TippyPopover({ content, children, reference, props }: Ti
             arrow={false}
             interactive={true}
             placement='bottom'
-            appendTo={document.body}
             {...props}
         >
             <div className='flex items-center justify-center'>

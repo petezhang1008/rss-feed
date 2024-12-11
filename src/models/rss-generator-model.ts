@@ -1,5 +1,5 @@
 import { RssGeneratorFrequency, RssGeneratorType } from '@/enums/rss';
-import { Pagination } from '@/types/pagination';
+import { Pagination, PaginationParams } from '@/types/pagination';
 import { RssGenerator } from '@prisma/client'
 
 export const RssGeneratorModel = Symbol.for('RssGeneratorModel');
@@ -7,19 +7,21 @@ export const RssGeneratorModel = Symbol.for('RssGeneratorModel');
 export interface RssGeneratorModel {
     getGenerateRss(id: string): Promise<RssGenerator | null>;
     createGenerateRss(data: GenerateRssParams): Promise<RssGenerator>;
-    putGenerateRss(data: RssGenerator): Promise<RssGenerator>;
+    putGenerateRss(data: PutGenerateRssParams): Promise<RssGenerator>;
     deleteGenerateRss(id: string): Promise<string>;
-    queryGenerateRssList(data: QueryGenerateRssListParams): Promise<Pagination<RssGenerator[]>>;
+    queryGenerateRssList(data: PaginationQueryGenerateRssListParams): Promise<Pagination<RssGenerator[]>>;
+    queryAllRssList(data: QueryGenerateRssListParams): Promise<RssGenerator[]>;
 }
 
 
 export type GenerateRssParams = Pick<RssGenerator, 'type' | 'website'> & Partial<RssGenerator>
+export type PutGenerateRssParams = Pick<RssGenerator, 'id'> & Partial<RssGenerator>
+export type PaginationQueryGenerateRssListParams = PaginationParams & QueryGenerateRssListParams
 export interface QueryGenerateRssListParams {
     type?: RssGeneratorType,
-    page: number,
-    pageSize: number,
     userId?: string,
     frequency?: RssGeneratorFrequency,
     createdAt?: string,
     updatedAt?: string,
+    bundleId?: string,
 }

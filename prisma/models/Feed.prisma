@@ -7,10 +7,12 @@ model Feed {
     pubDate     DateTime?
     author      String?
     domain      String?
-    userId      String?
-    rssId       String
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
+    bundleId    String?
+    bundle      Bundle?      @relation(fields: [bundleId], references: [id])
+    userId      String?
     user        User?        @relation(fields: [userId], references: [id])
+    rssId       String
     rss         RssGenerator @relation(fields: [rssId], references: [id])
 }
