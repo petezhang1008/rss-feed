@@ -2,6 +2,8 @@ import { inject, injectable } from "inversify";
 import { WebsiteParserService } from "../website-parser-service";
 import { JSDOM } from "jsdom";
 import { UrlFormateService } from "../url-formate-service";
+import puppeteer from 'puppeteer';
+import { TITLE_REGEX } from "@/constants/regex";
 
 @injectable()
 export class WebsiteParserServiceImpl implements WebsiteParserService {
@@ -13,12 +15,15 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
 
     async getWebsiteDocument(url: string) {
         url = decodeURIComponent(url)
-        // 获取网页内容
-        const response = await fetch(url);
-        const text = await response.text();
+
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.goto(url);
+        const content = await page.content();
+        await browser.close();
 
         // 使用 JSDOM 解析 HTML
-        const dom = new JSDOM(text);
+        const dom = new JSDOM(content);
         const document = dom.window.document;
         // 将所有相对路径转换为绝对路径
         const baseUrl = new URL(url);
@@ -69,6 +74,12 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
         return links
     }
 
+    private _formatTitle(title: string) {
+        if (!title) return title
+        const parts = title.split(TITLE_REGEX);
+        return parts[0].trim()
+    }
+
     async getWebsiteInfo(url: string) {
         const document = await this.getWebsiteDocument(url)
         const title = document.title || document.querySelector('meta[property="og:title"]')?.getAttribute('content')
@@ -77,21 +88,30 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
             document.querySelector('meta[property="og:description"]')?.getAttribute('content')
         const metaImage = document.querySelector('meta[property="og:image"]')?.getAttribute('content') ||
             document.querySelector('meta[property="twitter:image"]')?.getAttribute('content') ||
+            document.querySelector('meta[name="og:image"]')?.getAttribute('content') ||
             document.querySelector('link[rel="icon"]')?.getAttribute('href')
+
         const metaAuthor = document.querySelector('meta[name="author"]')?.getAttribute('content') ||
             document.querySelector('meta[property="article:author"]')?.getAttribute('content')
         const metaKeywords = document.querySelector('meta[name="keywords"]')?.getAttribute('content') ||
             document.querySelector('meta[property="og:keywords"]')?.getAttribute('content')
 
+        const metaPubDate = document.querySelector('meta[property="article:published_time"]')?.getAttribute('content') ||
+            document.querySelector('meta[property="article:modified_time"]')?.getAttribute('content')
+
         const domain = this._urlFormateService.getDomain(url)
+        const image = metaImage ? this._urlFormateService.getFullUrl(metaImage, url) : null
+        const link = url
 
         return {
-            title: title || "",
+            title: this._formatTitle(title || ""),
             description: metaDescription || "",
-            image: metaImage || "",
+            image: image || "",
             author: metaAuthor || "",
             keywords: metaKeywords || "",
-            domain
+            pubDate: metaPubDate ? new Date(metaPubDate) : null,
+            domain,
+            link
         }
     }
 }

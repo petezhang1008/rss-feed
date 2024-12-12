@@ -8,7 +8,7 @@ export interface RssGeneratorService {
     getGenerateRss(id: string): Promise<RssGenerator | null>;
     createGenerateRss(data: GenerateRssParams): Promise<RssGenerator>;
     putGenerateRss(data: PutGenerateRssParams): Promise<RssGenerator>;
-    deleteGenerateRss(id: string): Promise<string>;
+    deleteGenerateRss(id: string): Promise<RssGenerator>;
     queryGenerateRssList(data: PaginationQueryGenerateRssListParams): Promise<Pagination<RssGenerator[]>>;
     queryAllRssList(data: QueryGenerateRssListParams): Promise<RssGenerator[]>;
 }

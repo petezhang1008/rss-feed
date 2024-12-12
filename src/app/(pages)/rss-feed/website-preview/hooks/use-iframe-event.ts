@@ -52,10 +52,14 @@ function onSelectNode(iframeDocument: Document, {
             clearSelectedNodes();
         });
         const target = event.target as HTMLElement;
-        const path = getNodePath(target, iframeDocument);
+        const linkTarget = findLinkTarget(target, iframeDocument);
+        if (!linkTarget) {
+            return;
+        }
+        const path = getNodePath(linkTarget, iframeDocument);
         const selector = path
         const targets = iframeDocument.querySelectorAll(selector);
-        if (targets.length > 1 && hasAnchorTag(target)) {
+        if (targets.length > 1) {
             targets.forEach((element) => {
                 element.setAttribute('rss-aria-selected', 'true');
             });
@@ -71,10 +75,14 @@ function onHoverNode(iframeDocument: Document) {
             element.removeAttribute('rss-aria-hovered')
         });
         const target = event.target as HTMLElement;
-        const path = getNodePath(target, iframeDocument);
+        const linkTarget = findLinkTarget(target, iframeDocument);
+        if (!linkTarget) {
+            return;
+        }
+        const path = getNodePath(linkTarget, iframeDocument);
         const selector = path;
         const targets = iframeDocument.querySelectorAll(selector);
-        if (targets.length > 1 && hasAnchorTag(target)) {
+        if (targets.length > 1) {
             targets.forEach((element) => {
                 element.setAttribute('rss-aria-hovered', 'true');
             });
@@ -118,10 +126,15 @@ function removeClassNameAndId(selector: string) {
     return selector.replace(/\.[\w-]+|\#[\w-]+/g, '');
 }
 
-function hasAnchorTag(node: Element) {
-    if (node.nodeName === 'A') {
-        return true;
+function findLinkTarget(node: Element, iframeDocument: Document) {
+    if (node.tagName === 'A') {
+        return node;
     }
+    const parentNode = node.parentNode;
+    if (parentNode?.nodeType === Node.ELEMENT_NODE) {
+        return findLinkTarget(parentNode as Element, iframeDocument);
+    }
+    return null;
 }
 
 function getTitle(iframeDocument: Document) {

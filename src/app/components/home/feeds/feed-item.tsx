@@ -5,11 +5,11 @@ import Link from "next/link";
 export default function FeedItem({ feed }: { feed: Feed }) {
     return (
         <Link href={feed.link} target="_blank">
-            <div className="flex p-4 gap-3 flex-none hover:bg-gray-100 cursor-pointer border-b border-gray-100 overflow-hidden">
+            <div className="flex p-4 gap-3 flex-none hover:bg-gray-100 cursor-pointer border-b border-gray-100 overflow-hidden justify-between">
                 <div className="left-details flex flex-col gap-1 overflow-hidden">
                     <h1 className="text-base font-semibold shrink-0 truncate">{feed.title}</h1>
                     <div className="line-clamp-2 leading-6">
-                        <p className="text-sm text-gray-400 ">{feed.description}</p>
+                        <p className="text-sm text-gray-400">{feed.description}</p>
                     </div>
                     <div className="flex items-center gap-2 gap-3 text-xs text-gray-400 shrink-0 mt-3 justify-between">
                         <div className="flex items-center gap-2">
@@ -21,8 +21,8 @@ export default function FeedItem({ feed }: { feed: Feed }) {
                         </div>
                     </div>
                 </div>
-                {feed.image && <div className="right-image">
-                    <Image src={feed.image} alt="feed-item" width={100} height={100} />
+                {feed.image && <div className="right-image shrink-0 overflow-hidden w-[160px] h-[100px] object-cover center center">
+                    <img src={feed.image} alt="image" width={160} height={100} referrerPolicy="no-referrer" />
                 </div>}
             </div>
         </Link>

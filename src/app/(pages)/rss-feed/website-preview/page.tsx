@@ -4,9 +4,17 @@ import FeedListPreview from "./components/feed-list-preview";
 import IframePreview from "./components/iframe-preview";
 import PreviewFooter from "./components/preview-footer";
 import PreviewHeader from "./components/preview-header";
+import useSelectedNodesStore from "./store/use-selected-nodes";
+import { useEffect } from "react";
 
 
 export default function WebsitePreview() {
+    const clearSelectedNodes = useSelectedNodesStore(state => state.clearSelectedNodes)
+
+    useEffect(() => {
+        clearSelectedNodes()
+    }, [])
+
     return (
         <div className="flex flex-col w-full h-full overflow-hidden">
             <Header />

@@ -23,7 +23,8 @@ model RssGenerator {
     id            String        @id @default(uuid())
     type          String
     website       String
-    title         String?
+    title         String
+    link          String?
     description   String?
     image         String?
     author        String?
@@ -53,7 +54,7 @@ model Feed {
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
     rssId       String
-    rss         RssGenerator @relation(fields: [rssId], references: [id])
+    rss         RssGenerator @relation(fields: [rssId], references: [id], onDelete: Cascade)
 }
 
 model ExecuteTask {

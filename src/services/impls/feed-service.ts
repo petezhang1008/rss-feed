@@ -49,4 +49,7 @@ export class FeedServiceImpl implements FeedService {
     deleteFeed(feedId: string) {
         return this.feedModel.deleteFeed(feedId)
     }
+    deleteFeedByRssId(rssId: string) {
+        return this.feedModel.deleteFeedByRssId(rssId)
+    }
 }

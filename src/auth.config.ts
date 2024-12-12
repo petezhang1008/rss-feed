@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import type { NextAuthConfig } from 'next-auth';
+const NOT_AUTH_PATHS = ['/login', '/register']
 
 export const authConfig = {
     pages: {
@@ -8,10 +10,10 @@ export const authConfig = {
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
-            const isOnLogin = nextUrl.pathname.startsWith('/login');
-            if (isOnLogin) {
-                return false; // Redirect unauthenticated users to login page
-            } else if (isLoggedIn && isOnLogin) {
+            const notNeedLogin = _.includes(NOT_AUTH_PATHS, nextUrl.pathname);
+            if (notNeedLogin) {
+                return true; // Redirect unauthenticated users to login page
+            } else if (isLoggedIn && notNeedLogin) {
                 return Response.redirect(new URL('/', nextUrl));
             } else if (!isLoggedIn) {
                 return Response.redirect(new URL('/login', nextUrl));

@@ -2,7 +2,8 @@ model RssGenerator {
     id            String        @id @default(uuid())
     type          String
     website       String
-    title         String?
+    title         String
+    link          String?
     description   String?
     image         String?
     author        String?

@@ -9,7 +9,7 @@ export default async function MyFeedList() {
     const getMyRss = useMyRss()
     const res = await getMyRss.queryGenerateRssList({
         page: 1,
-        pageSize: 50,
+        pageSize: 100,
     })
 
     return (

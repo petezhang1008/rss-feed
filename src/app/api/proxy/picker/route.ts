@@ -22,8 +22,8 @@ export async function GET(req: NextRequest): Promise<NextResponse<string>> {
         const document = await websiteParserService.getWebsiteDocument(url)
 
         // 清除所有 <script> 标签
-        const scripts = document.querySelectorAll('script');
-        scripts.forEach(script => script.remove());
+        // const scripts = document.querySelectorAll('script');
+        // scripts.forEach(script => script.remove());
 
         // 获取处理后的 HTML
         const cleanedHtml = document.documentElement.outerHTML;

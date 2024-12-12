@@ -44,11 +44,9 @@ export class RssTaskServiceImpl implements RssTaskService {
     async _initRssSubscribeGenerator(data: GenerateRssParams): Promise<void> {
         const feedList = await this._rssParserService.parseRss(data.website!)
         for (const feed of feedList) {
-            await this._feedService.createFeed({
-                ...feed,
-                pubDate: feed.pubDate ? new Date(feed.pubDate) : null,
-                rssId: data.id!,
-                domain: this._urlFormateService.getDomain(data.website!)
+            addFeedLinkQueue({
+                url: this._urlFormateService.getFullUrl(feed.link, data.website),
+                rssId: data.id!
             })
         }
     }

@@ -14,6 +14,7 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
     }
     async consumeFeedTask(data: FeedTask): Promise<void> {
         const info = await this.websiteParserService.getWebsiteInfo(data.url)
+        if (!info || !info.title) return
         try {
             await this.feedService.createFeed({
                 rssId: data.rssId,

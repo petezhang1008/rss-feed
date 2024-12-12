@@ -10,7 +10,7 @@ export default function BundleItem({ bundle }: { bundle: Bundle }) {
                     <div className='flex items-center gap-2'>
                         <div className="avatar placeholder">
                             <div className="bg-blue-500 text-neutral-content w-10 rounded-lg">
-                                <span className="text-lg font-bold text-white">{bundle.title.charAt(0).toUpperCase()}</span>
+                                <span className="font-semibold text-md text-white">{bundle.title.slice(0, 2).toUpperCase()}</span>
                             </div>
                         </div>
                         <div className='flex flex-col gap-1.5'>

@@ -84,4 +84,11 @@ export class FeedModelImpl implements FeedModel {
             }
         })
     }
+    async deleteFeedByRssId(rssId: string) {
+        return this._prisma.feed.deleteMany({
+            where: {
+                rssId
+            }
+        })
+    }
 }

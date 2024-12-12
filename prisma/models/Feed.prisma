@@ -10,5 +10,5 @@ model Feed {
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
     rssId       String
-    rss         RssGenerator @relation(fields: [rssId], references: [id])
+    rss         RssGenerator @relation(fields: [rssId], references: [id], onDelete: Cascade)
 }

@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { GenerateRssParams, PaginationQueryGenerateRssListParams, PutGenerateRssParams, QueryGenerateRssListParams, RssGeneratorModel } from "../rss-generator-model";
 import { Prisma, PrismaClient, RssGenerator } from "@prisma/client";
 import { PrismaSymbol } from "@/lib/prisma";
-import { includes } from "lodash";
+import _ from "lodash";
 
 
 @injectable()
@@ -19,7 +19,9 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
     }
     async createGenerateRss(data: GenerateRssParams) {
         const result = await this._prisma.rssGenerator.create({
-            data
+            data: {
+                ...data
+            }
         })
         return result
     }
@@ -34,7 +36,7 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
         const result = await this._prisma.rssGenerator.delete({
             where: { id }
         })
-        return result.id
+        return result
     }
     async queryGenerateRssList(data: PaginationQueryGenerateRssListParams) {
         const { page, pageSize, type, frequency, createdAt, updatedAt, userId, bundleId } = data

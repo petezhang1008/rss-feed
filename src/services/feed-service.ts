@@ -1,6 +1,6 @@
 import { CreateFeedParams, FeedParams, GetBundleFeedParams, GetFeedParams, QueryUserFeedParams } from "@/models/feed-model"
 import { Pagination } from "@/types/pagination"
-import { Feed } from "@prisma/client"
+import { Feed, Prisma } from "@prisma/client"
 
 export const FeedService = Symbol.for('FeedService')
 
@@ -11,4 +11,5 @@ export interface FeedService {
     createFeed: (feed: CreateFeedParams) => Promise<Feed>
     updateFeed: (feed: FeedParams) => Promise<Feed>
     deleteFeed: (feedId: string) => Promise<Feed>
+    deleteFeedByRssId: (rssId: string) => Promise<Prisma.BatchPayload>
 }

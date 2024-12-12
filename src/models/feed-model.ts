@@ -1,7 +1,5 @@
 import { Pagination, PaginationParams } from "@/types/pagination"
-import { Feed } from "@prisma/client"
-
-
+import { Feed, Prisma } from "@prisma/client"
 export const FeedModel = Symbol.for('FeedModel')
 
 export interface FeedModel {
@@ -11,6 +9,7 @@ export interface FeedModel {
     updateFeed: (feed: FeedParams) => Promise<Feed>
     deleteFeed: (feedId: string) => Promise<Feed>
     getFeedByLink: (link: string, rssId: string) => Promise<Feed | null>
+    deleteFeedByRssId: (rssId: string) => Promise<Prisma.BatchPayload>
 }
 
 export type FeedParams = Pick<Feed, 'id' | 'title' | 'link' | 'image' | 'author' | 'domain'> & Partial<Feed>

@@ -12,6 +12,7 @@ export interface RssInfo {
     image?: string
     author?: string
     keywords?: string
+    link?: string
 }
 
 export interface RssItem {
