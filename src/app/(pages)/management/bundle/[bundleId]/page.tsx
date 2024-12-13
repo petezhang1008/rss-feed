@@ -8,13 +8,15 @@ export default async function BundleDetail({ params }: { params: { bundleId: str
     const data = await params
     const bundleId = data.bundleId
     const { getBundleFeed } = useFeeds()
-    const res = await getBundleFeed({
-        page: 1,
-        pageSize: 50,
-        bundleId
-    })
     const { getBundleDetail } = useRssDetail()
-    const bundleDetail = await getBundleDetail(bundleId)
+    const [res, bundleDetail] = await Promise.all([
+        getBundleFeed({
+            page: 1,
+            pageSize: 50,
+            bundleId
+        }),
+        getBundleDetail(bundleId)
+    ])
 
 
     return (
@@ -23,7 +25,7 @@ export default async function BundleDetail({ params }: { params: { bundleId: str
                 <FeedHeader bundleDetail={bundleDetail!} />
             </ManagementHeader>
             <div className="p-4 overflow-auto flex-1">
-                <FeedContent feeds={res.result} />
+                <FeedContent feeds={res.result} bundle={bundleDetail!} />
             </div>
         </div>
     )

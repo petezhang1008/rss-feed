@@ -1,8 +1,8 @@
-'use client'
+"use client"
+import { useEffect, useState } from "react";
 
-import { useEffect, useState } from "react"
-
-export default function LogoImage({ src, title, width = 40, height = 40 }: { src: string | null, title: string, width: number, height: number }) {
+export default function BannerImage({ src, title, width = '100%', height = 'auto' }:
+    { src: string, title?: string, width?: number | string, height?: number | string }) {
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<boolean>(false)
 
@@ -24,7 +24,7 @@ export default function LogoImage({ src, title, width = 40, height = 40 }: { src
     }, [src])
 
     return (
-        <div className="size-full rounded-lg border border-gray-200 overflow-hidden">
+        <div className="size-full overflow-hidden shrink-0">
             {src && !error ? (
                 loading ? (
                     <div className="bg-gray-50 size-full flex items-center justify-center">
@@ -38,11 +38,7 @@ export default function LogoImage({ src, title, width = 40, height = 40 }: { src
                         referrerPolicy="no-referrer"
                     />
                 )
-            ) : (
-                <div className="bg-neutral text-neutral-content size-full flex items-center justify-center">
-                    <span className="text-md font-semibold">{title?.slice(0, 2)}</span>
-                </div>
-            )}
+            ) : null}
         </div>
     )
 }

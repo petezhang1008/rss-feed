@@ -14,4 +14,5 @@ export interface WebsiteInfo {
     author?: string
     keywords?: string
     domain: string
+    link: string
 }
