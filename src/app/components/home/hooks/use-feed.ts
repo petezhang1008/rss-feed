@@ -10,14 +10,14 @@ export const useFeed = () => {
         if (!bundleId) {
             return feedService.queryUserFeed({
                 page: 1,
-                pageSize: 10,
+                pageSize: 100,
                 userId: session?.user?.id!
             })
         } else {
             return feedService.getBundleFeed({
                 bundleId,
                 page: 1,
-                pageSize: 10
+                pageSize: 100
             })
         }
     }

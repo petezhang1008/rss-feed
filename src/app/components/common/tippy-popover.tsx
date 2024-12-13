@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import Tippy, { TippyProps } from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
@@ -13,17 +13,24 @@ interface TippyPopoverProps {
 
 export default function TippyPopover({ content, children, reference, props }: TippyPopoverProps) {
     const isClient = typeof window !== 'undefined';
-
+    const [isOpen, setIsOpen] = useState(false)
     return (
         <Tippy
-            content={content}
+            content={isOpen ? content : null}
             reference={reference}
             theme='light'
             arrow={false}
             interactive={true}
             placement='bottom'
             appendTo={isClient ? document.body : 'parent'}
+            zIndex={2500}
             {...props}
+            onShow={() => {
+                setIsOpen(true)
+            }}
+            onHidden={() => {
+                setIsOpen(false)
+            }}
         >
             <div className='flex items-center justify-center'>
                 {children}

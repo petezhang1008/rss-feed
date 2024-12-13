@@ -9,5 +9,5 @@ export interface BundleService {
     getBundlesByUserId: (userId: string) => Promise<Bundle[]>
     getBundleById: (id: string) => Promise<Bundle | null>
     updateBundle: (id: string, data: BundleData) => Promise<Bundle>
-    deleteBundle: (id: string) => Promise<Bundle>
+    deleteBundle: (id: string, userId: string) => Promise<Bundle>
 }

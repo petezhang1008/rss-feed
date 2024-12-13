@@ -1,26 +1,18 @@
 import { httpClient } from "@/lib/http-client";
-import { useState } from "react";
 
-type Bundle = {
+export type BundleData = {
     title: string
     description: string
 }
 export default function useCreateBundle() {
 
-    const [bundleTitle, setBundleTitle] = useState<string>()
-    const [bundleDescription, setBundleDescription] = useState<string>()
-
-    async function createBundle(bundle: Bundle) {
+    async function createBundleApi(bundle: BundleData) {
         return httpClient.post('/bundle/create', {
             ...bundle,
         })
     }
 
     return {
-        bundleTitle,
-        bundleDescription,
-        setBundleTitle,
-        setBundleDescription,
-        createBundle
+        createBundleApi
     }
 }

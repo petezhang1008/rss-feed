@@ -44,6 +44,9 @@ export class FeedModelImpl implements FeedModel {
             skip,
             take,
             where,
+            orderBy: {
+                createdAt: 'desc'
+            }
         })
         const total = await this._prisma.feed.count({
             where

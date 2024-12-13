@@ -3,6 +3,8 @@
         "impls",
         "inversify",
         "Navs",
+        "Swal",
+        "sweetalert",
         "zustand"
     ],
     "svg.preview.background": "transparent"

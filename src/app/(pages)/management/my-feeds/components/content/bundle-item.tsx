@@ -1,20 +1,22 @@
 'use client'
 import { CheckIcon } from "@radix-ui/react-icons";
-import { Bundle, RssGenerator } from "@prisma/client";
-import useBundlesSelector from "../../hooks/use-bundles-selector";
-import { useContext } from "react";
-import { RssItemContext } from "./action-btn";
+import { Bundle } from "@prisma/client";
 
-export default function BundleItem({ bundle }: { bundle: Bundle }) {
-    const { rssData, updateRssBundle } = useContext(RssItemContext)
-    const { selectBundle } = useBundlesSelector()
+export default function BundleItem({
+    bundle,
+    currentBundle,
+    selectBundle
+}: {
+    bundle: Bundle,
+    currentBundle: Bundle | null,
+    selectBundle: (bundle: Bundle | null) => void
+}) {
+
+    const isSelected = currentBundle?.id === bundle.id
+
     function handleClick() {
-        if (!rssData) return
-        selectBundle(bundle, rssData)
-        updateRssBundle(bundle)
+        selectBundle(isSelected ? null : bundle)
     }
-
-    const isSelected = rssData?.bundleId === bundle.id
 
     return <div className={`flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-100 rounded-md px-1 py-2 ${isSelected ? 'bg-gray-100 text-primary' : ''}`}
         onClick={handleClick}>

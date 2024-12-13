@@ -13,7 +13,10 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
     ) { }
     async getGenerateRss(id: string) {
         const result = await this._prisma.rssGenerator.findUnique({
-            where: { id }
+            where: { id },
+            include: {
+                bundle: true
+            }
         })
         return result
     }
@@ -25,16 +28,16 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
         })
         return result
     }
-    async putGenerateRss(data: PutGenerateRssParams) {
+    async putGenerateRss(id: string, data: GenerateRssParams) {
         const result = await this._prisma.rssGenerator.update({
-            where: { id: data.id },
+            where: { id },
             data
         })
         return result
     }
-    async deleteGenerateRss(id: string) {
+    async deleteGenerateRss(id: string, userId: string) {
         const result = await this._prisma.rssGenerator.delete({
-            where: { id }
+            where: { id, userId }
         })
         return result
     }
@@ -65,6 +68,9 @@ export class RssGeneratorModelImpl implements RssGeneratorModel {
             where,
             include: {
                 bundle: true
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         })
         const total = await this._prisma.rssGenerator.count({

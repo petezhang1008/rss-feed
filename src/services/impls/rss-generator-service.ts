@@ -58,12 +58,12 @@ export class RssGeneratorServiceImpl implements RssGeneratorService {
         }
         return this._rssGeneratorModel.createGenerateRss(data)
     }
-    putGenerateRss(data: PutGenerateRssParams) {
-        return this._rssGeneratorModel.putGenerateRss(data)
+    putGenerateRss(id: string, data: GenerateRssParams) {
+        return this._rssGeneratorModel.putGenerateRss(id, data)
     }
-    async deleteGenerateRss(id: string) {
+    async deleteGenerateRss(id: string, userId: string) {
         await this._feedModel.deleteFeedByRssId(id)
-        return this._rssGeneratorModel.deleteGenerateRss(id)
+        return this._rssGeneratorModel.deleteGenerateRss(id, userId)
     }
     queryGenerateRssList(data: PaginationQueryGenerateRssListParams) {
         return this._rssGeneratorModel.queryGenerateRssList(data)

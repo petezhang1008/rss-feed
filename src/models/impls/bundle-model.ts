@@ -26,6 +26,9 @@ export class BundleModelImpl implements BundleModel {
             take,
             include: {
                 rssGenerators: true
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         })
         const total = await this._prisma.bundle.count({ where })
@@ -33,7 +36,7 @@ export class BundleModelImpl implements BundleModel {
             page,
             pageSize,
             total,
-            result: bundles
+            result: bundles,
         }
     }
     async getBundlesByUserId(userId: string) {
@@ -58,10 +61,11 @@ export class BundleModelImpl implements BundleModel {
             data
         })
     }
-    async deleteBundle(id: string) {
+    async deleteBundle(id: string, userId: string) {
         return this._prisma.bundle.delete({
             where: {
-                id
+                id,
+                userId
             }
         })
     }

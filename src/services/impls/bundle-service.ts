@@ -26,7 +26,7 @@ export class BundleServiceImpl implements BundleService {
     updateBundle(id: string, data: BundleData) {
         return this._bundleModel.updateBundle(id, data)
     }
-    deleteBundle(id: string) {
-        return this._bundleModel.deleteBundle(id)
+    deleteBundle(id: string, userId: string) {
+        return this._bundleModel.deleteBundle(id, userId)
     }
 }

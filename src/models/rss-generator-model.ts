@@ -7,8 +7,8 @@ export const RssGeneratorModel = Symbol.for('RssGeneratorModel');
 export interface RssGeneratorModel {
     getGenerateRss(id: string): Promise<RssGenerator | null>;
     createGenerateRss(data: GenerateRssParams): Promise<RssGenerator>;
-    putGenerateRss(data: PutGenerateRssParams): Promise<RssGenerator>;
-    deleteGenerateRss(id: string): Promise<RssGenerator>;
+    putGenerateRss(id: string, data: GenerateRssParams): Promise<RssGenerator>;
+    deleteGenerateRss(id: string, userId: string): Promise<RssGenerator>;
     queryGenerateRssList(data: PaginationQueryGenerateRssListParams): Promise<Pagination<RssGenerator[]>>;
     queryAllRssList(data: QueryGenerateRssListParams): Promise<RssGenerator[]>;
 }

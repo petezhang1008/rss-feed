@@ -22,13 +22,13 @@ const useFeedsPaginationStore = create<IframeDataStore>((set, get) => ({
     total: 0,
     page: 0,
     pageSize: 50,
-    getFeeds: async (feedId: string) => {
+    getFeeds: async (rssId: string) => {
         set({ isLoading: true })
         const feedService = injectService<FeedService>(FeedService)
         const { page, pageSize } = get()
         const nextPage = page + 1
         const params: GetFeedParams = {
-            feedId,
+            rssId,
             page: nextPage,
             pageSize,
         }

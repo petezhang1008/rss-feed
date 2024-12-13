@@ -80,24 +80,26 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
         return parts[0].trim()
     }
 
+    private _getMetaValueByProperty(document: Document, property: string) {
+        return document.querySelector(`meta[property="${property}"]`)?.getAttribute('content') ||
+            document.querySelector(`meta[name="${property}"]`)?.getAttribute('content') ||
+            document.querySelector(`meta[property="og:${property}"]`)?.getAttribute('content') ||
+            document.querySelector(`meta[property="twitter:${property}"]`)?.getAttribute('content') ||
+            document.querySelector(`meta[property="article:${property}"]`)?.getAttribute('content') ||
+            document.querySelector(`meta[property="dc:${property}"]`)?.getAttribute('content') ||
+            document.querySelector(`meta[property="schema:${property}"]`)?.getAttribute('content')
+    }
+
     async getWebsiteInfo(url: string) {
         const document = await this.getWebsiteDocument(url)
-        const title = document.title || document.querySelector('meta[property="og:title"]')?.getAttribute('content')
 
-        const metaDescription = document.querySelector('meta[name="description"]')?.getAttribute('content') ||
-            document.querySelector('meta[property="og:description"]')?.getAttribute('content')
-        const metaImage = document.querySelector('meta[property="og:image"]')?.getAttribute('content') ||
-            document.querySelector('meta[property="twitter:image"]')?.getAttribute('content') ||
-            document.querySelector('meta[name="og:image"]')?.getAttribute('content') ||
-            document.querySelector('link[rel="icon"]')?.getAttribute('href')
-
-        const metaAuthor = document.querySelector('meta[name="author"]')?.getAttribute('content') ||
-            document.querySelector('meta[property="article:author"]')?.getAttribute('content')
-        const metaKeywords = document.querySelector('meta[name="keywords"]')?.getAttribute('content') ||
-            document.querySelector('meta[property="og:keywords"]')?.getAttribute('content')
-
-        const metaPubDate = document.querySelector('meta[property="article:published_time"]')?.getAttribute('content') ||
-            document.querySelector('meta[property="article:modified_time"]')?.getAttribute('content')
+        const title = document.title || this._getMetaValueByProperty(document, 'title')
+        const metaDescription = this._getMetaValueByProperty(document, 'description')
+        const metaImage = this._getMetaValueByProperty(document, 'image')
+        const metaAuthor = this._getMetaValueByProperty(document, 'author')
+        const metaKeywords = this._getMetaValueByProperty(document, 'keywords')
+        const metaPubDate = this._getMetaValueByProperty(document, 'published_time') ||
+            this._getMetaValueByProperty(document, 'modified_time')
 
         const domain = this._urlFormateService.getDomain(url)
         const image = metaImage ? this._urlFormateService.getFullUrl(metaImage, url) : null

@@ -1,29 +1,22 @@
 
 import { useRssAction } from "@/app/(pages)/management/my-feeds/hooks/use-rss-action"
-import { useContext } from "react"
-import { RssItemContext } from "./action-btn"
-import { RouterName } from "@/enums/router"
-import { redirect } from "next/navigation"
+import { RssGenerator } from "@prisma/client"
 
-export default function Actions() {
-    const { deleteRss } = useRssAction()
-    const { rssData } = useContext(RssItemContext)
+export default function Actions({ rssData }: { rssData: RssGenerator }) {
+    const { deleteRss, editRss } = useRssAction()
 
-    function handleEdit() {
-        console.log('edit')
+    async function handleEditRss(rssData: RssGenerator) {
+        await editRss(rssData)
     }
 
-    async function handleDelete() {
-        const res = await deleteRss(rssData?.id!)
-        if (res) {
-            redirect(RouterName.MY_FEEDS)
-        }
+    async function handleDeleteRss(rssData: RssGenerator) {
+        await deleteRss(rssData?.id!)
     }
 
     return (
         <div className="flex flex-col gap-0.5">
-            <div className="hover:bg-gray-200 rounded cursor-pointer py-2 px-4" onClick={handleEdit}>Edit</div>
-            <div className="hover:bg-gray-200 rounded cursor-pointer py-2 px-4" onClick={handleDelete}>Delete</div>
+            <div className="hover:bg-gray-200 rounded cursor-pointer py-2 px-4" onClick={() => handleEditRss(rssData)}>Edit</div>
+            <div className="hover:bg-gray-200 rounded cursor-pointer py-2 px-4" onClick={() => handleDeleteRss(rssData)}>Delete</div>
         </div>
     )
 }

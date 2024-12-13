@@ -24,27 +24,30 @@ export default function ActionBtn({ rss }: { rss: RssGenerator }) {
 
     const [rssData, setRssData] = useState<RssGenerator>(rss)
 
-    function updateRssBundle(bundle: Bundle) {
-        setRssData(prev => ({ ...prev, bundleId: bundle.id, bundle: bundle }))
+    function updateRssBundle(bundle: Bundle | null) {
+        if (bundle) {
+            setRssData(prev => ({ ...prev, bundleId: bundle.id, bundle: bundle }))
+        } else {
+            setRssData(prev => ({ ...prev, bundleId: null, bundle: null }))
+        }
     }
 
+
     return (
-        <RssItemContext.Provider value={{ rssData, updateRssBundle }}>
-            <div className="flex items-center gap-1 justify-center" onClick={handleClick}>
-                {rssData?.bundleId && <BundleTag bundle={rssData.bundle} />}
-                <TippyPopover content={<BundlesSelector />} props={{
-                    trigger: 'click'
-                }}>
-                    <span className='hover:bg-gray-200 rounded-md p-1 size-6'>
-                        <CardStackPlusIcon className="size-4 text-gray-600" />
-                    </span>
-                </TippyPopover>
-                <TippyPopover content={<div><Actions /></div>}>
-                    <span className='hover:bg-gray-200 rounded-md p-1 size-6'>
-                        <DotsHorizontalIcon className='size-4 text-gray-600'></DotsHorizontalIcon>
-                    </span>
-                </TippyPopover>
-            </div>
-        </RssItemContext.Provider>
+        <div className="flex items-center gap-1 justify-center" onClick={handleClick}>
+            {rssData?.bundle && <BundleTag bundle={rssData.bundle} />}
+            <TippyPopover content={<BundlesSelector rssData={rssData} updateRssBundle={updateRssBundle} />} props={{
+                trigger: 'click'
+            }}>
+                <span className='hover:bg-gray-200 rounded-md p-1 size-6'>
+                    <CardStackPlusIcon className="size-4 text-gray-600" />
+                </span>
+            </TippyPopover>
+            <TippyPopover content={<div><Actions rssData={rssData} /></div>}>
+                <span className='hover:bg-gray-200 rounded-md p-1 size-6'>
+                    <DotsHorizontalIcon className='size-4 text-gray-600'></DotsHorizontalIcon>
+                </span>
+            </TippyPopover>
+        </div>
     )
 }

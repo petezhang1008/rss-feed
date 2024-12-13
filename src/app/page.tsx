@@ -14,7 +14,7 @@ export default async function Home({ searchParams }: { searchParams: { bundleId:
   const [bundleResult, feedResult] = await Promise.all([
     getBundles({
       page: 1,
-      pageSize: 10,
+      pageSize: 100,
       userId: session?.user?.id!
     }),
     getFeeds(searchParams.bundleId)

@@ -9,7 +9,6 @@ import { sendError, sendResponse } from "@/lib/http-server";
 import { auth } from "@/auth";
 import { RssTaskService } from "@/services/rss-task-service";
 
-// const httpServer = injectService<HttpServer>(HttpServer)
 const rssGeneratorService = injectService<RssGeneratorService>(RssGeneratorService);
 const rssTaskService = injectService<RssTaskService>(RssTaskService)
 
@@ -35,14 +34,5 @@ export async function POST(req: NextRequest): ResponseType<RssGenerator> {
         userId: session?.user?.id
     })
     rssTaskService.consumeRssTask(result)
-    return sendResponse<RssGenerator>(result)
-}
-
-export async function DELETE(req: NextRequest): ResponseType<RssGenerator> {
-    const id: string | null = req.nextUrl.searchParams.get('id')
-    if (!id) {
-        return sendError<ErrorData>(400, ErrorCode.NO_USER)
-    }
-    const result = await rssGeneratorService?.deleteGenerateRss(id)
     return sendResponse<RssGenerator>(result)
 }
