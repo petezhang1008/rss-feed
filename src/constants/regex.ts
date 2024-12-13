@@ -1,1 +1,1 @@
-export const TITLE_REGEX = /(\s\|\s)|(\s-\s)|_/g
+export const TITLE_REGEX = /(\s\|\s)|(\s-\s)(\s|\s)_/g

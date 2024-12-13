@@ -1,4 +1,7 @@
+import { RouterName } from "@/enums/router"
 import { Bundle } from "@prisma/client"
+import { ChevronLeftIcon } from "@radix-ui/react-icons"
+import Link from "next/link"
 
 export default function FeedHeader({ bundleDetail }: { bundleDetail: Bundle }) {
 
@@ -8,6 +11,10 @@ export default function FeedHeader({ bundleDetail }: { bundleDetail: Bundle }) {
 
     return (
         <div className="flex items-center gap-3">
+            <Link href={RouterName.BUNDLES}
+                className="flex items-center justify-center rounded hover:bg-gray-100 cursor-pointer py-2 px-0.5 text-semibold" >
+                <ChevronLeftIcon className="size-5" />
+            </Link>
             <div className="avatar placeholder">
                 <div className="bg-neutral text-neutral-content w-10 rounded-lg">
                     <span className="text-xs">{bundleDetail?.title?.slice(0, 2)}</span>

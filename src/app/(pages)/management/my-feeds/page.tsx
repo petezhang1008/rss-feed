@@ -4,10 +4,11 @@ import MyFeedContent from "./components/content/content";
 import useMyRss from "./hooks/use-my-feeds";
 import { RouterName } from "@/enums/router";
 import Link from "next/link";
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
 
 export default async function MyFeedList() {
-    const getMyRss = useMyRss()
-    const res = await getMyRss.queryGenerateRssList({
+    const { queryGenerateRssList } = useMyRss()
+    const res = await queryGenerateRssList({
         page: 1,
         pageSize: 100,
     })

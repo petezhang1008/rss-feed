@@ -1,7 +1,8 @@
 import { RssGenerator } from "@prisma/client"
 import Link from "next/link"
-import Image from "next/image"
 import LogoImage from "@/app/components/common/logo-image"
+import { ChevronLeftIcon } from "@radix-ui/react-icons"
+import { RouterName } from "@/enums/router"
 
 export default function FeedHeader({ rssDetail }: { rssDetail: RssGenerator }) {
 
@@ -11,6 +12,10 @@ export default function FeedHeader({ rssDetail }: { rssDetail: RssGenerator }) {
 
     return (
         <div className="flex items-center gap-3">
+            <Link href={RouterName.MY_FEEDS}
+                className="flex items-center justify-center rounded hover:bg-gray-100 cursor-pointer py-2 px-0.5 text-semibold" >
+                <ChevronLeftIcon className="size-5" />
+            </Link>
             <div className="avatar placeholder">
                 <div className="size-10">
                     <LogoImage src={rssDetail?.image} title={rssDetail?.title!} width={40} height={40} />

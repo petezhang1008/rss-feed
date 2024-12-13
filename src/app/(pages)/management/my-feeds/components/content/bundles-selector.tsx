@@ -44,7 +44,7 @@ export default function BundlesSelector({ rssData, updateRssBundle }: { rssData:
                     className="input input-bordered w-full max-w-xs input-sm" />
             </div>
             <hr />
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
                 {isLoading && <ListSkeleton />}
                 {!isLoading && filteredBundles.length === 0 && !search && <div className="text-center text-gray-500">No bundles found</div>}
                 {!isLoading && filteredBundles.length === 0 && search && <div className="text-center text-gray-500">Enter to create new bundle</div>}

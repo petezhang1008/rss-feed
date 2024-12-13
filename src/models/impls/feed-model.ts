@@ -17,6 +17,9 @@ export class FeedModelImpl implements FeedModel {
             take,
             where: {
                 rssId: rssId
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         })
         const total = await this._prisma.feed.count({
@@ -44,6 +47,9 @@ export class FeedModelImpl implements FeedModel {
             skip,
             take,
             where,
+            include: {
+                rss: true
+            },
             orderBy: {
                 createdAt: 'desc'
             }

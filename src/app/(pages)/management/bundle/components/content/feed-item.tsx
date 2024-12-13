@@ -1,5 +1,7 @@
 import { Feed } from "@prisma/client";
 import Link from "next/link";
+import { RssItem } from "./rss-item";
+import { RouterName } from "@/enums/router";
 
 export default function FeedItem({ feed }: { feed: Feed }) {
     return (
@@ -12,8 +14,12 @@ export default function FeedItem({ feed }: { feed: Feed }) {
                 {feed.description &&
                     <p className="text-gray-500 text-xs leading-5 line-clamp-2">{feed.description}</p>}
                 <div className="flex items-center gap-2 justify-between">
-                    <div className="badge badge-blue text-gray-500 p-2">{feed.domain}</div>
-                    <div className="text-gray-400 p-2 text-xs">{feed.pubDate?.toDateString()}</div>
+                    <Link href={`${RouterName.FEED}/${feed?.rssId}`}
+                        target="_blank"
+                        className="flex items-center gap-2 text-gray-500 text-xs hover:text-blue-600">
+                        <RssItem rss={feed?.rss} />
+                    </Link>
+                    <div className="text-gray-400 p-2 text-xs">{feed.createdAt?.toDateString()}</div>
                 </div>
             </div>
         </Link>

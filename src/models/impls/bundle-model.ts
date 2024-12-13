@@ -50,6 +50,9 @@ export class BundleModelImpl implements BundleModel {
         return this._prisma.bundle.findUnique({
             where: {
                 id
+            },
+            include: {
+                rssGenerators: true
             }
         })
     }

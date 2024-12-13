@@ -1,8 +1,7 @@
-import Image from "next/image";
 import { Feed } from "@prisma/client";
 import Link from "next/link";
-import BannerImage from "../../common/banner-image";
 import { RouterName } from "@/enums/router";
+import { RssItem } from "@/app/(pages)/management/bundle/components/content/rss-item";
 
 export default function FeedItem({ feed }: { feed: Feed }) {
     return (
@@ -18,14 +17,13 @@ export default function FeedItem({ feed }: { feed: Feed }) {
                     </div>
                 </div>
                 <div className="flex items-center gap-2 gap-3 text-xs text-gray-400 shrink-0 mt-3 justify-between">
-                    <Link target="_blank" href={`${RouterName.FEED}/${feed.rssId}`}>
-                        <div className="flex items-center gap-2 hover:bg-blue-100 hover:text-blue-500 hover:border-blue-500 badge badge-blue text-gray-500 p-2">
-                            <span>{feed.domain}</span>
-                        </div>
+                    <Link href={`${RouterName.FEED}/${feed?.rssId}`}
+                        target="_blank"
+                        className="flex items-center gap-2 text-gray-500 text-xs hover:text-blue-600">
+                        <RssItem rss={feed?.rss} />
                     </Link>
                     <div className="flex items-center gap-2">
-                        <span>{feed.author}</span>
-                        <span>{feed.pubDate?.toDateString()} </span>
+                        <span>{feed.createdAt?.toDateString()} </span>
                     </div>
                 </div>
             </div>

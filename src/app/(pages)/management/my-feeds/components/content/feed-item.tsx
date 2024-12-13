@@ -4,6 +4,7 @@ import useMyFeeds from '../../hooks/use-my-feeds'
 import ActionBtn from './action-btn'
 import Image from 'next/image'
 import LogoImage from '@/app/components/common/logo-image'
+import BundleTag from './bundle-tag'
 
 
 export default function MyFeedItem({ rss }: { rss: RssGenerator }) {
@@ -27,7 +28,7 @@ export default function MyFeedItem({ rss }: { rss: RssGenerator }) {
                     </div>
                 </div>
                 <div className='flex justify-between items-center'>
-                    <div className="badge badge-ghost">{getDomain(rss.website)}</div>
+                    <BundleTag rss={rss} />
                     <ActionBtn rss={rss} />
                 </div>
             </div>

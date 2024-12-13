@@ -15,7 +15,7 @@ export default function FeedItem({ feed }: { feed: Feed }) {
                 </div>}
                 <div className="flex items-center gap-2 justify-between">
                     <div className="badge badge-blue text-gray-500 p-2">{feed.domain}</div>
-                    <div className="text-gray-400 p-2 text-xs">{feed.pubDate?.toDateString()}</div>
+                    <div className="text-gray-400 p-2 text-xs">{feed.createdAt?.toDateString()}</div>
                 </div>
             </div>
         </Link>
