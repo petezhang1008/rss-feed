@@ -1,9 +1,10 @@
-import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Bundle } from '@prisma/client'
 import Link from 'next/link'
 import ActionBtn from './action-btn'
+import { useDayjs } from '@/app/hooks/use-dayjs'
 
 export default function BundleItem({ bundle }: { bundle: Bundle }) {
+    const { formatDateToMMDDYYYY } = useDayjs()
     return (
         <Link href={`/management/bundle/${bundle.id}`}>
             <div className="flex flex-col w-full gap-4 p-4 rounded-lg bg-white hover:shadow-md cursor-pointer border-l-2 border-green-600">
@@ -19,7 +20,7 @@ export default function BundleItem({ bundle }: { bundle: Bundle }) {
                             <div className='text-gray-500 text-xs line-clamp-2 h-8'>{bundle.description || '-'}</div>
                         </div>
                     </div>
-                    <div className='text-gray-500 text-xs'>{bundle.createdAt.toLocaleDateString()}</div>
+                    <div className='text-gray-500 text-xs'>{formatDateToMMDDYYYY(bundle.createdAt)}</div>
                 </div>
                 <div className='flex justify-between items-center'>
                     <div className="badge badge-ghost">{bundle.rssGenerators?.length} Feeds</div>

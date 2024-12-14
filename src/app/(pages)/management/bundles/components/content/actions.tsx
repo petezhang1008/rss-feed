@@ -1,19 +1,20 @@
+'use client'
 import { useBundleAction } from "@/app/(pages)/management/bundles/hooks/use-bundle-action"
+import { useEventStop } from "@/app/hooks/use-event-stop"
 import { Bundle } from "@prisma/client"
 
 export default function Actions({ bundle }: { bundle: Bundle }) {
     const { deleteBundle, editBundle } = useBundleAction()
+    const { stopEvent } = useEventStop()
 
     const handleDeleteBundle = async (e: React.MouseEvent<HTMLDivElement>) => {
-        e.stopPropagation()
-        e.preventDefault()
+        stopEvent(e)
         await deleteBundle(bundle?.id!)
     }
 
     const handleEditBundle = async (e: React.MouseEvent<HTMLDivElement>) => {
-        e.stopPropagation()
-        e.preventDefault()
-        await editBundle(bundle)
+        stopEvent(e)
+        await editBundle(bundle.id, bundle)
     }
 
     return (

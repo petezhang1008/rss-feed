@@ -32,8 +32,13 @@ export default function useBundleModal() {
             title: <NewBundleContent handleDataChange={handleDataChange} />,
             showCloseButton: true,
             showCancelButton: true,
-            // confirmButtonColor: '#d33',
+            confirmButtonColor: '#4a00ff',
             confirmButtonText: 'Create Bundle',
+            preConfirm: () => {
+                const bundleData = useBundleStore.getState().bundleData
+                if (!bundleData.title) return false
+                return bundleData
+            }
         }).then((result) => {
             const bundleData = useBundleStore.getState().bundleData
             if (result.isConfirmed) {

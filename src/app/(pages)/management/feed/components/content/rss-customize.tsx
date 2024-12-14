@@ -20,8 +20,9 @@ export default function RssCustomize({ rss }: { rss: RssGenerator }) {
                     <Pencil1Icon className="size-4" />
                     Edit
                 </button>
-                <button className="btn btn-outline btn-sm btn-error !h-7 !min-h-7 cursor-pointer" onClick={() => handleDeleteRss(rss)}>
-                    <TrashIcon className="size-4" />
+                <button className="btn btn-outline btn-sm !h-7 !min-h-7 cursor-pointer group text-red-600 !border-red-600 hover:bg-red-600 !hover:text-white"
+                    onClick={() => handleDeleteRss(rss)}>
+                    <TrashIcon className="size-4 group-hover:text-white !text-red-600" />
                     Delete
                 </button>
                 <button className="btn btn-outline btn-sm btn-primary !h-7 !min-h-7">

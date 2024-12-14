@@ -1,4 +1,5 @@
 import BannerImage from "@/app/components/common/banner-image";
+import { DateTag } from "@/app/components/common/date-tag";
 import { Feed } from "@prisma/client";
 import Link from "next/link";
 
@@ -15,7 +16,9 @@ export default function FeedItem({ feed }: { feed: Feed }) {
                 </div>}
                 <div className="flex items-center gap-2 justify-between">
                     <div className="badge badge-blue text-gray-500 p-2">{feed.domain}</div>
-                    <div className="text-gray-400 p-2 text-xs">{feed.createdAt?.toDateString()}</div>
+                    <div>
+                        <DateTag date={feed.createdAt} />
+                    </div>
                 </div>
             </div>
         </Link>

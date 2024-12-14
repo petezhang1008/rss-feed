@@ -4,6 +4,7 @@ import { Bundle, RssGenerator } from "@prisma/client";
 import { CardStackPlusIcon } from "@radix-ui/react-icons";
 import BundlesSelector from "./bundles-selector";
 import { useState } from "react";
+import { useEventStop } from "@/app/hooks/use-event-stop";
 
 export default function BundleTag({ rss }: { rss: RssGenerator }) {
     const [rssData, setRssData] = useState<RssGenerator>(rss)
@@ -16,13 +17,10 @@ export default function BundleTag({ rss }: { rss: RssGenerator }) {
         }
     }
 
-    function handleClick(e: React.MouseEvent<HTMLDivElement>) {
-        e.stopPropagation();
-        e.preventDefault();
-    }
+    const { stopEvent } = useEventStop()
 
     return (
-        <div className="flex items-center gap-1" onClick={handleClick}>
+        <div className="flex items-center gap-1" onClick={stopEvent}>
             <TippyPopover content={<BundlesSelector rssData={rssData} updateRssBundle={updateRssBundle} />} props={{
                 trigger: 'click'
             }}>

@@ -10,6 +10,7 @@ export default async function Home({ searchParams }: { searchParams: { bundleId:
   const { getBundles } = useBundles()
   const { getFeeds } = useFeed()
   const session = await auth()
+  const { bundleId } = await searchParams
 
   const [bundleResult, feedResult] = await Promise.all([
     getBundles({
@@ -17,7 +18,7 @@ export default async function Home({ searchParams }: { searchParams: { bundleId:
       pageSize: 100,
       userId: session?.user?.id!
     }),
-    getFeeds(searchParams.bundleId)
+    getFeeds(bundleId)
   ])
   return (
     <>

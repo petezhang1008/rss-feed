@@ -8,6 +8,7 @@ export default function BannerImage({ src, title, width = '100%', height = 'auto
 
     function loadImage(src: string) {
         const img = new Image();
+        img.referrerPolicy = 'no-referrer'
         img.src = src;
         img.onload = () => {
             setLoading(false)

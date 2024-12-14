@@ -12,7 +12,7 @@ export default function NewBundleContent({ handleDataChange }: { handleDataChang
     function handleBundleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const data = {
             ...bundleData,
-            title: e.target.value
+            title: e.target.value.trim()
         }
         setBundleData(data)
         handleDataChange(data)
@@ -21,7 +21,7 @@ export default function NewBundleContent({ handleDataChange }: { handleDataChang
     function handleBundleDescriptionChange(e: React.ChangeEvent<HTMLInputElement>) {
         const data = {
             ...bundleData,
-            description: e.target.value
+            description: e.target.value.trim()
         }
         setBundleData(data)
         handleDataChange(data)

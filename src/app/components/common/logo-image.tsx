@@ -8,6 +8,7 @@ export default function LogoImage({ src, title, width = 40, height = 40 }: { src
 
     function loadImage(src: string) {
         const img = new Image();
+        img.referrerPolicy = 'no-referrer'
         img.src = src;
         img.onload = () => {
             setLoading(false)
@@ -40,7 +41,7 @@ export default function LogoImage({ src, title, width = 40, height = 40 }: { src
                 )
             ) : (
                 <div className="bg-neutral text-neutral-content size-full flex items-center justify-center">
-                    <span className="text-md font-semibold">{title?.slice(0, 2)}</span>
+                    <span className="text-md font-semibold whitespace-nowrap">{title?.slice(0, 2)}</span>
                 </div>
             )}
         </div>
