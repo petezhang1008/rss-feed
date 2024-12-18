@@ -6,9 +6,11 @@ export interface FeedModel {
     getFeed: (data: GetFeedParams) => Promise<Pagination<Feed[]>>
     getFeedByIds: (data: GetBatchFeedParams) => Promise<Pagination<Feed[]>>
     createFeed: (feed: CreateFeedParams) => Promise<Feed>
+    createBatchFeed: (feeds: CreateFeedParams[]) => Promise<Prisma.BatchPayload>
     updateFeed: (feed: FeedParams) => Promise<Feed>
     deleteFeed: (feedId: string) => Promise<Feed>
     getFeedByLink: (link: string, rssId: string) => Promise<Feed | null>
+    getFeedByLinks: (links: string[], rssId: string) => Promise<Feed[]>
     deleteFeedByRssId: (rssId: string) => Promise<Prisma.BatchPayload>
 }
 

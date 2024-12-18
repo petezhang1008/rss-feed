@@ -9,6 +9,8 @@ export interface FeedService {
     getFeed: (data: GetFeedParams) => Promise<Pagination<Feed[]>>
     getBundleFeed: (data: GetBundleFeedParams) => Promise<Pagination<Feed[]>>
     createFeed: (feed: CreateFeedParams) => Promise<Feed>
+    createBatchFeed: (feeds: CreateFeedParams[]) => Promise<Prisma.BatchPayload>
+    getFeedByLinks: (links: string[], rssId: string) => Promise<Feed[]>
     updateFeed: (feed: FeedParams) => Promise<Feed>
     deleteFeed: (feedId: string) => Promise<Feed>
     deleteFeedByRssId: (rssId: string) => Promise<Prisma.BatchPayload>

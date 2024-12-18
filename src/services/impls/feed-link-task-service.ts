@@ -1,7 +1,9 @@
 import { inject, injectable } from "inversify"
-import { FeedTask, FeedLinkTaskService, FeedDataFromParser } from "../feed-link-task-service"
-import { WebsiteParserService } from "../website-parser-service"
+import { FeedTask, FeedLinkTaskService } from "../feed-link-task-service"
+import { WebsiteInfo, WebsiteParserService } from "../website-parser-service"
 import { FeedService } from "../feed-service"
+import { ExecuteTaskService } from "../execute-task-service"
+import _ from "lodash"
 
 @injectable()
 export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
@@ -9,22 +11,51 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
         @inject(WebsiteParserService)
         private websiteParserService: WebsiteParserService,
         @inject(FeedService)
-        private feedService: FeedService
+        private feedService: FeedService,
+        @inject(ExecuteTaskService)
+        private _executeTaskService: ExecuteTaskService
     ) {
     }
+
+    private _queue: string[] = []
+    private _result: WebsiteInfo[] = []
+    private _processQueue = async () => {
+        while (this._queue.length > 0) {
+            const url = this._queue.shift(); // 从队列中取出一个 URL
+            if (url) {
+                try {
+                    const info = await this.websiteParserService.getWebsiteInfo(url)
+                    if (info && info.title) {
+                        this._result.push(info); // 存储页面内容
+                    }
+                } catch (error) {
+                    throw new Error('load feed page data failed')
+                }
+            }
+        }
+    };
+
     async consumeFeedTask(data: FeedTask): Promise<void> {
-        const info = await this.websiteParserService.getWebsiteInfo(data.url)
-        if (!info || !info.title) return
-        try {
-            await this.feedService.createFeed({
-                rssId: data.rssId,
-                link: data.url,
-                title: info.title,
-                domain: info.domain,
-                description: info.description,
-                author: info.author,
-                image: info.image
+        this._queue = data.targetPages
+        await Promise.all(Array.from({ length: 2 }, this._processQueue))
+        if (this._result.length > 0) {
+            this._executeTaskService.finishTask(data.taskId, {
+                successCount: this._result.length,
             })
+        }
+        try {
+            const paramList = _.map(this._result, info => {
+                return {
+                    rssId: data.rssId,
+                    link: info.link,
+                    title: info.title,
+                    domain: info.domain,
+                    description: info.description,
+                    author: info.author,
+                    image: info.image
+                }
+            })
+            await this.feedService.createBatchFeed(paramList)
         } catch (error) {
             console.error(error)
         }

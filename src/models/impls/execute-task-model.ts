@@ -1,44 +1,51 @@
-import { ExecuteTask, PrismaClient } from "@prisma/client"
-import { ExecuteTaskModel } from "../execute-task-model"
+import { PrismaClient } from "@prisma/client"
+import { ExecuteTaskModel, FinishTaskParams, StartTaskParams } from "../execute-task-model"
 import { PrismaSymbol } from "@/lib/prisma"
 import { inject, injectable } from "inversify"
+import { RssTaskStatus } from "@/enums/rss"
 
 @injectable()
 export class ExecuteTaskModelImpl implements ExecuteTaskModel {
     constructor(
         @inject(PrismaSymbol) private _prisma: PrismaClient
     ) { }
-    async queryUserExecuteTasks(userId: string) {
-        return this._prisma.executeTask.findMany({
+    async getLatestExecuteTaskByRssId(rssId: string) {
+        return this._prisma.executeTask.findFirst({
             where: {
-                userId
+                rssId,
+                status: RssTaskStatus.finished,
+                successCount: {
+                    gt: 0
+                }
+            },
+            orderBy: {
+                createAt: 'desc'
             }
         })
     }
-    async getExecuteTask(executeTaskId: string) {
-        return this._prisma.executeTask.findUnique({
-            where: {
-                id: executeTaskId
-            }
-        })
-    }
-    async createExecuteTask(executeTask: ExecuteTask) {
+    async startExecuteTask(params: StartTaskParams) {
         return this._prisma.executeTask.create({
-            data: executeTask
+            data: params
         })
     }
-    async updateExecuteTask(executeTask: ExecuteTask) {
+    async finishExecuteTask(id: string, params: FinishTaskParams) {
         return this._prisma.executeTask.update({
             where: {
-                id: executeTask.id
+                id
             },
-            data: executeTask
+            data: {
+                status: RssTaskStatus.finished,
+                ...params
+            }
         })
     }
-    async deleteExecuteTask(executeTaskId: string) {
-        return this._prisma.executeTask.delete({
+    async readExecuteTask(id: string) {
+        return this._prisma.executeTask.update({
             where: {
-                id: executeTaskId
+                id
+            },
+            data: {
+                isRead: true
             }
         })
     }

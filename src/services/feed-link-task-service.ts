@@ -7,8 +7,9 @@ export interface FeedLinkTaskService {
 }
 
 export interface FeedTask {
-    url: string,
-    rssId: string
+    targetPages: string[],
+    rssId: string,
+    taskId: string,
 }
 
 export type FeedDataFromParser = Pick<Feed, 'title' | 'link' | 'domain' | 'rssId'> & Partial<Feed>

@@ -13,8 +13,13 @@ export function useDayjs() {
         return dayjs(date).format('MM/DD/YYYY')
     }
 
+    function formatDateToHHmmMMDD(date: Date) {
+        return dayjs(date).format('MMM D hh:mm A')
+    }
+
     return {
         formatDateToMMDDYYYY,
+        formatDateToHHmmMMDD,
         dayjs
     }
 }

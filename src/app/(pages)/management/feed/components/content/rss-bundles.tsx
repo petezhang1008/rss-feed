@@ -1,3 +1,4 @@
+'use client'
 import TippyPopover from "@/app/components/common/tippy-popover";
 import { CardStackPlusIcon } from "@radix-ui/react-icons";
 import BundlesSelector from "../../../my-feeds/components/content/bundles-selector";
@@ -7,7 +8,6 @@ import { useState } from "react";
 export default function RssBundles({ rss }: { rss: RssGenerator }) {
 
     const [rssData, setRssData] = useState<RssGenerator>(rss)
-
     function updateRssBundle(bundle: Bundle | null) {
         if (bundle) {
             setRssData(prev => ({ ...prev, bundleId: bundle.id, bundle: bundle }))

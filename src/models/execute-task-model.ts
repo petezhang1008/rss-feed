@@ -3,9 +3,11 @@ import { ExecuteTask } from "@prisma/client"
 export const ExecuteTaskModel = Symbol.for('ExecuteTaskModel')
 
 export interface ExecuteTaskModel {
-    queryUserExecuteTasks: (userId: string) => Promise<ExecuteTask[]>
-    getExecuteTask: (executeTaskId: string) => Promise<ExecuteTask | null>
-    createExecuteTask: (executeTask: ExecuteTask) => Promise<ExecuteTask>
-    updateExecuteTask: (executeTask: ExecuteTask) => Promise<ExecuteTask>
-    deleteExecuteTask: (executeTaskId: string) => Promise<ExecuteTask>
+    getLatestExecuteTaskByRssId: (rssId: string) => Promise<ExecuteTask | null>
+    startExecuteTask: (params: StartTaskParams) => Promise<ExecuteTask>
+    finishExecuteTask: (id: string, params: FinishTaskParams) => Promise<ExecuteTask>
+    readExecuteTask: (id: string) => Promise<ExecuteTask>
 }
+
+export type StartTaskParams = Pick<ExecuteTask, 'count' | 'rssId'>
+export type FinishTaskParams = Pick<ExecuteTask, 'successCount'>

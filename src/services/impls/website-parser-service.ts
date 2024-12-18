@@ -16,8 +16,17 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
     async getWebsiteDocument(url: string) {
         url = decodeURIComponent(url)
 
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
+        await page.setRequestInterception(true);
+        await page.setViewport({ width: 1280, height: 800 });
+        page.on('request', (request) => {
+            if (['image', 'stylesheet', 'font'].includes(request.resourceType())) {
+                request.abort();
+            } else {
+                request.continue();
+            }
+        });
         await page.goto(url);
         const content = await page.content();
         await browser.close();
@@ -83,6 +92,8 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
     private _getMetaValueByProperty(document: Document, property: string) {
         return document.querySelector(`meta[property="${property}"]`)?.getAttribute('content') ||
             document.querySelector(`meta[name="${property}"]`)?.getAttribute('content') ||
+            document.querySelector(`meta[name="og:${property}"]`)?.getAttribute('content') ||
+            document.querySelector(`meta[name="twitter:${property}"]`)?.getAttribute('content') ||
             document.querySelector(`meta[property="og:${property}"]`)?.getAttribute('content') ||
             document.querySelector(`meta[property="twitter:${property}"]`)?.getAttribute('content') ||
             document.querySelector(`meta[property="article:${property}"]`)?.getAttribute('content') ||
@@ -93,7 +104,7 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
     async getWebsiteInfo(url: string) {
         const document = await this.getWebsiteDocument(url)
 
-        const title = document.title || this._getMetaValueByProperty(document, 'title')
+        const title = this._getMetaValueByProperty(document, 'title') || document.title
         const metaDescription = this._getMetaValueByProperty(document, 'description')
         const metaImage = this._getMetaValueByProperty(document, 'image')
         const metaAuthor = this._getMetaValueByProperty(document, 'author')

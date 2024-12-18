@@ -18,9 +18,11 @@ export class FeedModelImpl implements FeedModel {
             where: {
                 rssId: rssId
             },
-            orderBy: {
-                createdAt: 'desc'
-            }
+            orderBy: [{
+                createdAt: 'desc',
+            }, {
+                title: 'desc'
+            }]
         })
         const total = await this._prisma.feed.count({
             where: {
@@ -50,9 +52,11 @@ export class FeedModelImpl implements FeedModel {
             include: {
                 rss: true
             },
-            orderBy: {
-                createdAt: 'desc'
-            }
+            orderBy: [{
+                createdAt: 'desc',
+            }, {
+                title: 'desc'
+            }]
         })
         const total = await this._prisma.feed.count({
             where
@@ -68,6 +72,11 @@ export class FeedModelImpl implements FeedModel {
     async createFeed(feed: CreateFeedParams) {
         return this._prisma.feed.create({
             data: feed
+        })
+    }
+    async createBatchFeed(feeds: CreateFeedParams[]) {
+        return this._prisma.feed.createMany({
+            data: feeds
         })
     }
     async updateFeed(feed: FeedParams) {
@@ -90,6 +99,16 @@ export class FeedModelImpl implements FeedModel {
             where: {
                 link,
                 rssId
+            }
+        })
+    }
+    async getFeedByLinks(links: string[], rssId: string) {
+        return this._prisma.feed.findMany({
+            where: {
+                rssId,
+                link: {
+                    in: links
+                }
             }
         })
     }

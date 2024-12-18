@@ -1,13 +1,29 @@
-import { RssGenerator } from "@prisma/client";
+'use client'
+import { ExecuteTask, RssGenerator } from "@prisma/client";
 import { CounterClockwiseClockIcon } from "@radix-ui/react-icons";
+import { useRssInfo } from "../../hooks/use-rss-info";
+import { useDayjs } from "@/app/hooks/use-dayjs";
+import { useEffect, useState } from "react";
 
 export default function RssFrequency({ rss }: { rss: RssGenerator }) {
+    const { formatDateToHHmmMMDD } = useDayjs()
+    const { getRssTaskDataApi } = useRssInfo()
+    const [taskData, setTaskData] = useState<ExecuteTask | null>(null)
+    useEffect(() => {
+        getRssTaskDataApi(rss.id).then(res => {
+            setTaskData(res.data)
+        })
+    }, [rss])
     return (
-        <div className="flex flex-col gap-2 border-b border-gray-200 pb-6 px-2">
+        taskData && <div className="flex flex-col gap-2 border-b border-gray-200 pb-6 px-2">
             <h1 className="font-semibold">Update Frequency</h1>
             <div className="text-gray-500 text-sm flex items-center gap-2">
                 <CounterClockwiseClockIcon className="size-4"></CounterClockwiseClockIcon>
-                <span><span className="font-bold text-primary font-md">24</span> feeds update at July 29 2024</span>
+                <span>
+                    <span className="font-bold text-primary font-md">{taskData.successCount}</span>
+                    <span className="px-1">feeds update at</span>
+                    <span>{formatDateToHHmmMMDD(taskData.createAt)}</span>
+                </span>
             </div>
             <div>
                 <div className="badge badge-primary text-sm">{rss.frequency}</div>

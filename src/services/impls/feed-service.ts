@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify"
 import { FeedService } from "../feed-service"
 import { CreateFeedParams, FeedModel, FeedParams, GetBundleFeedParams, GetFeedParams, QueryUserFeedParams } from "@/models/feed-model"
 import { RssGeneratorService } from "../rss-generator-service"
+import { Feed } from "@prisma/client"
 
 @injectable()
 export class FeedServiceImpl implements FeedService {
@@ -42,6 +43,12 @@ export class FeedServiceImpl implements FeedService {
             throw new Error('Feed already exists')
         }
         return this.feedModel.createFeed(feed)
+    }
+    async createBatchFeed(feeds: CreateFeedParams[]) {
+        return this.feedModel.createBatchFeed(feeds)
+    }
+    getFeedByLinks(links: string[], rssId: string) {
+        return this.feedModel.getFeedByLinks(links, rssId)
     }
     updateFeed(feed: FeedParams) {
         return this.feedModel.updateFeed(feed)

@@ -18,6 +18,15 @@ export const useRssAction = () => {
         return res
     }
 
+    const refreshRssApi = async (rssId: string) => {
+        const res = await httpClient.get('/rss-generator/refresh', {
+            params: {
+                rssId
+            }
+        })
+        return res;
+    }
+
     async function deleteRss(id: string) {
         const res = await deleteAlert()
         if (res.isConfirmed) {
@@ -40,6 +49,7 @@ export const useRssAction = () => {
     return {
         deleteRssApi,
         editRssApi,
+        refreshRssApi,
         deleteRss,
         editRss
     }

@@ -19,6 +19,8 @@ import { UserServiceImpl } from "./impls/user-service";
 import { UserService } from "./user-service";
 import { LoginServiceImpl } from "./impls/login-service";
 import { LoginService } from "./login-service";
+import { ExecuteTaskService } from "./execute-task-service";
+import { ExecuteTaskServiceImpl } from "./impls/execute-task-service";
 
 
 export const services = new ContainerModule((bind) => {
@@ -32,4 +34,5 @@ export const services = new ContainerModule((bind) => {
     bind(BundleService).to(BundleServiceImpl)
     bind(UserService).to(UserServiceImpl)
     bind(LoginService).to(LoginServiceImpl)
+    bind(ExecuteTaskService).to(ExecuteTaskServiceImpl)
 })
