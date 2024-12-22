@@ -1,6 +1,6 @@
 import ManagementHeader from "@/app/components/management/header/header";
-import useRssDetail from "../hooks/use-rss-detail";
-import useFeeds from "../hooks/use-feeds";
+import useRssDetail from "../hooks/server/use-rss-detail";
+import useFeeds from "../hooks/server/use-feeds";
 import FeedHeader from "../components/feed-header";
 import FeedContent from "../components/content/content";
 
@@ -25,7 +25,7 @@ export default async function BundleDetail({ params }: { params: { bundleId: str
                 <FeedHeader bundleDetail={bundleDetail!} />
             </ManagementHeader>
             <div className="p-4 overflow-auto flex-1">
-                <FeedContent feeds={res.result} bundle={bundleDetail!} />
+                <FeedContent paginationFeeds={res} bundle={bundleDetail!} />
             </div>
         </div>
     )

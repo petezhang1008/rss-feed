@@ -1,8 +1,8 @@
 import ManagementHeader from "@/app/components/management/header/header";
 import FeedHeader from "../components/feed-header";
 import FeedContent from "../components/content/content";
-import useFeeds from "../hooks/use-feeds";
-import useRssDetail from "../hooks/use-rss-detail";
+import useFeeds from "../hooks/server/use-feeds";
+import useRssDetail from "../hooks/server/use-rss-detail";
 
 export default async function Feed({ params }: { params: { rssId: string } }) {
     const data = await params
@@ -24,7 +24,7 @@ export default async function Feed({ params }: { params: { rssId: string } }) {
                 <FeedHeader rssDetail={rssDetail!} />
             </ManagementHeader>
             <div className="p-4 overflow-auto flex-1">
-                <FeedContent feeds={res.result} rssDetail={rssDetail!} />
+                <FeedContent paginationFeeds={res} rssDetail={rssDetail!} />
             </div>
         </div>
     )

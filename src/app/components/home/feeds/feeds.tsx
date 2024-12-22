@@ -1,13 +1,15 @@
-import { Feed } from "@prisma/client";
-import FeedItem from "./feed-item";
+import { PaginationFeeds } from "@/models/feed-model";
+import FeedList from "./feed-list";
+import { NoData } from "@/app/(pages)/management/feed/components/content/no-data";
 
-export default function Feeds({ feeds }: { feeds: Feed[] }) {
+export default function Feeds({ paginationFeeds, bundleId }: { paginationFeeds: PaginationFeeds, bundleId: string }) {
     return (
         <div className="flex-1 overflow-hidden grow">
             <div className="flex flex-col bg-white rounded shadow-sm">
-                {feeds.map((feed) => (
-                    <FeedItem key={feed.id} feed={feed} />
-                ))}
+                {
+                    paginationFeeds?.result.length > 0 ?
+                        <FeedList paginationFeeds={paginationFeeds} bundleId={bundleId} /> : <NoData />
+                }
             </div>
         </div>
     )

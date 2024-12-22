@@ -3,8 +3,8 @@ import { Feed, Prisma } from "@prisma/client"
 export const FeedModel = Symbol.for('FeedModel')
 
 export interface FeedModel {
-    getFeed: (data: GetFeedParams) => Promise<Pagination<Feed[]>>
-    getFeedByIds: (data: GetBatchFeedParams) => Promise<Pagination<Feed[]>>
+    getFeed: (data: GetFeedParams) => Promise<PaginationFeeds>
+    getFeedByIds: (data: GetBatchFeedParams) => Promise<PaginationFeeds>
     createFeed: (feed: CreateFeedParams) => Promise<Feed>
     createBatchFeed: (feeds: CreateFeedParams[]) => Promise<Prisma.BatchPayload>
     updateFeed: (feed: FeedParams) => Promise<Feed>
@@ -32,3 +32,5 @@ export interface GetBatchFeedParams extends PaginationParams {
 export interface GetBundleFeedParams extends PaginationParams {
     bundleId: string
 }
+
+export type PaginationFeeds = Pagination<Feed[]>

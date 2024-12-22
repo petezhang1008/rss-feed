@@ -11,7 +11,7 @@ export default async function Bundles() {
     const { getBundles } = useBundles()
     const result = await getBundles({
         userId: session?.user.id!,
-        pageSize: 50,
+        pageSize: 90,
         page: 1
     })
 

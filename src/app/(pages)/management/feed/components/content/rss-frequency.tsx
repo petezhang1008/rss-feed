@@ -1,7 +1,7 @@
 'use client'
 import { ExecuteTask, RssGenerator } from "@prisma/client";
 import { CounterClockwiseClockIcon } from "@radix-ui/react-icons";
-import { useRssInfo } from "../../hooks/use-rss-info";
+import { useRssInfo } from "../../hooks/client/use-rss-info";
 import { useDayjs } from "@/app/hooks/use-dayjs";
 import { useEffect, useState } from "react";
 
@@ -11,7 +11,7 @@ export default function RssFrequency({ rss }: { rss: RssGenerator }) {
     const [taskData, setTaskData] = useState<ExecuteTask | null>(null)
     useEffect(() => {
         getRssTaskDataApi(rss.id).then(res => {
-            setTaskData(res.data)
+            setTaskData(res)
         })
     }, [rss])
     return (

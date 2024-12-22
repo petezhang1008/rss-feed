@@ -9,6 +9,8 @@ export function useRssInfo() {
             params: {
                 rssId
             }
+        }).then(res => {
+            return res.data
         })
     }
 

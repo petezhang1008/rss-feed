@@ -5,7 +5,7 @@ import Link from 'next/link';
 import UserAvatar from '../../user-center/user-avatar';
 
 export default function HeaderUser() {
-    const session = useSession()
+    const { data: session } = useSession()
     return (
         <div>
             {

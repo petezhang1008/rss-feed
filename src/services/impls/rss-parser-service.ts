@@ -14,11 +14,7 @@ export class RssParserServiceImpl implements RssParserService {
 
     private async fetchRssData(url: string): Promise<string> {
         try {
-            const response = await fetch(url, {
-                headers: {
-                    'Accept': 'application/rss+xml',
-                }
-            });
+            const response = await fetch(url);
             const text = await response.text();
             return text;
         } catch (error) {
@@ -41,7 +37,7 @@ export class RssParserServiceImpl implements RssParserService {
     private parseXmlFeedList(xmlText: string): RssItem[] {
         const parser = new XMLParser();
         const xmlJsonObj = parser.parse(xmlText);
-        const items = xmlJsonObj.rss.channel.item || xmlJsonObj.feed.entry
+        const items = xmlJsonObj.rss?.channel?.item || xmlJsonObj.feed?.entry
 
         const rssItems: RssItem[] = [];
 
@@ -69,7 +65,7 @@ export class RssParserServiceImpl implements RssParserService {
     private parseXmlFeedInfo(xmlText: string, url: string): RssInfo {
         const parser = new XMLParser();
         const xmlJsonObj = parser.parse(xmlText);
-        const data = xmlJsonObj.rss.channel || xmlJsonObj.feed || xmlJsonObj
+        const data = xmlJsonObj.rss?.channel || xmlJsonObj.feed || xmlJsonObj
 
         const title = data.title || ""
         const description = data.description || ""
