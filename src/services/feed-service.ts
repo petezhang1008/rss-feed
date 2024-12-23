@@ -1,5 +1,6 @@
 import { CreateFeedParams, FeedParams, GetBundleFeedParams, GetFeedParams, PaginationFeeds, QueryUserFeedParams } from "@/models/feed-model"
-import { Feed, Prisma } from "@prisma/client"
+import { Feed } from "@/types/model"
+import { Prisma } from "@prisma/client"
 
 export const FeedService = Symbol.for('FeedService')
 

@@ -1,6 +1,6 @@
 import { BundleData, QueryBundlePaginationParams } from "@/models/bundle-model"
 import { Pagination } from "@/types/pagination"
-import { Bundle } from "@prisma/client"
+import { Bundle } from "@/types/model"
 
 export const BundleService = Symbol('BundleService')
 export interface BundleService {

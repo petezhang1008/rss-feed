@@ -7,7 +7,7 @@ import Loading from "./loading";
 export default function Management() {
     const router = useRouter();
     useEffect(() => {
-        router.push(RouterName.MY_FEEDS);
+        router.push(RouterName.RSS);
     }, []);
 
     return <Loading></Loading>

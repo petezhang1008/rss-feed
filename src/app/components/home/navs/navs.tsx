@@ -1,4 +1,4 @@
-import { Bundle } from "@prisma/client";
+import { Bundle } from "@/types/model";
 import NavItem from "./nav-item";
 
 export default function Navs({ navs }: { navs: Bundle[] }) {

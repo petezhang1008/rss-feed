@@ -2,12 +2,12 @@ import { inject, injectable } from "inversify"
 import { RssTaskService } from "../rss-task-service"
 import { WebsiteParserService } from "../website-parser-service"
 import { addFeedLinkQueue } from "@/lib/queue"
-import { GenerateRssParams } from "@/models/rss-generator-model"
 import { RssGeneratorType } from "@/enums/rss"
 import { RssParserService } from "../rss-parser-service"
 import { UrlFormateService } from "../url-formate-service"
-import { ExecuteTaskService, TaskResult } from "../execute-task-service"
+import { TaskService, TaskResult } from "../task-service"
 import { FeedService } from "../feed-service"
+import { Rss } from "@/types/model"
 
 @injectable()
 export class RssTaskServiceImpl implements RssTaskService {
@@ -18,14 +18,14 @@ export class RssTaskServiceImpl implements RssTaskService {
         private _rssParserService: RssParserService,
         @inject(UrlFormateService)
         private _urlFormateService: UrlFormateService,
-        @inject(ExecuteTaskService)
-        private _executeTaskService: ExecuteTaskService,
+        @inject(TaskService)
+        private _executeTaskService: TaskService,
         @inject(FeedService)
         private _feedService: FeedService
     ) {
     }
 
-    async consumeRssTask(data: GenerateRssParams): Promise<TaskResult> {
+    async consumeRssTask(data: Rss): Promise<TaskResult> {
         if (data.type === RssGeneratorType.WEBSITE) {
             return this._initWebsiteGenerator(data)
         } else {
@@ -33,7 +33,7 @@ export class RssTaskServiceImpl implements RssTaskService {
         }
     }
 
-    async _initWebsiteGenerator(data: GenerateRssParams): Promise<TaskResult> {
+    async _initWebsiteGenerator(data: Rss): Promise<TaskResult> {
         const fullUrl = this._urlFormateService.getFullUrl(data.website)
         const links = await this._websiteParserService.getTargetLinks(fullUrl, data.selector!)
         const _targetPages = links.map(link => this._urlFormateService.getFullUrl(link, fullUrl))
@@ -58,7 +58,7 @@ export class RssTaskServiceImpl implements RssTaskService {
         return task
     }
 
-    async _initRssSubscribeGenerator(data: GenerateRssParams): Promise<TaskResult> {
+    async _initRssSubscribeGenerator(data: Rss): Promise<TaskResult> {
         const feedList = await this._rssParserService.parseRss(data.website!)
         const _targetPages = feedList.map(feed => this._urlFormateService.getFullUrl(feed.link, data.website))
         const _feeds = await this._feedService.getFeedByLinks(_targetPages, data.id!)

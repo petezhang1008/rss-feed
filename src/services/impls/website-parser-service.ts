@@ -90,15 +90,15 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
     }
 
     private _getMetaValueByProperty(document: Document, property: string) {
-        return document.querySelector(`meta[property="${property}"]`)?.getAttribute('content') ||
-            document.querySelector(`meta[name="${property}"]`)?.getAttribute('content') ||
-            document.querySelector(`meta[name="og:${property}"]`)?.getAttribute('content') ||
-            document.querySelector(`meta[name="twitter:${property}"]`)?.getAttribute('content') ||
-            document.querySelector(`meta[property="og:${property}"]`)?.getAttribute('content') ||
-            document.querySelector(`meta[property="twitter:${property}"]`)?.getAttribute('content') ||
-            document.querySelector(`meta[property="article:${property}"]`)?.getAttribute('content') ||
-            document.querySelector(`meta[property="dc:${property}"]`)?.getAttribute('content') ||
-            document.querySelector(`meta[property="schema:${property}"]`)?.getAttribute('content')
+        return document.querySelectorAll(`meta[property="${property}"]`)[0]?.getAttribute('content') ||
+            document.querySelectorAll(`meta[name="${property}"]`)[0]?.getAttribute('content') ||
+            document.querySelectorAll(`meta[name="og:${property}"]`)[0]?.getAttribute('content') ||
+            document.querySelectorAll(`meta[name="twitter:${property}"]`)[0]?.getAttribute('content') ||
+            document.querySelectorAll(`meta[property="og:${property}"]`)[0]?.getAttribute('content') ||
+            document.querySelectorAll(`meta[property="twitter:${property}"]`)[0]?.getAttribute('content') ||
+            document.querySelectorAll(`meta[property="article:${property}"]`)[0]?.getAttribute('content') ||
+            document.querySelectorAll(`meta[property="dc:${property}"]`)[0]?.getAttribute('content') ||
+            document.querySelectorAll(`meta[property="schema:${property}"]`)[0]?.getAttribute('content')
     }
 
     async getWebsiteInfo(url: string) {

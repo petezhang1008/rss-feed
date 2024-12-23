@@ -1,7 +1,7 @@
 'use client'
 import { useBundleAction } from "@/app/(pages)/management/bundles/hooks/use-bundle-action"
 import { useEventStop } from "@/app/hooks/use-event-stop"
-import { Bundle } from "@prisma/client"
+import { Bundle } from "@/types/model"
 
 export default function Actions({ bundle }: { bundle: Bundle }) {
     const { deleteBundle, editBundle } = useBundleAction()

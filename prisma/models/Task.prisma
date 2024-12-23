@@ -1,0 +1,11 @@
+model Task {
+    id           String   @id @default(uuid())
+    status       String   @default("pending")
+    createAt     DateTime @default(now())
+    count        Int
+    rssId        String
+    isRead       Boolean  @default(false)
+    errorReason  String?
+    successCount Int      @default(0)
+    rss          Rss?     @relation(fields: [rssId], references: [id], onDelete: Cascade)
+}

@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify"
 import { FeedTask, FeedLinkTaskService } from "../feed-link-task-service"
 import { WebsiteInfo, WebsiteParserService } from "../website-parser-service"
 import { FeedService } from "../feed-service"
-import { ExecuteTaskService } from "../execute-task-service"
+import { TaskService } from "../task-service"
 import _ from "lodash"
 
 @injectable()
@@ -12,8 +12,8 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
         private websiteParserService: WebsiteParserService,
         @inject(FeedService)
         private feedService: FeedService,
-        @inject(ExecuteTaskService)
-        private _executeTaskService: ExecuteTaskService
+        @inject(TaskService)
+        private _executeTaskService: TaskService
     ) {
     }
 

@@ -1,4 +1,4 @@
-import { Feed } from "@prisma/client"
+import { Feed } from "@/types/model"
 
 export const FeedLinkTaskService = Symbol('FeedLinkTaskService')
 

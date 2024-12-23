@@ -2,7 +2,7 @@ import { deleteAlert } from "@/app/components/common/delete-alert"
 import useToast from "@/app/hooks/use-toast"
 import { RouterName } from "@/enums/router"
 import { httpClient } from "@/lib/http-client"
-import { Bundle } from "@prisma/client"
+import { Bundle } from "@/types/model"
 import { redirect } from "next/navigation"
 
 export function useBundleAction() {

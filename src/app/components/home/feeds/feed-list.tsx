@@ -1,7 +1,7 @@
 'use client'
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import FeedItem from "./feed-item";
-import { Feed } from "@prisma/client";
+import { Feed } from "@/types/model";
 import { useState } from "react";
 import { PaginationFeeds } from "@/models/feed-model";
 import NoMoreData from "@/app/components/more-data/no-more-data";

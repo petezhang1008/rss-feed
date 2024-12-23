@@ -3,9 +3,10 @@ export enum RouterName {
     LOGIN = '/login',
     RSS_BUILDER = '/rss-feed/rss-builder',
     WEBSITE_PREVIEW = '/rss-feed/website-preview',
-    FEED = '/management/feed',
-    BUNDLE = '/management/bundle',
+    FEEDS = '/management/feeds',
+    RSS = '/management/rss',
+    RSS_FEEDS = '/management/rss-feeds',
     BUNDLES = '/management/bundles',
-    MY_FEEDS = '/management/my-feeds',
+    BUNDLE_FEEDS = '/management/bundle-feeds',
     EXPLORE = '/management/explore',
 }

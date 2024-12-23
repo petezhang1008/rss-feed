@@ -2,7 +2,7 @@
 
 import { RssGeneratorType } from '@/enums/rss'
 import { httpClient } from '@/lib/http-client'
-import { RssGenerator } from '@prisma/client'
+import { UserRss } from '@/types/model'
 
 export type WebsiteSubscribeParams = {
     type: RssGeneratorType,
@@ -12,6 +12,6 @@ export type WebsiteSubscribeParams = {
     title?: string
 }
 
-export async function createRssAction(params: WebsiteSubscribeParams): Promise<RssGenerator> {
-    return httpClient.post('/rss-generator', params).then(res => res.data)
+export async function createRssAction(params: WebsiteSubscribeParams): Promise<UserRss> {
+    return httpClient.post('/user/rss', params).then(res => res.data)
 }

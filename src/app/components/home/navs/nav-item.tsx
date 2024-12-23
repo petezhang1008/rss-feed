@@ -1,6 +1,6 @@
 'use client'
 import { RouterName } from "@/enums/router";
-import { Bundle } from "@prisma/client";
+import { Bundle } from "@/types/model";
 import { DotIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import Link from "next/link";

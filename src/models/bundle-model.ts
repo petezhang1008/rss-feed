@@ -1,5 +1,5 @@
 import { Pagination, PaginationParams } from "@/types/pagination"
-import { Bundle } from "@prisma/client"
+import { Bundle } from "@/types/model"
 
 export const BundleModel = Symbol('BundleModel')
 

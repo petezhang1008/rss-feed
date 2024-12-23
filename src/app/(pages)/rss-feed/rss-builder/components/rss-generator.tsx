@@ -17,7 +17,7 @@ export default function RssBuilder() {
             website: websiteLink,
             frequency: "daily",
         })
-        redirect(`${RouterName.FEED}/${res.id}`)
+        redirect(`${RouterName.RSS_FEEDS}/${res.id}`)
     }
 
     return (

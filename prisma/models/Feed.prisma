@@ -1,5 +1,5 @@
 model Feed {
-    id          String       @id @default(uuid())
+    id          String    @id @default(uuid())
     title       String
     link        String
     image       String?
@@ -7,8 +7,8 @@ model Feed {
     pubDate     DateTime?
     author      String?
     domain      String?
-    createdAt   DateTime     @default(now())
-    updatedAt   DateTime     @updatedAt
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
     rssId       String
-    rss         RssGenerator @relation(fields: [rssId], references: [id], onDelete: Cascade)
+    rss         Rss       @relation(fields: [rssId], references: [id], onDelete: Cascade)
 }

@@ -1,7 +1,7 @@
 'use client'
-import { Feed } from "@prisma/client";
+import { Feed } from "@/types/model";
 import Link from "next/link";
-import { RssItem } from "@/app/(pages)/management/bundle/components/content/rss-item";
+import { RssItem } from "@/app/(pages)/management/bundle-feeds/components/content/rss-item";
 import { DateTag } from "../../common/date-tag";
 import BannerImage from "../../common/banner-image";
 import { useEventStop } from "@/app/hooks/use-event-stop";
@@ -27,7 +27,7 @@ export default function FeedItem({ feed }: { feed: Feed }) {
                         </div>
                     </div>
                 </div>
-                {feed.image && <div className="right-image shrink-0 overflow-hidden max-w-[160px] max-h-[100px] object-cover center center">
+                {feed.image && <div className="right-image shrink-0 overflow-hidden w-[160px] max-h-[100px] object-cover center center">
                     <BannerImage src={feed.image} />
                 </div>}
             </div>

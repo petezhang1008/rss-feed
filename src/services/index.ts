@@ -1,6 +1,6 @@
 import { ContainerModule } from "inversify";
-import { RssGeneratorService } from "./rss-generator-service";
-import { RssGeneratorServiceImpl } from "./impls/rss-generator-service";
+import { RssService } from "./rss-service";
+import { RssServiceImpl } from "./impls/rss-service";
 import { WebsiteParserServiceImpl } from "./impls/website-parser-service";
 import { WebsiteParserService } from "./website-parser-service";
 import { RssParserService } from "./rss-parser-service";
@@ -19,12 +19,14 @@ import { UserServiceImpl } from "./impls/user-service";
 import { UserService } from "./user-service";
 import { LoginServiceImpl } from "./impls/login-service";
 import { LoginService } from "./login-service";
-import { ExecuteTaskService } from "./execute-task-service";
-import { ExecuteTaskServiceImpl } from "./impls/execute-task-service";
+import { TaskService } from "./task-service";
+import { ExecuteTaskServiceImpl } from "./impls/task-service";
+import { UserRssServiceImpl } from "./impls/user-rss-service";
+import { UserRssService } from "./user-rss-service";
 
 
 export const services = new ContainerModule((bind) => {
-    bind(RssGeneratorService).to(RssGeneratorServiceImpl)
+    bind(RssService).to(RssServiceImpl)
     bind(WebsiteParserService).to(WebsiteParserServiceImpl)
     bind(RssParserService).to(RssParserServiceImpl)
     bind(RssTaskService).to(RssTaskServiceImpl)
@@ -34,5 +36,6 @@ export const services = new ContainerModule((bind) => {
     bind(BundleService).to(BundleServiceImpl)
     bind(UserService).to(UserServiceImpl)
     bind(LoginService).to(LoginServiceImpl)
-    bind(ExecuteTaskService).to(ExecuteTaskServiceImpl)
+    bind(TaskService).to(ExecuteTaskServiceImpl)
+    bind(UserRssService).to(UserRssServiceImpl)
 })

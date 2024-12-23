@@ -1,8 +1,9 @@
-import { PrismaClient, User } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 import { UserData, UserModel } from "../user-model"
 import { injectable, inject } from "inversify"
 import { PrismaSymbol } from "@/lib/prisma";
 import _ from "lodash";
+import { User } from "@/types/model";
 
 @injectable()
 export class UserModelImpl implements UserModel {

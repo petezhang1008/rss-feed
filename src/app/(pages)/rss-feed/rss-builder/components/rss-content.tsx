@@ -20,7 +20,7 @@ export default function RssContent() {
     const [rssType, setRssType] = useState<RssGeneratorType>(RssGeneratorType.RSS);
     return (
         <RssTypeContext.Provider value={{ rssType, setRssType }} >
-            <div className="flex items-center justify-center py-10 overflow-auto flex-col gap-8">
+            <div className="flex items-center justify-center py-10 overflow-auto flex-col gap-8 shrink-0">
                 <RssTip />
                 <RssTypeSwitcher />
                 {rssType === RssGeneratorType.RSS ? <RssGenerator /> : <RssBuilder />}

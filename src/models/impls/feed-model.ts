@@ -1,5 +1,5 @@
 import { PrismaSymbol } from "@/lib/prisma"
-import { Feed, Prisma, PrismaClient } from "@prisma/client"
+import { Prisma, PrismaClient } from "@prisma/client"
 import { inject, injectable } from "inversify"
 import { CreateFeedParams, FeedModel, FeedParams, GetBatchFeedParams, GetFeedParams, QueryUserFeedParams } from "../feed-model"
 

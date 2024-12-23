@@ -5,7 +5,7 @@ import { RouterName } from "@/enums/router"
 export default function ManagementSidebarLogo() {
     return (
         <div className="management-sidebar-logo flex items-center gap-2 h-12 ">
-            <Link href={RouterName.MY_FEEDS}>
+            <Link href={RouterName.RSS}>
                 <Logo height={160} />
             </Link>
         </div>

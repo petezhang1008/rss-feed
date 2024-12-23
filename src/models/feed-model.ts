@@ -1,5 +1,6 @@
 import { Pagination, PaginationParams } from "@/types/pagination"
-import { Feed, Prisma } from "@prisma/client"
+import { Feed } from "@/types/model"
+import { Prisma } from "@prisma/client"
 export const FeedModel = Symbol.for('FeedModel')
 
 export interface FeedModel {

@@ -2,16 +2,16 @@ import cron from 'node-cron'
 import { addRssQueue } from './queue'
 import { RssGeneratorFrequency, RssGeneratorType } from '@/enums/rss';
 import { injectService } from '@/inversify.config';
-import { RssGeneratorService } from '@/services/rss-generator-service';
+import { RssService } from '@/services/rss-service';
 
 
 var rssGeneratorTask = cron.schedule(' 0 8 * * *', async () => {
     console.log('===start rss generator task===')
-    const rssGeneratorService = injectService<RssGeneratorService>(RssGeneratorService)
+    const rssGeneratorService = injectService<RssService>(RssService)
     const pageSize = 100
     let page = 1
     async function initRssQueue() {
-        const rssGeneratorList = await rssGeneratorService.queryGenerateRssList({
+        const rssGeneratorList = await rssGeneratorService.queryRssList({
             page: 1,
             pageSize: 100,
             type: RssGeneratorType.WEBSITE,

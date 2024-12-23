@@ -1,6 +1,6 @@
 'use client'
 import TippyPopover from "@/app/components/common/tippy-popover";
-import { Bundle } from "@prisma/client";
+import { Bundle } from "@/types/model";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import Actions from "./actions";
 

@@ -1,8 +1,8 @@
-import { GenerateRssParams } from "@/models/rss-generator-model"
-import { TaskResult } from "./execute-task-service"
+import { TaskResult } from "./task-service"
+import { Rss } from "@/types/model"
 
 export const RssTaskService = Symbol('RssTaskService')
 
 export interface RssTaskService {
-    consumeRssTask(data: GenerateRssParams): Promise<TaskResult>
+    consumeRssTask(data: Rss): Promise<TaskResult>
 }

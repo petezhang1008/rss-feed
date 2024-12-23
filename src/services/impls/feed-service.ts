@@ -1,21 +1,24 @@
 import { inject, injectable } from "inversify"
 import { FeedService } from "../feed-service"
 import { CreateFeedParams, FeedModel, FeedParams, GetBundleFeedParams, GetFeedParams, QueryUserFeedParams } from "@/models/feed-model"
-import { RssGeneratorService } from "../rss-generator-service"
-import { Feed } from "@prisma/client"
+import { RssService } from "../rss-service"
+import { Feed } from "@/types/model"
+import { UserRssService } from "../user-rss-service"
 
 @injectable()
 export class FeedServiceImpl implements FeedService {
     constructor(
         @inject(FeedModel)
         private feedModel: FeedModel,
-        @inject(RssGeneratorService)
-        private rssGeneratorService: RssGeneratorService
+        @inject(RssService)
+        private rssService: RssService,
+        @inject(UserRssService)
+        private userRssService: UserRssService
     ) { }
     async queryUserFeed(data: QueryUserFeedParams) {
         const { page, pageSize, userId } = data
-        const rssList = await this.rssGeneratorService.queryAllRssList({ userId })
-        const rssIds = rssList.map(item => item.id)
+        const userRssList = await this.userRssService.queryAllRssList({ userId })
+        const rssIds = userRssList.map(item => item.rssId)
         return this.feedModel.getFeedByIds({
             rssIds,
             page,
@@ -27,7 +30,7 @@ export class FeedServiceImpl implements FeedService {
     }
     async getBundleFeed(data: GetBundleFeedParams) {
         const { bundleId, page, pageSize } = data
-        const rssList = await this.rssGeneratorService.queryAllRssList({
+        const rssList = await this.userRssService.queryAllRssList({
             bundleId
         })
         const rssIds = rssList.map(item => item.id)

@@ -25,7 +25,7 @@ export class BundleModelImpl implements BundleModel {
             skip,
             take,
             include: {
-                rssGenerators: true
+                userRss: true
             },
             orderBy: {
                 createdAt: 'desc'
@@ -52,7 +52,7 @@ export class BundleModelImpl implements BundleModel {
                 id
             },
             include: {
-                rssGenerators: true
+                userRss: true
             }
         })
     }

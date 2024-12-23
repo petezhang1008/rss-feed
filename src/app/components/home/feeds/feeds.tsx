@@ -1,6 +1,6 @@
 import { PaginationFeeds } from "@/models/feed-model";
 import FeedList from "./feed-list";
-import { NoData } from "@/app/(pages)/management/feed/components/content/no-data";
+import { NoData } from "@/app/(pages)/management/rss-feeds/components/content/no-data";
 
 export default function Feeds({ paginationFeeds, bundleId }: { paginationFeeds: PaginationFeeds, bundleId: string }) {
     return (
