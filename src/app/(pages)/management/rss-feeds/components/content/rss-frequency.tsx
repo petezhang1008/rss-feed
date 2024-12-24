@@ -3,17 +3,17 @@ import { CounterClockwiseClockIcon } from "@radix-ui/react-icons";
 import { useRssInfo } from "../../hooks/client/use-rss-info";
 import { useDayjs } from "@/app/hooks/use-dayjs";
 import { useEffect, useState } from "react";
-import { UserRss, Task } from "@/types/model";
+import { UserRss, Task, Rss } from "@/types/model";
 
-export default function RssFrequency({ rss }: { rss: UserRss }) {
+export default function RssFrequency({ rssDetail }: { rssDetail: UserRss }) {
     const { formatDateToHHmmMMDD } = useDayjs()
     const { getRssTaskDataApi } = useRssInfo()
     const [taskData, setTaskData] = useState<Task | null>(null)
     useEffect(() => {
-        getRssTaskDataApi(rss.id).then(res => {
+        getRssTaskDataApi(rssDetail.rssId).then(res => {
             setTaskData(res)
         })
-    }, [rss])
+    }, [rssDetail])
     return (
         taskData && <div className="flex flex-col gap-2 border-b border-gray-200 pb-6 px-2">
             <h1 className="font-semibold">Update Frequency</h1>
@@ -26,7 +26,7 @@ export default function RssFrequency({ rss }: { rss: UserRss }) {
                 </span>
             </div>
             <div>
-                <div className="badge badge-primary text-sm">{rss.frequency}</div>
+                <div className="badge badge-primary text-sm">{rssDetail.rss.frequency}</div>
             </div>
         </div>
     )

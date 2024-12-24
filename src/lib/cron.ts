@@ -5,7 +5,7 @@ import { injectService } from '@/inversify.config';
 import { RssService } from '@/services/rss-service';
 
 
-var rssGeneratorTask = cron.schedule(' 0 8 * * *', async () => {
+var rssDailyTask = cron.schedule(' 0 8 * * *', async () => {
     console.log('===start rss generator task===')
     const rssGeneratorService = injectService<RssService>(RssService)
     const pageSize = 100
@@ -29,6 +29,31 @@ var rssGeneratorTask = cron.schedule(' 0 8 * * *', async () => {
 });
 
 
+var rssHourlyTask = cron.schedule(' 0 * * * *', async () => {
+    console.log('===start rss generator task===')
+    const rssGeneratorService = injectService<RssService>(RssService)
+    const pageSize = 100
+    let page = 1
+    async function initRssQueue() {
+        const rssGeneratorList = await rssGeneratorService.queryRssList({
+            page: 1,
+            pageSize: 100,
+            type: RssGeneratorType.WEBSITE,
+            frequency: RssGeneratorFrequency.HOUR
+        })
+        if (rssGeneratorList.total > page * pageSize) {
+            page++
+            await initRssQueue()
+        }
+        for (const rssGenerator of rssGeneratorList.result) {
+            addRssQueue(rssGenerator)
+        }
+    }
+    initRssQueue()
+});
+
+
 export const startRssGeneratorTask = () => {
-    rssGeneratorTask.start()
+    rssDailyTask.start()
+    rssHourlyTask.start()
 }

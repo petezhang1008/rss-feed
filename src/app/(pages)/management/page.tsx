@@ -11,7 +11,4 @@ export default function Management() {
     }, []);
 
     return <Loading></Loading>
-    return (
-        <div> </div>
-    )
 }

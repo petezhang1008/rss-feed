@@ -2,23 +2,21 @@ import Navs from './components/home/navs/navs';
 import Suggestions from './components/home/suggestions/suggestions';
 import Feeds from './components/home/feeds/feeds';
 import Header from './components/home/header/header';
-import useBundles from './components/home/hooks/server/use-bundles';
-import { auth } from '@/auth';
 import { useFeed } from './components/home/hooks/server/use-feeds';
+import { useCategory } from './components/home/hooks/server/use-category';
 
-export default async function Home({ searchParams }: { searchParams: { bundleId: string } }) {
-  const { getBundles } = useBundles()
-  const { getFeeds } = useFeed()
-  const session = await auth()
-  const { bundleId } = await searchParams
+export default async function Home({ searchParams }: { searchParams: { categoryId: string } }) {
+  const { getFeedByCategory } = useFeed()
+  const { getCategories } = useCategory()
+  const { categoryId } = await searchParams
 
-  const [bundleResult, feedResult] = await Promise.all([
-    getBundles({
+  const [categories, feedResult] = await Promise.all([
+    getCategories(),
+    getFeedByCategory({
+      categoryId,
       page: 1,
-      pageSize: 50,
-      userId: session?.user?.id!
-    }),
-    getFeeds(bundleId)
+      pageSize: 100
+    })
   ])
   return (
     <>
@@ -26,8 +24,8 @@ export default async function Home({ searchParams }: { searchParams: { bundleId:
       <div className="grow overflow-auto">
         <div className="items-top justify-center p-4">
           <div className='w-[1180px] flex gap-6 mx-auto'>
-            <Navs navs={bundleResult.result} />
-            <Feeds paginationFeeds={feedResult} bundleId={bundleId} key={bundleId} />
+            {categories && <Navs navs={categories} />}
+            <Feeds paginationFeeds={feedResult} categoryId={categoryId} key={categoryId} />
             <Suggestions />
           </div>
         </div>

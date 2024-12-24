@@ -6,7 +6,8 @@ import { PrismaSymbol } from "@/lib/prisma"
 @injectable()
 export class BundleModelImpl implements BundleModel {
     constructor(
-        @inject(PrismaSymbol) private _prisma: PrismaClient
+        @inject(PrismaSymbol)
+        private _prisma: PrismaClient
     ) { }
     async createBundle(data: BundleData) {
         return this._prisma.bundle.create({

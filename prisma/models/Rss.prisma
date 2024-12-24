@@ -8,16 +8,17 @@ model Rss {
     image         String?
     author        String?
     keywords      String?
-    selector      String?
-    category      String?
+    selector      String?   @default("")
+    categoryId    String?
     official      Boolean?  @default(false)
     createdAt     DateTime  @default(now())
-    updatedAt     DateTime? @updatedAt
+    updatedAt     DateTime? @default(now()) @updatedAt
     lastExecuteAt DateTime?
     frequency     String?   @default("hourly")
     tasks         Task[]
     feed          Feed[]
     userRss       UserRss[]
+    category      Category? @relation(fields: [categoryId], references: [id])
 
     @@unique([type, website, selector])
 }

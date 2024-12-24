@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import type { NextAuthConfig } from 'next-auth';
-const NOT_AUTH_PATHS = ['/login', '/register']
+import { RouterName } from './enums/router';
+const NOT_AUTH_PATHS = [RouterName.LOGIN, RouterName.REGISTER, RouterName.HOME, RouterName.RSS_BUILDER]
 
 export const authConfig = {
     pages: {

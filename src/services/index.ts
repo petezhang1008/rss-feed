@@ -23,6 +23,8 @@ import { TaskService } from "./task-service";
 import { ExecuteTaskServiceImpl } from "./impls/task-service";
 import { UserRssServiceImpl } from "./impls/user-rss-service";
 import { UserRssService } from "./user-rss-service";
+import { CategoryService } from "./category-service";
+import { CategoryServiceImpl } from "./impls/category-service";
 
 
 export const services = new ContainerModule((bind) => {
@@ -38,4 +40,5 @@ export const services = new ContainerModule((bind) => {
     bind(LoginService).to(LoginServiceImpl)
     bind(TaskService).to(ExecuteTaskServiceImpl)
     bind(UserRssService).to(UserRssServiceImpl)
+    bind(CategoryService).to(CategoryServiceImpl)
 })

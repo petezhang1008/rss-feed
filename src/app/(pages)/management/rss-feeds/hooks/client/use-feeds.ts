@@ -4,7 +4,7 @@ import { GetFeedParams, PaginationFeeds } from "@/models/feed-model"
 
 export function useClientFeeds() {
     function getFeedsApi(data: GetFeedParams) {
-        return httpClient.get<PaginationFeeds>('/rss-generator/feeds', {
+        return httpClient.get<PaginationFeeds>('/rss/feeds', {
             params: data
         }).then(res => {
             return res.data

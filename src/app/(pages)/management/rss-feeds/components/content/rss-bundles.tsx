@@ -5,9 +5,9 @@ import BundlesSelector from "../../../rss/components/content/bundles-selector";
 import { useState } from "react";
 import { UserRss, Bundle } from "@/types/model";
 
-export default function RssBundles({ rss }: { rss: UserRss }) {
+export default function RssBundles({ rssDetail }: { rssDetail: UserRss }) {
 
-    const [rssData, setRssData] = useState<UserRss>(rss)
+    const [rssData, setRssData] = useState<UserRss>(rssDetail)
     function updateRssBundle(bundle: Bundle | null) {
         if (bundle) {
             setRssData(prev => ({ ...prev, bundleId: bundle.id, bundle: bundle }))

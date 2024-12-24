@@ -2,11 +2,12 @@ import { Bundle } from '@prisma/client'
 import Link from 'next/link'
 import ActionBtn from './action-btn'
 import { useDayjs } from '@/app/hooks/use-dayjs'
+import { RouterName } from '@/enums/router'
 
 export default function BundleItem({ bundle }: { bundle: Bundle }) {
     const { formatDateToMMDDYYYY } = useDayjs()
     return (
-        <Link href={`/management/bundle/${bundle.id}`}>
+        <Link href={`${RouterName.BUNDLE_FEEDS}/${bundle.id}`}>
             <div className="flex flex-col w-full gap-4 p-4 rounded-lg bg-white hover:shadow-md cursor-pointer border-l-2 border-green-600">
                 <div className='flex items-start gap-4 justify-between'>
                     <div className='flex items-start gap-2'>
@@ -23,7 +24,7 @@ export default function BundleItem({ bundle }: { bundle: Bundle }) {
                     <div className='text-gray-500 text-xs'>{formatDateToMMDDYYYY(bundle.createdAt)}</div>
                 </div>
                 <div className='flex justify-between items-center'>
-                    <div className="badge badge-ghost">{bundle.rssGenerators?.length} Feeds</div>
+                    <div className="badge badge-ghost">{bundle.userRss?.length} RSS</div>
                     <ActionBtn bundle={bundle} />
                 </div>
             </div>

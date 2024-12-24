@@ -16,9 +16,9 @@ export default function FeedItem({ feed }: { feed: Feed }) {
                 {feed.description &&
                     <p className="text-gray-500 text-xs leading-5 line-clamp-2">{feed.description}</p>}
                 <div className="flex items-center gap-2 justify-between">
-                    <Link href={`${RouterName.FEED}/${feed?.rssId}`}
+                    <Link href={`${RouterName.FEEDS}?rssId=${feed?.rssId}`}
                         target="_blank"
-                        className="flex items-center gap-2 text-gray-500 text-xs hover:text-blue-600">
+                        className="flex items-center gap-2 text-gray-500 text-xs hover:text-secondary">
                         <RssItem rss={feed?.rss} />
                     </Link>
                     <div>

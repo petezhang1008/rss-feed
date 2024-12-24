@@ -1,9 +1,20 @@
 import { inject, injectable } from "inversify"
 import { FeedService } from "../feed-service"
-import { CreateFeedParams, FeedModel, FeedParams, GetBundleFeedParams, GetFeedParams, QueryUserFeedParams } from "@/models/feed-model"
+import {
+    CreateFeedParams,
+    FeedModel,
+    FeedParams,
+    GetBatchFeedParams,
+    GetBundleFeedParams,
+    GetCategoryFeedParams,
+    GetFeedParams,
+    QueryUserFeedParams
+} from "@/models/feed-model"
 import { RssService } from "../rss-service"
-import { Feed } from "@/types/model"
 import { UserRssService } from "../user-rss-service"
+import { CategoryService } from "../category-service"
+import _ from "lodash"
+import { Rss } from "@/types/model"
 
 @injectable()
 export class FeedServiceImpl implements FeedService {
@@ -13,13 +24,15 @@ export class FeedServiceImpl implements FeedService {
         @inject(RssService)
         private rssService: RssService,
         @inject(UserRssService)
-        private userRssService: UserRssService
+        private userRssService: UserRssService,
+        @inject(CategoryService)
+        private categoryService: CategoryService
     ) { }
     async queryUserFeed(data: QueryUserFeedParams) {
         const { page, pageSize, userId } = data
         const userRssList = await this.userRssService.queryAllRssList({ userId })
         const rssIds = userRssList.map(item => item.rssId)
-        return this.feedModel.getFeedByIds({
+        return this.feedModel.getFeedByRssIds({
             rssIds,
             page,
             pageSize
@@ -33,8 +46,30 @@ export class FeedServiceImpl implements FeedService {
         const rssList = await this.userRssService.queryAllRssList({
             bundleId
         })
-        const rssIds = rssList.map(item => item.id)
-        return this.feedModel.getFeedByIds({
+        const rssIds = rssList.map(item => item.rssId)
+        return this.feedModel.getFeedByRssIds({
+            rssIds,
+            page,
+            pageSize
+        })
+    }
+    getFeedByRssIds(data: GetBatchFeedParams) {
+        return this.feedModel.getFeedByRssIds(data)
+    }
+    async getFeedByCategoryId(data: GetCategoryFeedParams) {
+        const { categoryId, page, pageSize } = data
+        let rssList: Rss[] = []
+        if (!categoryId) {
+            const result = await this.categoryService.getCategories()
+            rssList = _.flatMap(result, item => {
+                return item?.rssList
+            })
+        } else {
+            const category = await this.categoryService.getCategoryById(categoryId)
+            rssList = category?.rssList || []
+        }
+        const rssIds = rssList?.map(item => item.id)
+        return this.feedModel.getFeedByRssIds({
             rssIds,
             page,
             pageSize

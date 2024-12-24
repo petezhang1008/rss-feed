@@ -3,7 +3,7 @@ import { RssService } from "@/services/rss-service";
 import { NextRequest } from "next/server";
 import { ErrorData, ResponseType } from '@/lib/http-server.interface';
 import { ErrorCode } from '@/enums/error-code';
-import { CreateUserRssParams, UpdateUserRssParams } from '@/models/user-rss-model';
+import { CreateUserRssParams, PaginationUserRss, UpdateUserRssParams } from '@/models/user-rss-model';
 import { sendError, sendResponse } from "@/lib/http-server";
 import { auth } from "@/auth";
 import { RssTaskService } from "@/services/rss-task-service";
@@ -13,17 +13,24 @@ import { UserRssService } from "@/services/user-rss-service";
 const userRssService = injectService<UserRssService>(UserRssService);
 const rssTaskService = injectService<RssTaskService>(RssTaskService)
 
-export async function GET(req: NextRequest): ResponseType<UserRss[]> {
+export async function GET(req: NextRequest): ResponseType<PaginationUserRss> {
+    const params = req.nextUrl.searchParams
+    const page = params.get('page')
+    const pageSize = params.get('pageSize')
     const session = await auth()
     const userId = session?.user?.id
     if (!userId) {
         return sendError<ErrorData>(400, ErrorCode.NO_USER)
     }
-    const result = await userRssService?.queryUserRssList(userId)
+    const result = await userRssService?.queryUserRssList({
+        userId,
+        page: Number(page),
+        pageSize: Number(pageSize)
+    })
     if (!result) {
         return sendError<ErrorData>(404, ErrorCode.NOT_FOUND)
     }
-    return sendResponse<UserRss[]>(result)
+    return sendResponse<PaginationUserRss>(result)
 }
 
 
@@ -39,6 +46,6 @@ export async function POST(req: NextRequest): ResponseType<UserRss> {
         ...data,
         userId
     })
-    rssTaskService.consumeRssTask(result)
+    rssTaskService.consumeRssTask(result.rss)
     return sendResponse<UserRss>(result)
 }

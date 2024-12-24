@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function FeedItem({ feed }: { feed: Feed }) {
     return (
-        <Link href={feed.link} target="_blank">
+        <Link href={feed.link || ''} target="_blank">
             <div className="bg-white rounded-lg p-4 flex flex-col gap-3 border border-gray-200 cursor-pointer">
                 <div className="title font-semibold line-clamp-2">{feed.title}</div>
                 {feed.image && <div className="w-full object-cover max-h-96 overflow-hidden">

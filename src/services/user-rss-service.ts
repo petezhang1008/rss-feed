@@ -10,6 +10,7 @@ import { UserRss } from "@/types/model";
 export const UserRssService = Symbol.for('UserRssService');
 
 export interface UserRssService {
+    getRssDetail(id: string): Promise<UserRss | null>;
     createUserRss(data: CreateUserRssParams): Promise<UserRss>;
     updateUserRss(id: string, data: UpdateUserRssParams): Promise<UserRss>;
     deleteUserRss(id: string, userId: string): Promise<UserRss>;

@@ -8,7 +8,7 @@ model Feed {
     author      String?
     domain      String?
     createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
+    updatedAt   DateTime? @default(now()) @updatedAt
     rssId       String
     rss         Rss       @relation(fields: [rssId], references: [id], onDelete: Cascade)
 }

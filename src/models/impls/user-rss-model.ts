@@ -16,7 +16,8 @@ export class UserRssModelImpl implements UserRssModel {
                 id
             },
             include: {
-                rss: true
+                rss: true,
+                bundle: true
             }
         })
     }
@@ -36,7 +37,8 @@ export class UserRssModelImpl implements UserRssModel {
                 userId
             },
             include: {
-                rss: true
+                rss: true,
+                bundle: true
             }
         })
         return {
@@ -52,7 +54,8 @@ export class UserRssModelImpl implements UserRssModel {
                 ...params
             },
             include: {
-                rss: true
+                rss: true,
+                bundle: true
             }
         })
     }
@@ -60,7 +63,8 @@ export class UserRssModelImpl implements UserRssModel {
         return this._prisma.userRss.create({
             data,
             include: {
-                rss: true
+                rss: true,
+                bundle: true
             }
         })
     }
@@ -75,7 +79,11 @@ export class UserRssModelImpl implements UserRssModel {
     updateUserRss(id: string, data: UpdateUserRssParams) {
         return this._prisma.userRss.update({
             where: { id },
-            data
+            data,
+            include: {
+                rss: true,
+                bundle: true
+            }
         })
     }
 }

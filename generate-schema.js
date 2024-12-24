@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 
 
-const models = ['User', 'Rss', 'Feed', 'Task', 'Bundle', 'UserRss']
+const models = ['User', 'Rss', 'Feed', 'Task', 'Bundle', 'UserRss', 'Category']
 
 const prismaDir = path.join(__dirname, 'prisma/models')
 let schemaContent = `generator client {\n  provider = "prisma-client-js"\n}\n\ndatasource db {\n  provider = "postgresql"\n  url      = env("DATABASE_URL")\n}\n\n`;

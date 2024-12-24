@@ -1,12 +1,12 @@
 import { injectService } from "@/inversify.config"
 import { BundleService } from "@/services/bundle-service"
-import { RssService } from "@/services/rss-service"
+import { UserRssService } from "@/services/user-rss-service"
 
 export default function useRssDetail() {
-    const rssGeneratorService = injectService<RssService>(RssService)
+    const userRssService = injectService<UserRssService>(UserRssService)
     const bundleService = injectService<BundleService>(BundleService)
     function getRssDetail(id: string) {
-        return rssGeneratorService.getRss(id)
+        return userRssService.getRssDetail(id)
     }
 
     function getBundleFeed(id: string) {

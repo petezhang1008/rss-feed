@@ -1,6 +1,8 @@
 export enum RouterName {
     HOME = '/',
     LOGIN = '/login',
+    REGISTER = '/register',
+    ABOUT = '/about',
     RSS_BUILDER = '/rss-feed/rss-builder',
     WEBSITE_PREVIEW = '/rss-feed/website-preview',
     FEEDS = '/management/feeds',
@@ -9,4 +11,5 @@ export enum RouterName {
     BUNDLES = '/management/bundles',
     BUNDLE_FEEDS = '/management/bundle-feeds',
     EXPLORE = '/management/explore',
+    SETTINGS = '/settings',
 }

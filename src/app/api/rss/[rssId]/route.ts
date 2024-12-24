@@ -23,14 +23,14 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 
 
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
-    const { id } = await params
+export async function PUT(request: Request, { params }: { params: { rssId: string } }) {
+    const { rssId } = await params
     const data = await request.json()
     const session = await auth()
     if (!session?.user?.id) {
         return sendError<ErrorData>(400, ErrorCode.NO_USER)
     }
-    const rss = await userRssService?.updateUserRss(id, {
+    const rss = await userRssService?.updateUserRss(rssId, {
         ...data,
         userId: session?.user?.id
     })

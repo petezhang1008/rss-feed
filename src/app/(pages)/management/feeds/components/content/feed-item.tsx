@@ -1,17 +1,16 @@
 import Link from 'next/link'
-import useMyFeeds from '../../hooks/use-my-feeds'
 import ActionBtn from './action-btn'
 import LogoImage from '@/app/components/common/logo-image'
 import BundleTag from './bundle-tag'
 import { UserRss } from '@/types/model'
+import { RouterName } from '@/enums/router'
 
 
 export default function MyFeedItem({ rss }: { rss: UserRss }) {
 
-    const { getDomain } = useMyFeeds()
     if (!rss) return null
     return (
-        <Link href={`/management/feed/${rss.id}`}>
+        <Link href={`${RouterName.RSS_FEEDS}/${rss.id}`}>
             <div className="flex flex-col w-full gap-6 p-4 rounded-lg bg-white cursor-pointer border border-gray-200">
                 <div className='flex items-start gap-4'>
                     <div className="avatar placeholder">

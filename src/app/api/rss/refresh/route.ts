@@ -8,13 +8,13 @@ import { NextRequest } from "next/server"
 import { ErrorData, ResponseType } from '@/lib/http-server.interface';
 
 const rssTaskService = injectService<RssTaskService>(RssTaskService)
-const rssGeneratorService = injectService<RssService>(RssService)
+const rssService = injectService<RssService>(RssService)
 export async function GET(req: NextRequest): ResponseType<TaskResult> {
     const rssId: string | null = req.nextUrl.searchParams.get('rssId')
     if (!rssId) {
         return sendError<ErrorData>(400, ErrorCode.NOT_FOUND)
     }
-    const rss = await rssGeneratorService.getRss(rssId)
+    const rss = await rssService.getRss(rssId)
     if (!rss) {
         return sendError<ErrorData>(400, ErrorCode.NOT_FOUND)
     }

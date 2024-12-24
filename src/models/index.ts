@@ -11,6 +11,8 @@ import { BundleModelImpl } from "./impls/bundle-model";
 import { BundleModel } from "./bundle-model";
 import { UserRssModelImpl } from "./impls/user-rss-model";
 import { UserRssModel } from "./user-rss-model";
+import { CategoryModel } from "./category-model";
+import { CategoryModelImpl } from "./impls/category-model";
 
 
 export const models = new ContainerModule((bind) => {
@@ -20,4 +22,5 @@ export const models = new ContainerModule((bind) => {
     bind(TaskModel).to(TaskModelImpl)
     bind(BundleModel).to(BundleModelImpl)
     bind(UserRssModel).to(UserRssModelImpl)
+    bind(CategoryModel).to(CategoryModelImpl)
 })

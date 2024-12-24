@@ -7,7 +7,7 @@ export type BundleData = {
 export default function useCreateBundle() {
 
     async function createBundleApi(bundle: BundleData) {
-        return httpClient.post('/bundle/create', {
+        return httpClient.post('/user/bundle/create', {
             ...bundle,
         })
     }

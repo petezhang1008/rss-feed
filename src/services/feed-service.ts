@@ -1,4 +1,4 @@
-import { CreateFeedParams, FeedParams, GetBundleFeedParams, GetFeedParams, PaginationFeeds, QueryUserFeedParams } from "@/models/feed-model"
+import { CreateFeedParams, FeedParams, GetBatchFeedParams, GetBundleFeedParams, GetCategoryFeedParams, GetFeedParams, PaginationFeeds, QueryUserFeedParams } from "@/models/feed-model"
 import { Feed } from "@/types/model"
 import { Prisma } from "@prisma/client"
 
@@ -8,6 +8,8 @@ export interface FeedService {
     queryUserFeed: (data: QueryUserFeedParams) => Promise<PaginationFeeds>
     getFeed: (data: GetFeedParams) => Promise<PaginationFeeds>
     getBundleFeed: (data: GetBundleFeedParams) => Promise<PaginationFeeds>
+    getFeedByRssIds: (data: GetBatchFeedParams) => Promise<PaginationFeeds>
+    getFeedByCategoryId: (data: GetCategoryFeedParams) => Promise<PaginationFeeds>
     createFeed: (feed: CreateFeedParams) => Promise<Feed>
     createBatchFeed: (feeds: CreateFeedParams[]) => Promise<Prisma.BatchPayload>
     getFeedByLinks: (links: string[], rssId: string) => Promise<Feed[]>

@@ -1,10 +1,18 @@
+import { RouterName } from "@/enums/router";
+import NavItem from "./nav-item";
+
+const NAVS = [
+    { href: RouterName.HOME, label: 'Home' },
+    { href: RouterName.RSS_BUILDER, label: 'Rss Builder' },
+    { href: RouterName.ABOUT, label: 'About' },
+]
+
 export default function HeaderNavs() {
     return (
         <div className="flex items-center gap-4">
-            <div className="cursor-pointer px-4 py-2 rounded-md  hover:bg-gray-100">Home</div>
-            <div className="cursor-pointer px-4 py-2 rounded-md  hover:bg-gray-100">Rss Builder</div>
-            <div className="cursor-pointer px-4 py-2 rounded-md  hover:bg-gray-100">Pricing</div>
-            <div className="cursor-pointer px-4 py-2 rounded-md  hover:bg-gray-100">Blog</div>
+            {NAVS.map((nav) => (
+                <NavItem key={nav.href} href={nav.href}>{nav.label}</NavItem>
+            ))}
         </div>
     )
 }

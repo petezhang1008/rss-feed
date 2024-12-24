@@ -4,19 +4,17 @@ import FeedContent from "../components/content/content";
 import useFeeds from "../hooks/server/use-feeds";
 import useRssDetail from "../hooks/server/use-rss-detail";
 
-export default async function Feed({ params }: { params: { rssId: string } }) {
+export default async function Feed({ params }: { params: { userRssId: string } }) {
     const data = await params
-    const rssId = data.rssId
+    const userRssId = data.userRssId
     const { getFeed } = useFeeds()
     const { getRssDetail } = useRssDetail()
-    const [res, rssDetail] = await Promise.all([
-        getFeed({
-            page: 1,
-            pageSize: 50,
-            rssId
-        }),
-        getRssDetail(rssId)
-    ])
+    const rssDetail = await getRssDetail(userRssId)
+    const res = await getFeed({
+        page: 1,
+        pageSize: 50,
+        rssId: rssDetail?.rssId || ""
+    })
 
     return (
         <div className="flex flex-col size-full overflow-hidden">

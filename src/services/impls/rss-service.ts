@@ -4,6 +4,7 @@ import {
     CreateRssParams,
     GetRssByTypeWebsiteSelectorParams,
     PaginationRssListParams,
+    QueryRssListParams,
     RssModel,
     UpdateRssParams
 } from "@/models/rss-model";
@@ -66,5 +67,8 @@ export class RssServiceImpl implements RssService {
     }
     queryRssList(data: PaginationRssListParams) {
         return this._rssModel.queryRssList(data)
+    }
+    queryAllRssList(data: QueryRssListParams) {
+        return this._rssModel.queryAllRssList(data)
     }
 }

@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { CreateRssParams, GetRssByTypeWebsiteSelectorParams, PaginationRssListParams, RssModel, UpdateRssParams } from "../rss-model";
+import { CreateRssParams, GetRssByTypeWebsiteSelectorParams, PaginationRssListParams, QueryRssListParams, RssModel, UpdateRssParams } from "../rss-model";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { PrismaSymbol } from "@/lib/prisma";
 import _ from "lodash";
@@ -26,16 +26,13 @@ export class RssModelImpl implements RssModel {
         return result
     }
     async getRssByTypeWebsiteSelector(data: GetRssByTypeWebsiteSelectorParams) {
-        const whereCondition: any = {
-            type: data.type,
-            website: data.website,
-        };
-        if (data.selector) {
-            whereCondition.selector = data.selector;
-        }
         let result = await this._prisma.rss.findUnique({
             where: {
-                type_website_selector: whereCondition
+                type_website_selector: {
+                    type: data.type,
+                    website: data.website,
+                    selector: data.selector || ""
+                }
             },
         })
         return result
@@ -54,12 +51,13 @@ export class RssModelImpl implements RssModel {
         return result
     }
     async queryRssList(data: PaginationRssListParams) {
-        const { page, pageSize, type, frequency, createdAt, updatedAt } = data
+        const { page, pageSize, type, frequency, createdAt, updatedAt, official } = data
         const skip = (page - 1) * pageSize;
         const take = pageSize;
         const where: Prisma.RssWhereInput = {
             type,
             frequency,
+            official,
             ...(createdAt && {
                 createdAt: {
                     gte: createdAt,
@@ -89,5 +87,30 @@ export class RssModelImpl implements RssModel {
             page,
             pageSize
         }
+    }
+    async queryAllRssList(data: QueryRssListParams) {
+        const { type, frequency, createdAt, updatedAt, official } = data
+        const where: Prisma.RssWhereInput = {
+            type,
+            frequency,
+            official,
+            ...(createdAt && {
+                createdAt: {
+                    gte: createdAt,
+                }
+            }),
+            ...(updatedAt && {
+                updatedAt: {
+                    gte: updatedAt
+                }
+            }),
+        }
+        const result = await this._prisma.rss.findMany({
+            where,
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+        return result
     }
 }

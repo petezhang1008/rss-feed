@@ -6,7 +6,7 @@ import { Placement } from 'tippy.js';
 export default function UserAvatar() {
     const { data: session } = useSession()
     const props = {
-        placement: 'bottom-start' as Placement
+        placement: 'bottom' as Placement
     }
     return (
         <div className="avatar placeholder" >

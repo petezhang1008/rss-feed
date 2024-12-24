@@ -1,28 +1,23 @@
-import { auth } from "@/auth"
 import { injectService } from "@/inversify.config"
 import { FeedService } from "@/services/feed-service"
+import { useCategory } from "./use-category"
+import _ from "lodash"
 
 export const useFeed = () => {
 
     const feedService = injectService<FeedService>(FeedService)
-    async function getFeeds(bundleId?: string) {
-        const session = await auth()
-        if (!bundleId) {
-            return feedService.queryUserFeed({
-                page: 1,
-                pageSize: 100,
-                userId: session?.user?.id!
-            })
-        } else {
-            return feedService.getBundleFeed({
-                bundleId,
-                page: 1,
-                pageSize: 100
-            })
-        }
+    const { getCategories } = useCategory()
+
+    async function getFeedByCategory({ categoryId, page, pageSize }: { categoryId?: string, page: number, pageSize: number }) {
+        return feedService.getFeedByCategoryId({
+            page,
+            pageSize,
+            categoryId
+        })
     }
 
     return {
-        getFeeds
+        getCategories,
+        getFeedByCategory
     }
 }

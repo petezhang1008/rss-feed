@@ -9,17 +9,17 @@ export const useRssAction = () => {
     const { toast } = useToast()
 
     const deleteRssApi = async (id: string) => {
-        const res = await httpClient.delete(`/rss-generator/${id}`)
+        const res = await httpClient.delete(`/user/rss/${id}`)
         return res
     }
 
     const editRssApi = async (data: UserRss) => {
-        const res = await httpClient.put(`/rss-generator`, { data })
+        const res = await httpClient.put(`/user/rss`, { data })
         return res
     }
 
     const refreshRssApi = async (rssId: string) => {
-        const res = await httpClient.get('/rss-generator/refresh', {
+        const res = await httpClient.get('/rss/refresh', {
             params: {
                 rssId
             }

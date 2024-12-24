@@ -1,4 +1,4 @@
-import { CreateRssParams, GetRssByTypeWebsiteSelectorParams, PaginationRssListParams, UpdateRssParams } from "@/models/rss-model";
+import { CreateRssParams, GetRssByTypeWebsiteSelectorParams, PaginationRssListParams, QueryRssListParams, UpdateRssParams } from "@/models/rss-model";
 import { Rss } from "@/types/model";
 import { Pagination } from "@/types/pagination";
 
@@ -10,6 +10,7 @@ export interface RssService {
     getRssByTypeWebsiteSelector(data: GetRssByTypeWebsiteSelectorParams): Promise<Rss | null>;
     updateRss(id: string, data: UpdateRssParams): Promise<Rss>;
     queryRssList(data: PaginationRssListParams): Promise<Pagination<Rss[]>>;
+    queryAllRssList(data: QueryRssListParams): Promise<Rss[]>;
 }
 
 

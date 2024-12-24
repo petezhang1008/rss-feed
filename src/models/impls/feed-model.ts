@@ -36,7 +36,7 @@ export class FeedModelImpl implements FeedModel {
             pageSize
         }
     }
-    async getFeedByIds(data: GetBatchFeedParams) {
+    async getFeedByRssIds(data: GetBatchFeedParams) {
         const { page, pageSize, rssIds } = data
         const skip = (page - 1) * pageSize;
         const take = pageSize;

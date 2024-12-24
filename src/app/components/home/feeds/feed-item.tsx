@@ -19,7 +19,7 @@ export default function FeedItem({ feed }: { feed: Feed }) {
                         </div>
                     </div>
                     <div className="flex items-center gap-2 gap-3 text-xs text-gray-400 shrink-0 mt-3 justify-between">
-                        <div className="flex items-center gap-2 hover:text-blue-600" onClick={stopEvent}>
+                        <div className="flex items-center gap-2 hover:text-secondary" onClick={stopEvent}>
                             <RssItem rss={feed?.rss} />
                         </div>
                         <div>
