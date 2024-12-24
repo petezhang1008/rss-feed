@@ -1,12 +1,12 @@
 import MyRssItem from './feed-item'
-import { UserRss } from '@/types/model'
+import { UserRssWithRssAndBundle } from '@/types/model'
 
-export default function MyFeedsContent({ rssList }: { rssList: UserRss[] }) {
+export default function MyFeedsContent({ rssList }: { rssList: UserRssWithRssAndBundle[] }) {
     return (
         <div className='grid gap-4 grid-cols-3 w-full'>
             {
                 rssList.map(rss => {
-                    return (<MyRssItem rss={rss}></MyRssItem>)
+                    return (<MyRssItem rss={rss} key={rss.id}></MyRssItem>)
                 })
             }
         </div>

@@ -5,7 +5,7 @@ import Header from './components/home/header/header';
 import { useFeed } from './components/home/hooks/server/use-feeds';
 import { useCategory } from './components/home/hooks/server/use-category';
 
-export default async function Home({ searchParams }: { searchParams: { categoryId: string } }) {
+export default async function Home({ searchParams }: { searchParams: Promise<{ categoryId: string }> }) {
   const { getFeedByCategory } = useFeed()
   const { getCategories } = useCategory()
   const { categoryId } = await searchParams

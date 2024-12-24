@@ -1,10 +1,10 @@
-import { Bundle } from '@prisma/client'
 import Link from 'next/link'
 import ActionBtn from './action-btn'
 import { useDayjs } from '@/app/hooks/use-dayjs'
 import { RouterName } from '@/enums/router'
+import { BundleWithRss } from '@/types/model'
 
-export default function BundleItem({ bundle }: { bundle: Bundle }) {
+export default function BundleItem({ bundle }: { bundle: BundleWithRss }) {
     const { formatDateToMMDDYYYY } = useDayjs()
     return (
         <Link href={`${RouterName.BUNDLE_FEEDS}/${bundle.id}`}>

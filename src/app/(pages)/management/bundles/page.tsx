@@ -10,7 +10,7 @@ export default async function Bundles() {
     const session = await auth()
     const { getBundles } = useBundles()
     const result = await getBundles({
-        userId: session?.user.id!,
+        userId: session?.user?.id!,
         pageSize: 90,
         page: 1
     })

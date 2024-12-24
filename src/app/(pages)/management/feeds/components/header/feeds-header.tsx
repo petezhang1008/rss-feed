@@ -1,6 +1,4 @@
-import Link from "next/link";
 import MyFeedSearchInput from "./search-input";
-import { RouterName } from "@/enums/router";
 
 export default function FeedsHeader() {
     return (

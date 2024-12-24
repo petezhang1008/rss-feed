@@ -1,14 +1,9 @@
 "use client"
-import { Bundle } from "@/types/model";
-import { TrashIcon, Pencil1Icon, DotsVerticalIcon, CounterClockwiseClockIcon, CardStackPlusIcon } from "@radix-ui/react-icons"
-import { useBundleAction } from "../../../bundles/hooks/use-bundle-action";
-import { RssList } from "./rss-list";
+import { BundleWithRss } from "@/types/model";
 import BundleCustomize from "./bundle-customize";
 import BundleFeeds from "./bundle-feeds";
 import BundleUpdated from "./bundle-updated";
-export default function BundleInfo({ bundle }: { bundle: Bundle }) {
-
-
+export default function BundleInfo({ bundle }: { bundle: BundleWithRss }) {
     return (
         <div className="flex flex-col gap-4 w-80 pt-4">
             <BundleCustomize bundle={bundle} />

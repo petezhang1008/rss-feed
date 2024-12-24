@@ -27,7 +27,7 @@ export type FeedWithRss = FeedModel & Prisma.RssGetPayload<{
 export type Bundle = BundleModel
 export type BundleWithRss = BundleModel & Prisma.BundleGetPayload<{
     include: {
-        rss: true
+        userRss: true
     }
 }>
 

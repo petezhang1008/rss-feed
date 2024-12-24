@@ -1,5 +1,4 @@
 import { UserData } from "@/models/user-model"
-import { User } from "@/types/model"
 
 
 export const LoginService = Symbol('LoginService')

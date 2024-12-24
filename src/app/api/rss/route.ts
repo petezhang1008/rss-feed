@@ -1,13 +1,12 @@
 import { injectService } from "@/inversify.config";
-import { RssService } from "@/services/rss-service";
 import { NextRequest } from "next/server";
 import { ErrorData, ResponseType } from '@/lib/http-server.interface';
 import { ErrorCode } from '@/enums/error-code';
-import { CreateUserRssParams, PaginationUserRss, UpdateUserRssParams } from '@/models/user-rss-model';
+import { CreateUserRssParams, PaginationUserRss } from '@/models/user-rss-model';
 import { sendError, sendResponse } from "@/lib/http-server";
 import { auth } from "@/auth";
 import { RssTaskService } from "@/services/rss-task-service";
-import { UserRss } from "@/types/model";
+import { UserRssWithRssAndBundle } from "@/types/model";
 import { UserRssService } from "@/services/user-rss-service";
 
 const userRssService = injectService<UserRssService>(UserRssService);
@@ -35,7 +34,7 @@ export async function GET(req: NextRequest): ResponseType<PaginationUserRss> {
 
 
 
-export async function POST(req: NextRequest): ResponseType<UserRss> {
+export async function POST(req: NextRequest): ResponseType<UserRssWithRssAndBundle> {
     const data: CreateUserRssParams = await req.json()
     const session = await auth()
     const userId = session?.user?.id
@@ -47,5 +46,5 @@ export async function POST(req: NextRequest): ResponseType<UserRss> {
         userId
     })
     rssTaskService.consumeRssTask(result.rss)
-    return sendResponse<UserRss>(result)
+    return sendResponse<UserRssWithRssAndBundle>(result)
 }

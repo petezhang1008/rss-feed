@@ -1,7 +1,6 @@
 import { BundleData, BundleModel, QueryBundlePaginationParams } from "@/models/bundle-model"
 import { injectable, inject } from "inversify"
 import { BundleService } from "../bundle-service"
-import { auth } from "@/auth"
 
 @injectable()
 export class BundleServiceImpl implements BundleService {

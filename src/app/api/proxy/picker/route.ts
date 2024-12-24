@@ -11,7 +11,7 @@ export async function GET(req: NextRequest): Promise<NextResponse<string>> {
     const params: PagePickerParam = {
         link: req.nextUrl.searchParams.get('link')
     }
-    let url = params.link
+    const url = params.link
     if (!url) {
         return new NextResponse(JSON.stringify({ error: 'Missing URL' }), {
             status: 400,

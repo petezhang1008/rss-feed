@@ -29,6 +29,7 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
                         this._result.push(info); // 存储页面内容
                     }
                 } catch (error) {
+                    console.error(error)
                     throw new Error('load feed page data failed')
                 }
             }

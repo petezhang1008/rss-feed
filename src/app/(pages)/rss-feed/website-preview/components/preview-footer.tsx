@@ -24,7 +24,7 @@ export default function PreviewFooter() {
             frequency: "daily",
             title: title || ""
         })
-        redirect(`${RouterName.FEED}/${res.id}`)
+        redirect(`${RouterName.RSS_FEEDS}/${res.id}`)
     }
 
     const disabled = !websiteLink || !path

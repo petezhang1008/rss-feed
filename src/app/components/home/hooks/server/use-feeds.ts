@@ -1,7 +1,6 @@
 import { injectService } from "@/inversify.config"
 import { FeedService } from "@/services/feed-service"
 import { useCategory } from "./use-category"
-import _ from "lodash"
 
 export const useFeed = () => {
 

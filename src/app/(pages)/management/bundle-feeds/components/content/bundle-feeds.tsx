@@ -1,9 +1,9 @@
 import { CardStackPlusIcon } from "@radix-ui/react-icons";
 import { RssList } from "./rss-list";
-import { Bundle } from "@/types/model";
+import { BundleWithRss, UserRssWithRssAndBundle } from "@/types/model";
 import { useDayjs } from "@/app/hooks/use-dayjs";
 
-export default function BundleFeeds({ bundle }: { bundle: Bundle }) {
+export default function BundleFeeds({ bundle }: { bundle: BundleWithRss }) {
     const { formatDateToMMDDYYYY } = useDayjs()
     return (
         <div className="flex flex-col gap-2 border-b border-gray-200 pb-6 px-2">
@@ -15,7 +15,7 @@ export default function BundleFeeds({ bundle }: { bundle: Bundle }) {
                 <span>feeds</span>
             </h1>
             {bundle?.userRss && <div>
-                <RssList rssList={bundle?.userRss} />
+                <RssList rssList={bundle?.userRss as UserRssWithRssAndBundle[]} />
             </div>}
             <div className="mt-2">
                 <button className="btn btn-outline btn-sm btn-primary !h-7 !min-h-7">

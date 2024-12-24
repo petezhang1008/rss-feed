@@ -2,7 +2,6 @@ import { inject, injectable } from "inversify";
 import { CreateRssParams, GetRssByTypeWebsiteSelectorParams, PaginationRssListParams, QueryRssListParams, RssModel, UpdateRssParams } from "../rss-model";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { PrismaSymbol } from "@/lib/prisma";
-import _ from "lodash";
 
 
 @injectable()
@@ -26,7 +25,7 @@ export class RssModelImpl implements RssModel {
         return result
     }
     async getRssByTypeWebsiteSelector(data: GetRssByTypeWebsiteSelectorParams) {
-        let result = await this._prisma.rss.findUnique({
+        const result = await this._prisma.rss.findUnique({
             where: {
                 type_website_selector: {
                     type: data.type,
@@ -44,7 +43,7 @@ export class RssModelImpl implements RssModel {
         })
         return result
     }
-    async deleteRss(id: string, userId: string) {
+    async deleteRss(id: string) {
         const result = await this._prisma.rss.delete({
             where: { id }
         })

@@ -9,7 +9,7 @@ export default function Actions({ bundle }: { bundle: Bundle }) {
 
     const handleDeleteBundle = async (e: React.MouseEvent<HTMLDivElement>) => {
         stopEvent(e)
-        await deleteBundle(bundle?.id!)
+        await deleteBundle(bundle?.id)
     }
 
     const handleEditBundle = async (e: React.MouseEvent<HTMLDivElement>) => {

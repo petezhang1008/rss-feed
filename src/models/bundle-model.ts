@@ -1,13 +1,13 @@
 import { Pagination, PaginationParams } from "@/types/pagination"
-import { Bundle } from "@/types/model"
+import { Bundle, BundleWithRss } from "@/types/model"
 
 export const BundleModel = Symbol('BundleModel')
 
 export interface BundleModel {
     createBundle: (data: BundleData) => Promise<Bundle>
-    getBundles: (data: QueryBundlePaginationParams) => Promise<Pagination<Bundle[]>>
-    getBundlesByUserId: (userId: string) => Promise<Bundle[]>
-    getBundleById: (id: string) => Promise<Bundle | null>
+    getBundles: (data: QueryBundlePaginationParams) => Promise<Pagination<BundleWithRss[]>>
+    getBundlesByUserId: (userId: string) => Promise<BundleWithRss[]>
+    getBundleById: (id: string) => Promise<BundleWithRss | null>
     updateBundle: (id: string, data: BundleData) => Promise<Bundle>
     deleteBundle: (id: string, userId: string) => Promise<Bundle>
 }

@@ -1,13 +1,13 @@
 import { httpClient } from "@/lib/http-client"
-import { GetBatchFeedParams, PaginationFeeds } from "@/models/feed-model"
+import { GetCategoryFeedParams, PaginationFeeds } from "@/models/feed-model"
 
 export function useClientFeeds() {
 
-    function getFeedsApi(params: GetBatchFeedParams) {
+    function getFeedsByCategoryApi(params: GetCategoryFeedParams) {
         return httpClient.get<PaginationFeeds>(`rss/category-feeds`, { params }).then(res => res.data)
     }
 
     return {
-        getFeedsApi
+        getFeedsByCategoryApi
     }
 }

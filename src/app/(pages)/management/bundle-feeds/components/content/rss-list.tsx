@@ -1,7 +1,7 @@
 import { RssItem } from "./rss-item"
-import { Rss } from "@/types/model"
+import { UserRssWithRssAndBundle } from "@/types/model"
 
-export function RssList({ rssList }: { rssList: Rss[] }) {
+export function RssList({ rssList }: { rssList: UserRssWithRssAndBundle[] }) {
     return <div className="flex flex-col gap-2">
         {rssList.map(rss => {
             return (

@@ -1,7 +1,8 @@
 import { PrismaSymbol } from "@/lib/prisma"
 import { Prisma, PrismaClient } from "@prisma/client"
 import { inject, injectable } from "inversify"
-import { CreateFeedParams, FeedModel, FeedParams, GetBatchFeedParams, GetFeedParams, QueryUserFeedParams } from "../feed-model"
+import { CreateFeedParams, FeedModel, FeedParams, GetBatchFeedParams, GetFeedParams } from "../feed-model"
+import { FeedWithRss } from "@/types/model"
 
 @injectable()
 export class FeedModelImpl implements FeedModel {
@@ -22,7 +23,10 @@ export class FeedModelImpl implements FeedModel {
                 createdAt: 'desc',
             }, {
                 title: 'desc'
-            }]
+            }],
+            include: {
+                rss: true
+            }
         })
         const total = await this._prisma.feed.count({
             where: {
@@ -30,7 +34,7 @@ export class FeedModelImpl implements FeedModel {
             }
         })
         return {
-            result,
+            result: result as FeedWithRss[],
             total,
             page,
             pageSize
@@ -50,7 +54,7 @@ export class FeedModelImpl implements FeedModel {
             take,
             where,
             include: {
-                rss: true
+                rss: true,
             },
             orderBy: [{
                 createdAt: 'desc',
@@ -62,7 +66,7 @@ export class FeedModelImpl implements FeedModel {
             where
         })
         return {
-            result,
+            result: result as FeedWithRss[],
             total,
             page,
             pageSize

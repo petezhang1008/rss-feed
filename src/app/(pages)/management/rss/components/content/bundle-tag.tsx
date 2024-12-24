@@ -4,10 +4,10 @@ import { CardStackPlusIcon } from "@radix-ui/react-icons";
 import BundlesSelector from "./bundles-selector";
 import { useState } from "react";
 import { useEventStop } from "@/app/hooks/use-event-stop";
-import { UserRss, Bundle } from "@/types/model";
+import { Bundle, UserRssWithRssAndBundle } from "@/types/model";
 
-export default function BundleTag({ rss }: { rss: UserRss }) {
-    const [rssData, setRssData] = useState<UserRss>(rss)
+export default function BundleTag({ rss }: { rss: UserRssWithRssAndBundle }) {
+    const [rssData, setRssData] = useState<UserRssWithRssAndBundle>(rss)
 
     function updateRssBundle(bundle: Bundle | null) {
         if (bundle) {

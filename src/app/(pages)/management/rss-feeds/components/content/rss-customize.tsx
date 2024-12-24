@@ -1,15 +1,15 @@
 'use client'
 import { Pencil1Icon, TrashIcon, DotsVerticalIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { useRssAction } from "../../../rss/hooks/use-rss-action";
-import { UserRss } from "@/types/model";
+import { UserRssWithRssAndBundle } from "@/types/model";
 
-export default function RssCustomize({ rssDetail }: { rssDetail: UserRss }) {
+export default function RssCustomize({ rssDetail }: { rssDetail: UserRssWithRssAndBundle }) {
     const { deleteRss, editRss, refreshRssApi } = useRssAction()
-    async function handleEditRss(rssDetail: UserRss) {
+    async function handleEditRss(rssDetail: UserRssWithRssAndBundle) {
         await editRss(rssDetail)
     }
 
-    async function handleDeleteRss(rssDetail: UserRss) {
+    async function handleDeleteRss(rssDetail: UserRssWithRssAndBundle) {
         await deleteRss(rssDetail.id)
     }
 

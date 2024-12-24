@@ -2,9 +2,9 @@ import RssBundles from "./rss-bundles";
 import RssCustomize from "./rss-customize";
 import RssCreated from "./rss-created";
 import RssFrequency from "./rss-frequency";
-import { UserRss } from "@/types/model";
+import { UserRssWithRssAndBundle } from "@/types/model";
 
-export default function RssInfo({ rssDetail }: { rssDetail: UserRss }) {
+export default function RssInfo({ rssDetail }: { rssDetail: UserRssWithRssAndBundle }) {
 
     return (
         rssDetail ? (

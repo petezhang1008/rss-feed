@@ -1,12 +1,12 @@
 'use client'
-import { Feed } from "@/types/model";
+import { FeedWithRss } from "@/types/model";
 import Link from "next/link";
 import { RssItem } from "@/app/(pages)/management/bundle-feeds/components/content/rss-item";
 import { DateTag } from "../../common/date-tag";
 import BannerImage from "../../common/banner-image";
 import { useEventStop } from "@/app/hooks/use-event-stop";
 
-export default function FeedItem({ feed }: { feed: Feed }) {
+export default function FeedItem({ feed }: { feed: FeedWithRss }) {
     const { stopEvent } = useEventStop()
     return (
         <Link href={feed.link} target="_blank">

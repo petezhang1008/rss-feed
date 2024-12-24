@@ -1,4 +1,3 @@
-import { UserRss } from "@/types/model"
 import { CreateUserRssParams, PaginationUserRssParams, QueryUserRssParams, UpdateUserRssParams, UserRssModel } from "../user-rss-model"
 import { PrismaSymbol } from "@/lib/prisma"
 import { PrismaClient } from "@prisma/client"

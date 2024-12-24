@@ -2,7 +2,6 @@ import { CreateUserRssParams, PaginationUserRssParams, QueryUserRssParams, Updat
 import { inject, injectable } from "inversify";
 import { UserRssService } from "../user-rss-service";
 import { RssService } from "../rss-service";
-import { CreateRssParams } from "@/models/rss-model";
 
 @injectable()
 export class UserRssServiceImpl implements UserRssService {

@@ -1,11 +1,11 @@
-import { Feed } from "@/types/model";
+import { FeedWithRss } from "@/types/model";
 import Link from "next/link";
 import { RssItem } from "./rss-item";
 import { RouterName } from "@/enums/router";
 import { DateTag } from "@/app/components/common/date-tag";
 import BannerImage from "@/app/components/common/banner-image";
 
-export default function FeedItem({ feed }: { feed: Feed }) {
+export default function FeedItem({ feed }: { feed: FeedWithRss }) {
     return (
         <Link href={feed.link} target="_blank">
             <div className="bg-white rounded-lg p-4 flex flex-col gap-3 border border-gray-200 cursor-pointer">

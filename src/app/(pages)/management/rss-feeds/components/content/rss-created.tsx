@@ -1,10 +1,10 @@
 import { useDayjs } from "@/app/hooks/use-dayjs";
 import { RssGeneratorType } from "@/enums/rss";
-import { UserRss } from "@/types/model";
+import { UserRssWithRssAndBundle } from "@/types/model";
 import { Link2Icon, Pencil1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
-export default function RssCreated({ rssDetail }: { rssDetail: UserRss }) {
+export default function RssCreated({ rssDetail }: { rssDetail: UserRssWithRssAndBundle }) {
     const { formatDateToMMDDYYYY } = useDayjs()
     return (
         <div className="flex flex-col gap-2 border-b border-gray-200 pb-6 px-2">

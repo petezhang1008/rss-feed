@@ -4,9 +4,9 @@ import BundleItem from "./bundle-item";
 import useBundlesSelector from "../../hooks/use-bundles-selector";
 import { useEffect, useState } from "react";
 import ListSkeleton from "@/app/components/skeleton/list-skeleton";
-import { UserRss, Bundle } from "@/types/model";
+import { Bundle, UserRssWithRssAndBundle } from "@/types/model";
 
-export default function BundlesSelector({ rssData, updateRssBundle }: { rssData: UserRss, updateRssBundle: (bundle: Bundle | null) => void }) {
+export default function BundlesSelector({ rssData, updateRssBundle }: { rssData: UserRssWithRssAndBundle, updateRssBundle: (bundle: Bundle | null) => void }) {
     const { initBundles, filteredBundles, search, setSearch, createBundle, updateRssBundleApi, isLoading } = useBundlesSelector()
     const [localBundle, setLocalBundle] = useState<Bundle | null>(rssData?.bundle)
 

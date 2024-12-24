@@ -1,4 +1,4 @@
-import { Bundle, Category } from "@/types/model";
+import { Category } from "@/types/model";
 import NavItem from "./nav-item";
 
 export default function Navs({ navs }: { navs: Category[] }) {

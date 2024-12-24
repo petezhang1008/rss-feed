@@ -2,9 +2,9 @@ import Link from "next/link"
 import LogoImage from "@/app/components/common/logo-image"
 import { ChevronLeftIcon } from "@radix-ui/react-icons"
 import { RouterName } from "@/enums/router"
-import { UserRss } from "@/types/model"
+import { UserRssWithRssAndBundle } from "@/types/model"
 
-export default function FeedHeader({ rssDetail }: { rssDetail: UserRss }) {
+export default function FeedHeader({ rssDetail }: { rssDetail: UserRssWithRssAndBundle }) {
 
     if (!rssDetail) {
         return <div>Loading...</div>
@@ -18,14 +18,18 @@ export default function FeedHeader({ rssDetail }: { rssDetail: UserRss }) {
             </Link>
             <div className="avatar placeholder">
                 <div className="size-10">
-                    <LogoImage src={rssDetail?.image} title={rssDetail?.title!} width={40} height={40} />
+                    <LogoImage
+                        src={rssDetail?.rss?.image}
+                        title={rssDetail?.title!}
+                        width={40}
+                        height={40} />
                 </div>
             </div>
             <div className="flex flex-col">
                 <div className="flex items-center gap-2">
                     <p className="text-gray-700 font-bold">{rssDetail?.title}</p>
                 </div>
-                {rssDetail?.link && <Link className="text-gray-500 text-xs hover:text-blue-700 cursor-pointer" href={rssDetail?.link}>{rssDetail?.link}</Link>}
+                {rssDetail?.rss?.link && <Link className="text-gray-500 text-xs hover:text-blue-700 cursor-pointer" href={rssDetail?.rss?.link}>{rssDetail?.rss?.link}</Link>}
             </div>
         </div>
     )

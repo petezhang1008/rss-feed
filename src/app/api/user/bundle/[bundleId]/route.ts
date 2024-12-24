@@ -6,13 +6,13 @@ import { ErrorData } from "@/lib/http-server.interface"
 import { BundleService } from "@/services/bundle-service"
 
 const bundleService = injectService<BundleService>(BundleService)
-export async function GET(request: Request, { params }: { params: { bundleId: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ bundleId: string }> }) {
     const { bundleId } = await params
     const bundle = await bundleService?.getBundleById(bundleId)
     return sendJsonResponse(bundle)
 }
 
-export async function DELETE(request: Request, { params }: { params: { bundleId: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ bundleId: string }> }) {
     const { bundleId } = await params
     const session = await auth()
     if (!session?.user?.id) {
@@ -22,7 +22,7 @@ export async function DELETE(request: Request, { params }: { params: { bundleId:
     return sendJsonResponse(bundle)
 }
 
-export async function PUT(request: Request, { params }: { params: { bundleId: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ bundleId: string }> }) {
     const { bundleId } = await params
     const session = await auth()
     if (!session?.user?.id) {

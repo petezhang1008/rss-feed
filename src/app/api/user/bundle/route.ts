@@ -4,7 +4,7 @@ import { sendJsonResponse } from "@/lib/http-server";
 import { BundleService } from "@/services/bundle-service";
 import { Bundle } from "@/types/model";
 
-export async function GET(request: Request) {
+export async function GET() {
     const session = await auth()
     const bundleService = injectService<BundleService>(BundleService)
     if (!session?.user?.id) return sendJsonResponse(null, { status: 401 })

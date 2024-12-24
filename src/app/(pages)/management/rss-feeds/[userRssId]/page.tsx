@@ -4,7 +4,7 @@ import FeedContent from "../components/content/content";
 import useFeeds from "../hooks/server/use-feeds";
 import useRssDetail from "../hooks/server/use-rss-detail";
 
-export default async function Feed({ params }: { params: { userRssId: string } }) {
+export default async function Feed({ params }: { params: Promise<{ userRssId: string }> }) {
     const data = await params
     const userRssId = data.userRssId
     const { getFeed } = useFeeds()

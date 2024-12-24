@@ -8,7 +8,7 @@ import { UserRss } from "@/types/model"
 
 
 const userRssService = injectService<UserRssService>(UserRssService)
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     if (!id) {
         return sendError<ErrorData>(400, ErrorCode.NO_USER)
@@ -23,7 +23,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 
 
 
-export async function PUT(request: Request, { params }: { params: { rssId: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ rssId: string }> }) {
     const { rssId } = await params
     const data = await request.json()
     const session = await auth()

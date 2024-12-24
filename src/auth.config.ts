@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import type { NextAuthConfig } from 'next-auth';
 import { RouterName } from './enums/router';
 const NOT_AUTH_PATHS = [RouterName.LOGIN, RouterName.REGISTER, RouterName.HOME, RouterName.RSS_BUILDER]
@@ -11,7 +10,7 @@ export const authConfig = {
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
-            const notNeedLogin = _.includes(NOT_AUTH_PATHS, nextUrl.pathname);
+            const notNeedLogin = NOT_AUTH_PATHS.findIndex(path => nextUrl.pathname.includes(path)) !== -1;
             if (notNeedLogin) {
                 return true; // Redirect unauthenticated users to login page
             } else if (isLoggedIn && notNeedLogin) {

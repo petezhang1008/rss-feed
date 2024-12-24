@@ -44,6 +44,9 @@ export class BundleModelImpl implements BundleModel {
         return this._prisma.bundle.findMany({
             where: {
                 userId
+            },
+            include: {
+                userRss: true
             }
         })
     }

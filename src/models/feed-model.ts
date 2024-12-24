@@ -1,5 +1,5 @@
 import { Pagination, PaginationParams } from "@/types/pagination"
-import { Feed } from "@/types/model"
+import { Feed, FeedWithRss } from "@/types/model"
 import { Prisma } from "@prisma/client"
 export const FeedModel = Symbol.for('FeedModel')
 
@@ -37,4 +37,4 @@ export interface GetBundleFeedParams extends PaginationParams {
     bundleId: string
 }
 
-export type PaginationFeeds = Pagination<Feed[]>
+export type PaginationFeeds = Pagination<FeedWithRss[]>

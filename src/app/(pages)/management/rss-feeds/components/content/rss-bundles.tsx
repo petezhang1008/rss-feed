@@ -3,11 +3,11 @@ import TippyPopover from "@/app/components/common/tippy-popover";
 import { CardStackPlusIcon } from "@radix-ui/react-icons";
 import BundlesSelector from "../../../rss/components/content/bundles-selector";
 import { useState } from "react";
-import { UserRss, Bundle } from "@/types/model";
+import { Bundle, UserRssWithRssAndBundle } from "@/types/model";
 
-export default function RssBundles({ rssDetail }: { rssDetail: UserRss }) {
+export default function RssBundles({ rssDetail }: { rssDetail: UserRssWithRssAndBundle }) {
 
-    const [rssData, setRssData] = useState<UserRss>(rssDetail)
+    const [rssData, setRssData] = useState<UserRssWithRssAndBundle>(rssDetail)
     function updateRssBundle(bundle: Bundle | null) {
         if (bundle) {
             setRssData(prev => ({ ...prev, bundleId: bundle.id, bundle: bundle }))

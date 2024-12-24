@@ -4,7 +4,7 @@ import useFeeds from "../hooks/server/use-feeds";
 import FeedHeader from "../components/feed-header";
 import FeedContent from "../components/content/content";
 
-export default async function BundleDetail({ params }: { params: { bundleId: string } }) {
+export default async function BundleDetail({ params }: { params: Promise<{ bundleId: string }> }) {
     const data = await params
     const bundleId = data.bundleId
     const { getBundleFeed } = useFeeds()

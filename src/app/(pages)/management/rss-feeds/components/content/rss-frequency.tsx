@@ -3,9 +3,9 @@ import { CounterClockwiseClockIcon } from "@radix-ui/react-icons";
 import { useRssInfo } from "../../hooks/client/use-rss-info";
 import { useDayjs } from "@/app/hooks/use-dayjs";
 import { useEffect, useState } from "react";
-import { UserRss, Task, Rss } from "@/types/model";
+import { Task, UserRssWithRssAndBundle } from "@/types/model";
 
-export default function RssFrequency({ rssDetail }: { rssDetail: UserRss }) {
+export default function RssFrequency({ rssDetail }: { rssDetail: UserRssWithRssAndBundle }) {
     const { formatDateToHHmmMMDD } = useDayjs()
     const { getRssTaskDataApi } = useRssInfo()
     const [taskData, setTaskData] = useState<Task | null>(null)

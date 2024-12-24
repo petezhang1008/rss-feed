@@ -1,7 +1,7 @@
 'use client'
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import FeedItem from "./feed-item";
-import { Bundle, Feed } from "@/types/model";
+import { Bundle, Feed, FeedWithRss } from "@/types/model";
 import { useState } from "react";
 import { PaginationFeeds } from "@/models/feed-model";
 import FeedCardSkeleton from "@/app/components/skeleton/feed-card-skeleton";
@@ -37,7 +37,7 @@ export default function FeedList({ paginationFeeds, bundle }: { paginationFeeds:
 
     return <>
         {feedList.map(feed => {
-            return (<FeedItem feed={feed} key={feed.id} />)
+            return (<FeedItem feed={feed as FeedWithRss} key={feed.id} />)
         })}
         {(total > feedList.length) && <div ref={ref}>
             <FeedCardSkeleton />
