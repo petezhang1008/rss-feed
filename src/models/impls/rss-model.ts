@@ -112,4 +112,17 @@ export class RssModelImpl implements RssModel {
         })
         return result
     }
+    async getFavoriteRssList(count: number) {
+        const rssWithUserRssCount = await this._prisma.rss.findMany({
+            include: {
+                _count: {
+                    select: {
+                        userRss: true
+                    }
+                },
+            },
+        })
+        const result = rssWithUserRssCount.sort((a, b) => b._count.userRss - a._count.userRss).slice(0, count)
+        return result
+    }
 }

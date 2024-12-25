@@ -71,4 +71,7 @@ export class RssServiceImpl implements RssService {
     queryAllRssList(data: QueryRssListParams) {
         return this._rssModel.queryAllRssList(data)
     }
+    getFavoriteRssList(count: number) {
+        return this._rssModel.getFavoriteRssList(count)
+    }
 }

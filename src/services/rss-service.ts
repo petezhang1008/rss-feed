@@ -11,6 +11,7 @@ export interface RssService {
     updateRss(id: string, data: UpdateRssParams): Promise<Rss>;
     queryRssList(data: PaginationRssListParams): Promise<Pagination<Rss[]>>;
     queryAllRssList(data: QueryRssListParams): Promise<Rss[]>;
+    getFavoriteRssList(count: number): Promise<Rss[]>;
 }
 
 

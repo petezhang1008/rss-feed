@@ -25,7 +25,7 @@ export default function LogoImage({ src, title, width = 40, height = 40 }: { src
     }, [src])
 
     return (
-        <div className="size-full rounded-lg border border-gray-200 overflow-hidden">
+        <div className="size-full rounded-lg overflow-hidden border border-neutral-100">
             {src && !error ? (
                 loading ? (
                     <div className="bg-gray-50 size-full flex items-center justify-center">
@@ -41,7 +41,7 @@ export default function LogoImage({ src, title, width = 40, height = 40 }: { src
                 )
             ) : (
                 <div className="bg-neutral text-neutral-content size-full flex items-center justify-center">
-                    <span className="text-md font-semibold whitespace-nowrap">{title?.slice(0, 2)}</span>
+                    <span className="text-xs font-semibold whitespace-nowrap">{title?.slice(0, 2)}</span>
                 </div>
             )}
         </div>

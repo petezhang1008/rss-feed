@@ -1,4 +1,4 @@
-import { CreateFeedParams, FeedParams, GetBatchFeedParams, GetBundleFeedParams, GetCategoryFeedParams, GetFeedParams, PaginationFeeds, QueryUserFeedParams } from "@/models/feed-model"
+import { CreateFeedParams, FeedParams, GetBatchFeedParams, GetBundleFeedParams, GetCategoryFeedParams, GetFeedParams, GetLatestFeedCountData, PaginationFeeds, QueryUserFeedParams } from "@/models/feed-model"
 import { Feed } from "@/types/model"
 import { Prisma } from "@prisma/client"
 
@@ -16,4 +16,5 @@ export interface FeedService {
     updateFeed: (feed: FeedParams) => Promise<Feed>
     deleteFeed: (feedId: string) => Promise<Feed>
     deleteFeedByRssId: (rssId: string) => Promise<Prisma.BatchPayload>
+    getLatestFeedCount: (date: Date) => Promise<GetLatestFeedCountData>
 }

@@ -123,4 +123,28 @@ export class FeedModelImpl implements FeedModel {
             }
         })
     }
+    async getLatestFeedCount(date: Date) {
+        const feedCount = await this._prisma.feed.count({
+            where: {
+                createdAt: {
+                    gte: date
+                }
+            }
+        })
+        const feedGroupBy = await this._prisma.feed.groupBy({
+            by: ['rssId'],
+            where: {
+                createdAt: {
+                    gte: date
+                }
+            },
+            _count: {
+                id: true
+            }
+        })
+        return {
+            feedCount,
+            rssCount: feedGroupBy.length
+        }
+    }
 }

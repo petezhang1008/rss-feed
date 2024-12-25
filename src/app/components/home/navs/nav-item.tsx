@@ -12,12 +12,14 @@ export default function NavItem({ nav }: { nav: Category }) {
     return (
         <Link href={`${RouterName.HOME}?categoryId=${nav.id}`}>
             <div className={clsx("py-2 px-3 flex gap-2 rounded-md hover:bg-gray-100 cursor-pointer items-center", {
-                "text-primary font-bold": categoryId === nav.id
+                "!text-primary font-bold bg-primary/10": categoryId === nav.id
             })}>
                 <DotIcon className={clsx("size-4", {
                     "text-primary": categoryId === nav.id
                 })} />
-                <p className="truncate">{nav.name}</p>
+                <p className={clsx("truncate text-sm text-gray-700 font-medium", {
+                    "!text-primary": categoryId === nav.id
+                })}>{nav.name}</p>
             </div>
         </Link>
     )

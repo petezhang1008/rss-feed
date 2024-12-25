@@ -97,4 +97,7 @@ export class FeedServiceImpl implements FeedService {
     deleteFeedByRssId(rssId: string) {
         return this.feedModel.deleteFeedByRssId(rssId)
     }
+    getLatestFeedCount(date: Date) {
+        return this.feedModel.getLatestFeedCount(date)
+    }
 }

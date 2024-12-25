@@ -13,6 +13,7 @@ export interface FeedModel {
     getFeedByLink: (link: string, rssId: string) => Promise<Feed | null>
     getFeedByLinks: (links: string[], rssId: string) => Promise<Feed[]>
     deleteFeedByRssId: (rssId: string) => Promise<Prisma.BatchPayload>
+    getLatestFeedCount: (date: Date) => Promise<GetLatestFeedCountData>
 }
 
 export type FeedParams = Pick<Feed, 'id' | 'title' | 'link' | 'image' | 'author'> & Partial<Feed>
@@ -38,3 +39,8 @@ export interface GetBundleFeedParams extends PaginationParams {
 }
 
 export type PaginationFeeds = Pagination<FeedWithRss[]>
+
+export interface GetLatestFeedCountData {
+    feedCount: number
+    rssCount: number
+}

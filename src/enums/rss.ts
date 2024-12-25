@@ -4,7 +4,7 @@ export enum RssGeneratorType {
 }
 
 export enum RssGeneratorFrequency {
-    HOUR = 'hour',
+    HOUR = 'hourly',
     DAY = 'daily',
 }
 

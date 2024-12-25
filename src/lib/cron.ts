@@ -1,6 +1,6 @@
 import cron from 'node-cron'
 import { addRssQueue } from './queue'
-import { RssGeneratorFrequency, RssGeneratorType } from '@/enums/rss';
+import { RssGeneratorFrequency } from '@/enums/rss';
 import { injectService } from '@/inversify.config';
 import { RssService } from '@/services/rss-service';
 
@@ -14,7 +14,6 @@ const rssDailyTask = cron.schedule(' 0 8 * * *', async () => {
         const rssGeneratorList = await rssGeneratorService.queryRssList({
             page: 1,
             pageSize: 100,
-            type: RssGeneratorType.WEBSITE,
             frequency: RssGeneratorFrequency.DAY
         })
         if (rssGeneratorList.total > page * pageSize) {
@@ -38,7 +37,6 @@ const rssHourlyTask = cron.schedule(' 0 * * * *', async () => {
         const rssGeneratorList = await rssGeneratorService.queryRssList({
             page: 1,
             pageSize: 100,
-            type: RssGeneratorType.WEBSITE,
             frequency: RssGeneratorFrequency.HOUR
         })
         if (rssGeneratorList.total > page * pageSize) {
