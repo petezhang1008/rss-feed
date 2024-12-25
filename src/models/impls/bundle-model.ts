@@ -26,7 +26,11 @@ export class BundleModelImpl implements BundleModel {
             skip,
             take,
             include: {
-                userRss: true
+                userRss: {
+                    include: {
+                        rss: true
+                    }
+                }
             },
             orderBy: {
                 createdAt: 'desc'
@@ -46,7 +50,11 @@ export class BundleModelImpl implements BundleModel {
                 userId
             },
             include: {
-                userRss: true
+                userRss: {
+                    include: {
+                        rss: true
+                    }
+                }
             }
         })
     }
@@ -56,7 +64,11 @@ export class BundleModelImpl implements BundleModel {
                 id
             },
             include: {
-                userRss: true
+                userRss: {
+                    include: {
+                        rss: true
+                    }
+                }
             }
         })
     }

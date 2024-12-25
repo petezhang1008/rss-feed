@@ -25,7 +25,7 @@ export default function LogoImage({ src, title, width = 40, height = 40 }: { src
     }, [src])
 
     return (
-        <div className="size-full rounded-lg overflow-hidden border border-neutral-100">
+        <div className="size-full rounded-lg overflow-hidden border border-neutral-100 bg-neutral-100">
             {src && !error ? (
                 loading ? (
                     <div className="bg-gray-50 size-full flex items-center justify-center">
