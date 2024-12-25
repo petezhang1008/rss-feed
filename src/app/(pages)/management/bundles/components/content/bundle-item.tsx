@@ -24,7 +24,7 @@ export default function BundleItem({ bundle }: { bundle: BundleWithRss }) {
                     <div className='text-gray-500 text-xs'>{formatDateToMMDDYYYY(bundle.createdAt)}</div>
                 </div>
                 <div className='flex justify-between items-center'>
-                    <div className="badge badge-ghost">{bundle.userRss?.length} RSS</div>
+                    <div className="badge badge-ghost">{bundle.userRss?.length} Feeds</div>
                     <ActionBtn bundle={bundle} />
                 </div>
             </div>

@@ -5,7 +5,7 @@ export enum RouterName {
     ABOUT = '/about',
     RSS_BUILDER = '/rss-feed/rss-builder',
     WEBSITE_PREVIEW = '/rss-feed/website-preview',
-    FEEDS = '/management/feeds',
+    MANAGEMENT_HOME = '/management/home',
     RSS = '/management/rss',
     RSS_FEEDS = '/management/rss-feeds',
     BUNDLES = '/management/bundles',

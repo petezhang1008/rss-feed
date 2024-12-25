@@ -20,7 +20,7 @@ export default async function Bundles() {
             <ManagementHeader>
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">My Bundles
-                        {result.total > 0 && <span className="text-gray-500">({result.total})</span>}</h1>
+                        {result.total > 0 && <span className="text-gray-500 ml-1.5">({result.total})</span>}</h1>
                     <NewBundleButton />
                 </div>
             </ManagementHeader>

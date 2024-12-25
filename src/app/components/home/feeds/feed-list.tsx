@@ -12,7 +12,7 @@ import FeedsSkeletonItem from "../../skeleton/feeds-skeleton-item";
 export default function FeedList({ paginationFeeds, categoryId }: { paginationFeeds: PaginationFeeds, categoryId: string }) {
     const [feedList, setFeedList] = useState<FeedWithRss[]>(paginationFeeds?.result || [])
     const [page, setPage] = useState(paginationFeeds?.page || 1)
-    const [pageSize, setPageSize] = useState(paginationFeeds?.pageSize || 50)
+    const [pageSize] = useState(paginationFeeds?.pageSize || 50)
     const [total, setTotal] = useState(paginationFeeds?.total || 0)
 
 
@@ -27,7 +27,6 @@ export default function FeedList({ paginationFeeds, categoryId }: { paginationFe
         getFeedsByCategoryApi(params).then(res => {
             setFeedList(feedList.concat(res.result))
             setPage(page + 1)
-            setPageSize(pageSize + 50)
             setTotal(res.total)
         })
     }

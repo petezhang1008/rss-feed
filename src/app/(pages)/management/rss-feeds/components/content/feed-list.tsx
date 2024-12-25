@@ -11,7 +11,7 @@ import { UserRss, Feed } from "@/types/model";
 export default function FeedList({ paginationFeeds, rssDetail }: { paginationFeeds: PaginationFeeds, rssDetail: UserRss }) {
     const [feedList, setFeedList] = useState<Feed[]>(paginationFeeds?.result || [])
     const [page, setPage] = useState(paginationFeeds?.page || 1)
-    const [pageSize, setPageSize] = useState(paginationFeeds?.pageSize || 50)
+    const [pageSize] = useState(paginationFeeds?.pageSize || 50)
     const [total, setTotal] = useState(paginationFeeds?.total || 0)
 
     const { getFeedsApi } = useClientFeeds()
@@ -24,7 +24,6 @@ export default function FeedList({ paginationFeeds, rssDetail }: { paginationFee
         }).then(res => {
             setFeedList(feedList.concat(res.result))
             setPage(page + 1)
-            setPageSize(pageSize + 50)
             setTotal(res.total)
         })
     }

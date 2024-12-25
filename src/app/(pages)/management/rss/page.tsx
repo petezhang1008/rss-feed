@@ -21,7 +21,7 @@ export default async function MyFeedList() {
             <ManagementHeader>
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">My RSS
-                        {res.total > 0 && <span className="text-gray-500">({res.total})</span>}</h1>
+                        {res.total > 0 && <span className="text-gray-500 ml-1.5">({res.total})</span>}</h1>
                     <Link href={RouterName.RSS_BUILDER}>
                         <button className="btn btn-sm btn-primary">New RSS</button>
                     </Link>

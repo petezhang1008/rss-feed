@@ -1,26 +1,24 @@
 'use client'
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import FeedItem from "./feed-item";
-import { Bundle, Feed, FeedWithRss } from "@/types/model";
+import { Feed, FeedWithRss } from "@/types/model";
 import { useState } from "react";
 import { PaginationFeeds } from "@/models/feed-model";
 import FeedCardSkeleton from "@/app/components/skeleton/feed-card-skeleton";
 import NoMoreData from "@/app/components/more-data/no-more-data";
-import { useClientBundleFeeds } from "../../hooks/client/use-feeds";
+import { useClientUserFeed } from "../hooks/client/use-client-user-feed";
 
-export default function FeedList({ paginationFeeds, bundle }: { paginationFeeds: PaginationFeeds, bundle: Bundle }) {
+export default function FeedList({ paginationFeeds }: { paginationFeeds: PaginationFeeds }) {
     const [feedList, setFeedList] = useState<Feed[]>(paginationFeeds?.result || [])
     const [page, setPage] = useState(paginationFeeds?.page || 1)
     const [pageSize] = useState(paginationFeeds?.pageSize || 50)
     const [total, setTotal] = useState(paginationFeeds?.total || 0)
-
-    const { getBundleFeedsApi } = useClientBundleFeeds()
+    const { getUserFeedsApi } = useClientUserFeed()
 
     function fetchData() {
-        getBundleFeedsApi({
+        getUserFeedsApi({
             page: page + 1,
             pageSize,
-            bundleId: bundle?.id || ''
         }).then(res => {
             setFeedList(feedList.concat(res.result))
             setPage(page + 1)

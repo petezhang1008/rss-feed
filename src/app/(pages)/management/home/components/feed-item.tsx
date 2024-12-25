@@ -1,9 +1,9 @@
 import { FeedWithRss } from "@/types/model";
 import Link from "next/link";
-import { RssItem } from "./rss-item";
 import { RouterName } from "@/enums/router";
 import { DateTag } from "@/app/components/common/date-tag";
 import BannerImage from "@/app/components/common/banner-image";
+import { RssItem } from "../../bundle-feeds/components/content/rss-item";
 
 export default function FeedItem({ feed }: { feed: FeedWithRss }) {
     return (

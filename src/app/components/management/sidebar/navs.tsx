@@ -15,12 +15,12 @@ interface NavItem {
 
 const NAVS: NavItem[] = [
     {
-        name: "Feeds",
-        href: RouterName.FEEDS,
+        name: "Home",
+        href: RouterName.MANAGEMENT_HOME,
         icon: TokensIcon
     },
     {
-        name: "RSS",
+        name: "My Feeds",
         href: RouterName.RSS,
         icon: Crosshair2Icon
     },

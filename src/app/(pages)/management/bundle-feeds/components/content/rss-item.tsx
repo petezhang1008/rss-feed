@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export function RssItem({ rss }: { rss: Rss }) {
     return (
-        <Link href={`${RouterName.FEEDS}/${rss?.id}`} target="_blank" className="flex items-center gap-2 w-full">
+        <Link href={`${RouterName.RSS_FEEDS}/${rss?.id}`} target="_blank" className="flex items-center gap-2 w-full">
             <div className="avatar placeholder shrink-0">
                 <div className="size-6">
                     <LogoImage src={rss?.image} title={rss?.title} width={40} height={40} />
