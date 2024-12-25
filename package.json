@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon --watch src --delay 2500 --exec ts-node -r tsconfig-paths/register server.ts  --turbopack",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && npx puppeteer install && next build",
     "start": "NODE_ENV=production nodemon --watch src --delay 2500 --exec ts-node  -r tsconfig-paths/register server.ts",
     "lint": "next lint"
   },
