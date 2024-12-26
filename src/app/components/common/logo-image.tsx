@@ -25,7 +25,7 @@ export default function LogoImage({ src, title }: { src: string | null, title: s
     }, [src])
 
     return (
-        <div className="size-full rounded-full overflow-hidden border border-neutral-100 bg-neutral">
+        <div className="size-full rounded-full items-center justify-center flex overflow-hidden border border-neutral-100">
             {src && !error ? (
                 loading ? (
                     <div className="bg-gray-50 size-full flex items-center justify-center">
@@ -35,7 +35,7 @@ export default function LogoImage({ src, title }: { src: string | null, title: s
                         src={src}
                         alt={title}
                         referrerPolicy="no-referrer"
-                        className="!object-contain"
+                        className="!object-cover"
                     />
                 )
             ) : (

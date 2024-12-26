@@ -10,7 +10,9 @@ export const authConfig = {
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
-            const notNeedLogin = NOT_AUTH_PATHS.findIndex(path => nextUrl.pathname.includes(path)) !== -1;
+            const notNeedLogin = NOT_AUTH_PATHS.findIndex(path => {
+                return nextUrl.pathname === path
+            }) !== -1;
             if (notNeedLogin) {
                 return true; // Redirect unauthenticated users to login page
             } else if (isLoggedIn && notNeedLogin) {

@@ -1,7 +1,24 @@
+'use client'
 import LogoImage from "@/app/components/common/logo-image";
 import { RssDetail } from "@/types/model";
+import { useSubscribe } from "../hooks/client/use-subscribe";
+import useToast from "@/app/hooks/use-toast";
+import { RouterName } from "@/enums/router";
+import { useRouter } from "next/navigation";
 
 export default function RssDetailHeader({ rssDetail }: { rssDetail: RssDetail }) {
+    const { subscribe } = useSubscribe()
+    const { toast } = useToast()
+    const router = useRouter()
+
+    function handleSubscribe() {
+        subscribe(rssDetail.id).then((userRss) => {
+            toast.success('Subscribe successfully')
+            router.push(`${RouterName.RSS_FEEDS}/${userRss.id}`)
+        }).catch((error) => {
+            toast.error(error.message)
+        })
+    }
     return <div className="flex gap-4 px-4 py-6 bg-white rounded-md shadow-sm justify-between items-center">
         <div className="flex items-center gap-4">
             <div className="avatar placeholder shrink-0">
@@ -15,7 +32,7 @@ export default function RssDetailHeader({ rssDetail }: { rssDetail: RssDetail })
             </div>
         </div>
         <div>
-            <button className="btn btn-primary btn-sm btn-outline">Subscribe</button>
+            <button onClick={handleSubscribe} className="btn btn-primary btn-sm btn-outline">Subscribe</button>
         </div>
     </div>
 }

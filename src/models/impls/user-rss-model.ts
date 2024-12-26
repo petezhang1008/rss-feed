@@ -17,7 +17,7 @@ export class UserRssModelImpl implements UserRssModel {
             include: {
                 rss: true,
                 bundle: true
-            }
+            },
         })
     }
     async queryUserRssList(params: PaginationUserRssParams) {
@@ -38,6 +38,9 @@ export class UserRssModelImpl implements UserRssModel {
             include: {
                 rss: true,
                 bundle: true
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         })
         return {
@@ -55,6 +58,9 @@ export class UserRssModelImpl implements UserRssModel {
             include: {
                 rss: true,
                 bundle: true
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         })
     }

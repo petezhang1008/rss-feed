@@ -3,12 +3,13 @@ import { logoutAction } from "@/app/lib/auth-action"
 import { RouterName } from "@/enums/router"
 import { ExitIcon, GearIcon, TokensIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
-import router from "next/router"
+import { useRouter } from "next/navigation"
 
 export default function UserCenter() {
+    const router = useRouter()
     function handleLogout() {
         logoutAction().then(() => {
-            router.push('/login')
+            router.push(RouterName.LOGIN)
         })
     }
     return (

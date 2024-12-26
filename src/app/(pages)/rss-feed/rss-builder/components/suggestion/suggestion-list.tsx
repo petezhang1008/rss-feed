@@ -3,6 +3,8 @@ import { CategoryWithRss } from "@/types/model";
 import SuggestionItem from "./suggestion-item";
 import { useSearchParams } from "next/navigation";
 import useSuggestRss from "../../hooks/use-suggest-rss";
+import { RouterName } from "@/enums/router";
+import Link from "next/link";
 
 export default function SuggestionList({ categories }: { categories: CategoryWithRss[] }) {
     const { getSuggestRss } = useSuggestRss()
@@ -18,7 +20,9 @@ export default function SuggestionList({ categories }: { categories: CategoryWit
         </div>
         <div className="grid grid-cols-3 gap-4 mt-4">
             {rssList && rssList.map((rss) => (
-                <SuggestionItem key={rss.id} rss={rss} />
+                <Link href={`${RouterName.RSS_DETAIL}?rssId=${rss.id}`} key={rss.id}>
+                    <SuggestionItem key={rss.id} rss={rss} />
+                </Link>
             ))}
         </div>
     </div>

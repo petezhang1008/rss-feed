@@ -1,6 +1,8 @@
 'use client'
 import { PersonIcon, LockClosedIcon } from "@radix-ui/react-icons"
 import { useLogin } from "../hooks/use-login"
+import { RouterName } from "@/enums/router"
+import Link from "next/link"
 
 export default function LoginPanel() {
     const { email, setEmail, password, setPassword, handleSubmit } = useLogin()
@@ -24,5 +26,6 @@ export default function LoginPanel() {
             <input type="password" className="grow" value={password} onChange={handlePasswordChange} />
         </label>
         <button className="btn btn-primary" onClick={handleSubmit}>Login</button>
+        <Link href={RouterName.REGISTER} className="text-center text-blue-600 text-sm hover:underline">Don't have an account? Register</Link>
     </div>
 }
