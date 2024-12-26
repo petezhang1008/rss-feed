@@ -16,6 +16,28 @@ export class RssModelImpl implements RssModel {
         })
         return result
     }
+    async getRssDetail(id: string) {
+        const result = await this._prisma.rss.findUnique({
+            where: { id },
+            include: {
+                feed: {
+                    orderBy: {
+                        createdAt: 'desc'
+                    },
+                    take: 50
+                },
+                userRss: true,
+                category: true,
+                tasks: {
+                    orderBy: {
+                        createAt: 'desc'
+                    },
+                    take: 1
+                }
+            }
+        })
+        return result
+    }
     async createRss(data: CreateRssParams) {
         const result = await this._prisma.rss.create({
             data: {

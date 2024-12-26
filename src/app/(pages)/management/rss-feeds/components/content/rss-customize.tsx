@@ -18,7 +18,7 @@ export default function RssCustomize({ rssDetail }: { rssDetail: UserRssWithRssA
     }
 
     return (
-        <div className="flex flex-col gap-2 border-b border-gray-200 pb-6 px-2">
+        <div className="flex flex-col gap-2 px-2">
             <h1 className="font-semibold">Customize</h1>
             <div className="flex gap-4">
                 <button className="btn btn-outline btn-sm btn-primary !h-7 !min-h-7 cursor-pointer" onClick={() => handleEditRss(rssDetail)}>

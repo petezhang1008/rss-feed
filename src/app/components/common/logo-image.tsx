@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-export default function LogoImage({ src, title, width = 40, height = 40 }: { src: string | null, title: string, width: number, height: number }) {
+export default function LogoImage({ src, title }: { src: string | null, title: string }) {
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<boolean>(false)
 
@@ -25,7 +25,7 @@ export default function LogoImage({ src, title, width = 40, height = 40 }: { src
     }, [src])
 
     return (
-        <div className="size-full rounded-lg overflow-hidden border border-neutral-100 bg-neutral">
+        <div className="size-full rounded-full overflow-hidden border border-neutral-100 bg-neutral">
             {src && !error ? (
                 loading ? (
                     <div className="bg-gray-50 size-full flex items-center justify-center">
@@ -34,15 +34,13 @@ export default function LogoImage({ src, title, width = 40, height = 40 }: { src
                     <img
                         src={src}
                         alt={title}
-                        width={width}
-                        height={height}
                         referrerPolicy="no-referrer"
                         className="!object-contain"
                     />
                 )
             ) : (
                 <div className="bg-neutral text-neutral-content size-full flex items-center justify-center">
-                    <span className="text-xs font-semibold whitespace-nowrap">{title?.slice(0, 2)}</span>
+                    <span className="text-xs font-bold whitespace-nowrap">{title?.slice(0, 1)}</span>
                 </div>
             )}
         </div>

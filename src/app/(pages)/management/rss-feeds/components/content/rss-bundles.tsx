@@ -17,7 +17,7 @@ export default function RssBundles({ rssDetail }: { rssDetail: UserRssWithRssAnd
     }
 
     return (
-        <div className="flex flex-col gap-2 border-b border-gray-200 pb-6 px-2">
+        <div className="flex flex-col gap-2 px-2">
             <h1 className="font-semibold">Bundles</h1>
             <div className="flex items-start gap-4 flex-col justify-start">
                 <TippyPopover content={<BundlesSelector rssData={rssData} updateRssBundle={updateRssBundle} />} props={{

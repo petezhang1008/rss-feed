@@ -1,5 +1,7 @@
 import { RssItem } from "@/app/(pages)/management/bundle-feeds/components/content/rss-item";
+import { RouterName } from "@/enums/router";
 import { Rss } from "@/types/model";
+import Link from "next/link";
 
 export default function SuggestRss({ favoriteRssList }: { favoriteRssList: Rss[] }) {
     return (
@@ -10,7 +12,9 @@ export default function SuggestRss({ favoriteRssList }: { favoriteRssList: Rss[]
             <div className="flex flex-col gap-0.5">
                 {favoriteRssList.map((rss) => (
                     <div className="flex items-center hover:bg-gray-100 p-1.5 rounded-md cursor-pointer" key={rss.id} >
-                        <RssItem rss={rss} />
+                        <Link href={`${RouterName.RSS_DETAIL}?rssId=${rss?.id}`} target="_blank">
+                            <RssItem rss={rss} />
+                        </Link>
                     </div>
                 ))}
             </div>

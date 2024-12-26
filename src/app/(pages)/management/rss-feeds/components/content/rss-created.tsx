@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function RssCreated({ rssDetail }: { rssDetail: UserRssWithRssAndBundle }) {
     const { formatDateToMMDDYYYY } = useDayjs()
     return (
-        <div className="flex flex-col gap-2 border-b border-gray-200 pb-6 px-2">
+        <div className="flex flex-col gap-2 px-2">
             <h1 className="font-semibold flex items-center gap-1">
                 <span>Created via</span>
                 <span className="border border-gray-200 rounded-md px-2 bg-gray-100">{rssDetail.rss.type}</span>

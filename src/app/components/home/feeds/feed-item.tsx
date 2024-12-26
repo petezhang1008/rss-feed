@@ -5,6 +5,7 @@ import { RssItem } from "@/app/(pages)/management/bundle-feeds/components/conten
 import { DateTag } from "../../common/date-tag";
 import BannerImage from "../../common/banner-image";
 import { useEventStop } from "@/app/hooks/use-event-stop";
+import { RouterName } from "@/enums/router";
 
 export default function FeedItem({ feed }: { feed: FeedWithRss }) {
     const { stopEvent } = useEventStop()
@@ -20,7 +21,9 @@ export default function FeedItem({ feed }: { feed: FeedWithRss }) {
                     </div>
                     <div className="flex items-center gap-2 gap-3 text-xs text-gray-400 shrink-0 mt-3 justify-between">
                         <div className="flex items-center gap-2 hover:text-secondary" onClick={stopEvent}>
-                            <RssItem rss={feed?.rss} />
+                            <Link href={`${RouterName.RSS_DETAIL}?rssId=${feed?.rssId}`} target="_blank">
+                                <RssItem rss={feed?.rss} />
+                            </Link>
                         </div>
                         <div>
                             <DateTag date={feed.createdAt} />

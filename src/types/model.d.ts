@@ -11,6 +11,14 @@ import {
 
 
 export type Rss = RssModel
+export type RssDetail = RssModel & Prisma.RssGetPayload<{
+    include: {
+        feed: true,
+        userRss: true,
+        category: true,
+        tasks: true
+    }
+}>
 export type Task = TaskModel
 export type TaskWithRss = TaskModel & Prisma.TaskGetPayload<{
     include: {

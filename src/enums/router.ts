@@ -3,6 +3,7 @@ export enum RouterName {
     LOGIN = '/login',
     REGISTER = '/register',
     ABOUT = '/about',
+    RSS_DETAIL = '/rss-detail',
     RSS_BUILDER = '/rss-feed/rss-builder',
     WEBSITE_PREVIEW = '/rss-feed/website-preview',
     MANAGEMENT_HOME = '/management/home',

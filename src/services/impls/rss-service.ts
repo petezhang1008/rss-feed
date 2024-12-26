@@ -29,6 +29,9 @@ export class RssServiceImpl implements RssService {
     getRss(id: string) {
         return this._rssModel.getRss(id)
     }
+    getRssDetail(id: string) {
+        return this._rssModel.getRssDetail(id)
+    }
     async createRss(data: CreateRssParams) {
         if (data.type === RssGeneratorType.RSS) {
             const rssInfo = await this._rssParserService.getRssInfo(data.website)
