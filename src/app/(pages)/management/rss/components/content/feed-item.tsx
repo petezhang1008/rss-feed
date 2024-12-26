@@ -14,7 +14,7 @@ export default function MyFeedItem({ rss }: { rss: UserRssWithRssAndBundle }) {
                 <div className='flex items-start gap-4'>
                     <div className="avatar placeholder">
                         <div className="size-10">
-                            <LogoImage src={rss.rss.image} title={rss.title!} width={40} height={40} />
+                            <LogoImage src={rss.rss.image} title={rss.title!} />
                         </div>
                     </div>
                     <div className='flex flex-col gap-1.5'>

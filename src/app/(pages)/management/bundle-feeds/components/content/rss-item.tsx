@@ -1,14 +1,12 @@
 import LogoImage from "@/app/components/common/logo-image"
-import { RouterName } from "@/enums/router"
 import { Rss } from "@/types/model"
-import Link from "next/link"
 
 export function RssItem({ rss }: { rss: Rss }) {
     return (
         <div className="flex items-center gap-2 w-full">
             <div className="avatar placeholder shrink-0">
                 <div className="size-6">
-                    <LogoImage src={rss?.image} title={rss?.title} width={40} height={40} />
+                    <LogoImage src={rss?.image} title={rss?.title} />
                 </div>
             </div>
             <div className="flex flex-col flex-grow overflow-hidden">

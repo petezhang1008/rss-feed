@@ -14,7 +14,7 @@ export default async function RssDetailPage({ searchParams }: { searchParams: Pr
 
     return <div className="flex flex-col size-full">
         <Header />
-        <div className="flex size-full justify-center overflow-auto pt-4">
+        <div className="flex size-full justify-center overflow-auto">
             <div className="items-top justify-center p-4">
                 <div className="w-[980px] flex gap-6 overflow-hidden">
                     <RssDetailContent rssDetail={rssDetail} />

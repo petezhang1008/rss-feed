@@ -40,7 +40,7 @@ export default function LogoImage({ src, title }: { src: string | null, title: s
                 )
             ) : (
                 <div className="bg-neutral text-neutral-content size-full flex items-center justify-center">
-                    <span className="text-xs font-bold whitespace-nowrap">{title?.slice(0, 1)}</span>
+                    <span className="font-bold whitespace-nowrap">{title?.slice(0, 1)}</span>
                 </div>
             )}
         </div>

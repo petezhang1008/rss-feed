@@ -21,8 +21,7 @@ export default function FeedHeader({ rssDetail }: { rssDetail: UserRssWithRssAnd
                     <LogoImage
                         src={rssDetail?.rss?.image}
                         title={rssDetail?.title!}
-                        width={40}
-                        height={40} />
+                    />
                 </div>
             </div>
             <div className="flex flex-col">
