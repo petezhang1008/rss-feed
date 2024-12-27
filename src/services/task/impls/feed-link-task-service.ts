@@ -1,15 +1,15 @@
 import { inject, injectable } from "inversify"
 import { FeedTask, FeedLinkTaskService } from "../feed-link-task-service"
-import { WebsiteInfo, WebsiteParserService } from "../website-parser-service"
-import { FeedService } from "../prisma/feed-service"
-import { TaskService } from "../prisma/task-service"
+import { FeedService } from "../../prisma/feed-service"
+import { TaskService } from "../../prisma/task-service"
 import _ from "lodash"
+import { HtmlParserService, WebsiteInfo } from "@/services/website-parser/html-parser-service"
 
 @injectable()
 export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
     constructor(
-        @inject(WebsiteParserService)
-        private websiteParserService: WebsiteParserService,
+        @inject(HtmlParserService)
+        private _htmlParserService: HtmlParserService,
         @inject(FeedService)
         private feedService: FeedService,
         @inject(TaskService)
@@ -24,7 +24,7 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
             const url = this._queue.shift(); // 从队列中取出一个 URL
             if (url) {
                 try {
-                    const info = await this.websiteParserService.getWebsiteInfo(url)
+                    const info = await this._htmlParserService.getWebsiteInfo(url)
                     if (info && info.title) {
                         this._result.push(info); // 存储页面内容
                     }

@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { HtmlParserService } from "../html-parser-service";
-import cheerio from "cheerio";
+import * as cheerio from 'cheerio';
 import { UrlFormateService } from "@/services/website-parser/url-formate-service";
 import { WebsiteProxyService } from "../website-proxy-service";
 import { TITLE_REGEX } from "@/constants/regex";
@@ -16,15 +16,15 @@ export class HtmlParserServiceImpl implements HtmlParserService {
     ) { }
 
     private _getMetaValueByProperty($: cheerio.CheerioAPI, property: string) {
-        return $('meta[property="${property}"]').attr('content') ||
-            $('meta[name="${property}"]').attr('content') ||
-            $('meta[name="og:${property}"]').attr('content') ||
-            $('meta[name="twitter:${property}"]').attr('content') ||
-            $('meta[property="og:${property}"]').attr('content') ||
-            $('meta[property="twitter:${property}"]').attr('content') ||
-            $('meta[property="article:${property}"]').attr('content') ||
-            $('meta[property="dc:${property}"]').attr('content') ||
-            $('meta[property="schema:${property}"]').attr('content')
+        return $(`meta[property="${property}"]`).attr('content') ||
+            $(`meta[name="${property}"]`).attr('content') ||
+            $(`meta[name="og:${property}"]`).attr('content') ||
+            $(`meta[name="twitter:${property}"]`).attr('content') ||
+            $(`meta[property="og:${property}"]`).attr('content') ||
+            $(`meta[property="twitter:${property}"]`).attr('content') ||
+            $(`meta[property="article:${property}"]`).attr('content') ||
+            $(`meta[property="dc:${property}"]`).attr('content') ||
+            $(`meta[property="schema:${property}"]`).attr('content')
     }
 
     private _getWebsiteIcon($: cheerio.CheerioAPI) {
@@ -68,5 +68,11 @@ export class HtmlParserServiceImpl implements HtmlParserService {
             domain,
             link
         }
+    }
+
+    async getTargetLinks(url: string, selector: string) {
+        const html = await this._websiteProxyService.getProxyHtml(url)
+        const $ = cheerio.load(html)
+        return $(selector).map((i, el) => $(el).attr('href')).get()
     }
 }

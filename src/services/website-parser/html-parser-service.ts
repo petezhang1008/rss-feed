@@ -3,6 +3,7 @@ export const HtmlParserService = Symbol('HtmlParserService')
 
 export interface HtmlParserService {
     getWebsiteInfo(url: string): Promise<WebsiteInfo>
+    getTargetLinks(url: string, selector: string): Promise<string[]>
 }
 
 export interface WebsiteInfo {

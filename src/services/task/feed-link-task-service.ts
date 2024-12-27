@@ -1,6 +1,6 @@
 import { Feed } from "@/types/model"
 
-export const FeedLinkTaskService = Symbol('FeedLinkTaskService')
+export const FeedLinkTaskService = Symbol.for('FeedLinkTaskService')
 
 export interface FeedLinkTaskService {
     consumeFeedTask(data: FeedTask): Promise<void>

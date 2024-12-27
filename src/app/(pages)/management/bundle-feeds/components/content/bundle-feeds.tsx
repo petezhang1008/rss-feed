@@ -15,7 +15,7 @@ export default function BundleFeeds({ bundle }: { bundle: BundleWithRss }) {
                 <span>feeds</span>
             </h1>
             {bundle?.userRss && <div>
-                <RssList rssList={bundle?.userRss.map(userRss => userRss.rss)} />
+                <RssList rssList={bundle?.userRss} />
             </div>}
             <div className="mt-2">
                 <button className="btn btn-outline btn-sm btn-primary !h-7 !min-h-7">

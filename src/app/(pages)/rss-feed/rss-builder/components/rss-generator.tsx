@@ -17,11 +17,11 @@ export default function RssBuilder() {
 
     async function handleGenerate() {
         if (userId) {
-            const res = await createUserRssAction({
+            const userRss = await createUserRssAction({
                 type: RssGeneratorType.RSS,
                 website: websiteLink,
             })
-            redirect(`${RouterName.RSS_FEEDS}/${res.id}`)
+            redirect(`${RouterName.RSS_FEEDS}/${userRss.id}`)
         } else {
             const res = await createRssAction({
                 type: RssGeneratorType.RSS,

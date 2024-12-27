@@ -1,4 +1,4 @@
-import { TaskService } from "../prisma/task-service"
+import { TaskService } from "../task-service"
 import { inject, injectable } from "inversify"
 import { TaskModel, FinishTaskParams, StartTaskParams } from "@/models/task-model"
 

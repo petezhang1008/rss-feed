@@ -44,12 +44,18 @@ export type BundleWithRss = BundleModel & Prisma.BundleGetPayload<{
 }>
 
 export type UserRss = UserRssModel
+export type UserRssWithRss = UserRssModel & Prisma.UserRssGetPayload<{
+    include: {
+        rss: true
+    }
+}>
 export type UserRssWithRssAndBundle = UserRssModel & Prisma.UserRssGetPayload<{
     include: {
         rss: true
         bundle: true
     }
 }>
+
 
 export type User = UserModel
 

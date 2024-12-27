@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 import { FetchHtmlService } from "../fetch-html-service";
 import { WebsiteProxyService } from "../website-proxy-service";
-import cheerio from "cheerio";
+import * as cheerio from 'cheerio';
 
 @injectable()
 export class WebsiteProxyServiceImpl implements WebsiteProxyService {
@@ -16,24 +16,24 @@ export class WebsiteProxyServiceImpl implements WebsiteProxyService {
         const baseUrl = new URL(url);
         $('script').remove()
 
-        $('[href]').each((i, element) => {
+        $('[href]').each((i: number, element: any) => {
             const href = $(element).attr('href')
             if (href && !href.startsWith('http') && !href.startsWith('//')) {
                 $(element).attr('href', new URL(href, baseUrl).href)
             }
         })
 
-        $('[src]').each((i, element) => {
+        $('[src]').each((i: number, element: any) => {
             const src = $(element).attr('src')
             if (src && !src.startsWith('http') && !src.startsWith('//')) {
                 $(element).attr('src', new URL(src, baseUrl).href)
             }
         })
 
-        $('[srcset]').each((i, element) => {
+        $('[srcset]').each((i: number, element: any) => {
             const srcset = $(element).attr('srcset')
             if (srcset) {
-                $(element).attr('srcset', srcset.split(',').map(src => {
+                $(element).attr('srcset', srcset.split(',').map((src: string) => {
                     const [url, size] = src.trim().split(' ');
                     if (url && !url.startsWith('http') && !url.startsWith('//')) {
                         return `${new URL(url, baseUrl).href} ${size || ''}`.trim();

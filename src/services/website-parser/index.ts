@@ -9,11 +9,14 @@ import { UrlFormateServiceImpl } from "./impls/url-formate-service";
 import { XmlParserServiceImpl } from "./impls/xml-parser-service";
 import { UrlFormateService } from "./url-formate-service";
 import { XmlParserService } from "./xml-parser-service";
+import { FetchXmlService } from "./fetch-xml-service";
+import { FetchXmlServiceImpl } from "./impls/fetch-xml-service";
 
 export const websiteParser = new ContainerModule((bind) => {
     bind(FetchHtmlService).to(FetchHtmlServiceImpl)
+    bind(FetchXmlService).to(FetchXmlServiceImpl)
     bind(HtmlParserService).to(HtmlParserServiceImpl)
+    bind(XmlParserService).to(XmlParserServiceImpl)
     bind(WebsiteProxyService).to(WebsiteProxyServiceImpl)
     bind(UrlFormateService).to(UrlFormateServiceImpl)
-    bind(XmlParserService).to(XmlParserServiceImpl)
 })

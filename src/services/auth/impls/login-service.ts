@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify"
-import { LoginService } from "../auth/login-service"
+import { LoginService } from "../login-service"
 import bcrypt from 'bcrypt'
 import { UserModel } from "@/models/user-model"
 

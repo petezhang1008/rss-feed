@@ -1,9 +1,8 @@
-import { fetchXmlHttpClient } from "@/lib/service-http-client"
 import { FetchXmlService } from "../fetch-xml-service"
-
+import fetch from 'node-fetch'
 
 export class FetchXmlServiceImpl implements FetchXmlService {
     fetchXml(url: string): Promise<string> {
-        return fetchXmlHttpClient(url)
+        return fetch(url).then(res => res.text())
     }
 }

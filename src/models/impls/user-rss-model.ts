@@ -71,7 +71,7 @@ export class UserRssModelImpl implements UserRssModel {
                 rss: true,
                 bundle: true
             }
-        })
+    })
     }
     deleteUserRss(id: string, userId: string) {
         return this._prisma.userRss.delete({

@@ -1,15 +1,15 @@
 import { inject, injectable } from "inversify";
 import { RssInfo, RssItem, XmlParserService } from "../xml-parser-service";
-import { WebsiteProxyService } from "../website-proxy-service";
 import { TITLE_REGEX } from "@/constants/regex";
 import { UrlFormateService } from "@/services/website-parser/url-formate-service";
-const { XMLParser } = require("fast-xml-parser");
+import { FetchXmlService } from "../fetch-xml-service";
+import { XMLParser } from 'fast-xml-parser';
 
 @injectable()
 export class XmlParserServiceImpl implements XmlParserService {
     constructor(
-        @inject(WebsiteProxyService)
-        private _websiteProxyService: WebsiteProxyService,
+        @inject(FetchXmlService)
+        private _fetchXmlService: FetchXmlService,
         @inject(UrlFormateService)
         private _urlFormateService: UrlFormateService
     ) { }
@@ -71,7 +71,7 @@ export class XmlParserServiceImpl implements XmlParserService {
         }
     }
     async getRssInfo(url: string): Promise<RssInfo> {
-        const xmlText = await this._websiteProxyService.getProxyHtml(url)
+        const xmlText = await this._fetchXmlService.fetchXml(url)
         const parser = new XMLParser();
         const xmlJsonObj = parser.parse(xmlText);
         const rssInfo = this.parseXmlFeedInfo(xmlJsonObj, url)
