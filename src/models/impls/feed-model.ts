@@ -58,8 +58,6 @@ export class FeedModelImpl implements FeedModel {
             },
             orderBy: [{
                 createdAt: 'desc',
-            }, {
-                title: 'desc'
             }]
         })
         const total = await this._prisma.feed.count({

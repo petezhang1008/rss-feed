@@ -12,7 +12,7 @@ export default function SuggestRss({ favoriteRssList }: { favoriteRssList: Rss[]
             <div className="flex flex-col gap-0.5">
                 {favoriteRssList.map((rss) => (
                     <div className="flex items-center hover:bg-gray-100 p-1.5 rounded-md cursor-pointer overflow-hidden" key={rss.id} >
-                        <Link href={`${RouterName.RSS_DETAIL}?rssId=${rss?.id}`} target="_blank" className="flex w-full">
+                        <Link href={`${RouterName.RSS_DETAIL}?rssId=${rss?.id}`} target="_blank" className="flex w-full overflow-hidden">
                             <RssItem rss={rss} />
                         </Link>
                     </div>

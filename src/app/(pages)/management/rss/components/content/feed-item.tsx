@@ -11,14 +11,16 @@ export default function MyFeedItem({ rss }: { rss: UserRssWithRssAndBundle }) {
     return (
         <Link href={`${RouterName.RSS_FEEDS}/${rss.id}`}>
             <div className="flex flex-col w-full gap-6 p-4 rounded-lg bg-white cursor-pointer border border-gray-200">
-                <div className='flex items-start gap-4'>
+                <div className='flex items-start gap-4 overflow-hidden'>
                     <div className="avatar placeholder">
                         <div className="size-10">
                             <LogoImage src={rss.rss.image} title={rss.title!} />
                         </div>
                     </div>
-                    <div className='flex flex-col gap-1.5'>
-                        <h4 className='text-gray-800'>{rss.title}</h4>
+                    <div className='flex flex-col gap-1.5 overflow-hidden'>
+                        <div className="overflow-hidden">
+                            <h4 className='text-gray-800 truncate'>{rss.title}</h4>
+                        </div>
                         <div className="line-clamp-2 h-[32px]">
                             <p className='text-gray-500 text-xs'>{rss.description || '-'}</p>
                         </div>

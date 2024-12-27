@@ -18,34 +18,36 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
     }
 
     private _queue: string[] = []
-    private _result: WebsiteInfo[] = []
     private _processQueue = async () => {
-        while (this._queue.length > 0) {
+        const result: WebsiteInfo[] = []
+        while (this._queue?.length > 0) {
             const url = this._queue.shift(); // 从队列中取出一个 URL
             if (url) {
                 try {
                     const info = await this._htmlParserService.getWebsiteInfo(url)
                     if (info && info.title) {
-                        this._result.push(info); // 存储页面内容
+                        result.push(info); // 存储页面内容
                     }
                 } catch (error) {
-                    console.error(error)
-                    throw new Error('load feed page data failed')
+                    console.error(error, 'failed url', url)
                 }
             }
         }
+        return result
     };
 
     async consumeFeedTask(data: FeedTask): Promise<void> {
         this._queue = data.targetPages
-        await Promise.all(Array.from({ length: 2 }, this._processQueue))
-        if (this._result.length > 0) {
-            this._executeTaskService.finishTask(data.taskId, {
-                successCount: this._result.length,
-            })
-        }
+        const result = await this._processQueue()
+        this._executeTaskService.finishTask(data.taskId, {
+            successCount: result?.length || 0,
+        })
+        if (!result || result.length === 0) {
+            return
+        };
+        console.log('===feed link task===>1', result?.length)
         try {
-            const paramList = _.map(this._result, info => {
+            const paramList = _.map(result, info => {
                 return {
                     rssId: data.rssId,
                     link: info.link,
@@ -56,7 +58,9 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
                     image: info.image
                 }
             })
+            debugger
             await this.feedService.createBatchFeed(paramList)
+            console.log('===feed link task===', paramList)
         } catch (error) {
             console.error(error)
         }

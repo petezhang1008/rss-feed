@@ -20,12 +20,12 @@ export default function FeedItem({ feed }: { feed: FeedWithRss }) {
                         </div>
                     </div>
                     <div className="flex items-center gap-2 gap-3 text-xs text-gray-400 shrink-0 mt-3 justify-between">
-                        <div className="flex items-center gap-2 hover:text-secondary" onClick={stopEvent}>
-                            <Link href={`${RouterName.RSS_DETAIL}?rssId=${feed?.rssId}`} target="_blank">
+                        <div className="flex items-center gap-2 hover:text-secondary overflow-hidden" onClick={stopEvent}>
+                            <Link href={`${RouterName.RSS_DETAIL}?rssId=${feed?.rssId}`} target="_blank" className="overflow-hidden">
                                 <RssItem rss={feed?.rss} />
                             </Link>
                         </div>
-                        <div>
+                        <div className="overflow-hidden shrink-0">
                             <DateTag date={feed.createdAt} />
                         </div>
                     </div>

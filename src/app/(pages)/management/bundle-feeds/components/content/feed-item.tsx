@@ -18,10 +18,10 @@ export default function FeedItem({ feed }: { feed: FeedWithRss }) {
                 <div className="flex items-center gap-2 justify-between">
                     <Link href={`${RouterName.RSS_FEEDS}/${feed?.rssId}`}
                         target="_blank"
-                        className="flex items-center gap-2 text-gray-500 text-xs hover:text-secondary">
+                        className="flex items-center gap-2 text-gray-500 text-xs hover:text-secondary overflow-hidden">
                         <RssItem rss={feed?.rss} />
                     </Link>
-                    <div>
+                    <div className="overflow-hidden shrink-0">
                         <DateTag date={feed.createdAt} />
                     </div>
                 </div>

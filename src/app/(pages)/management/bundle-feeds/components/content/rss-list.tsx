@@ -8,7 +8,7 @@ export function RssList({ rssList }: { rssList: UserRssWithRss[] }) {
         {rssList && rssList.map(userRss => {
             return (
                 <div key={userRss.id} className="flex items-center gap-2 hover:bg-gray-100 hover:text-blue-700 px-2 py-1 rounded-md cursor-pointer">
-                    <Link href={`${RouterName.RSS_FEEDS}/${userRss?.id}`} target="_blank">
+                    <Link href={`${RouterName.RSS_FEEDS}/${userRss?.id}`} target="_blank" className="overflow-hidden">
                         <RssItem rss={userRss?.rss} />
                     </Link>
                 </div>)

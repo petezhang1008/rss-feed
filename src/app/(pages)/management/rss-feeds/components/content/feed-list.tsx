@@ -6,9 +6,9 @@ import { useClientFeeds } from "../../hooks/client/use-feeds";
 import { PaginationFeeds } from "@/models/feed-model";
 import FeedCardSkeleton from "@/app/components/skeleton/feed-card-skeleton";
 import NoMoreData from "@/app/components/more-data/no-more-data";
-import { UserRss, Feed } from "@/types/model";
+import { Feed, UserRssWithRss } from "@/types/model";
 
-export default function FeedList({ paginationFeeds, rssDetail }: { paginationFeeds: PaginationFeeds, rssDetail: UserRss }) {
+export default function FeedList({ paginationFeeds, rssDetail }: { paginationFeeds: PaginationFeeds, rssDetail: UserRssWithRss }) {
     const [feedList, setFeedList] = useState<Feed[]>(paginationFeeds?.result || [])
     const [page, setPage] = useState(paginationFeeds?.page || 1)
     const [pageSize] = useState(paginationFeeds?.pageSize || 50)
@@ -20,7 +20,7 @@ export default function FeedList({ paginationFeeds, rssDetail }: { paginationFee
         getFeedsApi({
             page: page + 1,
             pageSize,
-            rssId: rssDetail?.id || ''
+            rssId: rssDetail?.rss?.id || ''
         }).then(res => {
             setFeedList(feedList.concat(res.result))
             setPage(page + 1)

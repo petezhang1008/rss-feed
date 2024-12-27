@@ -20,7 +20,7 @@ export default function RssDetailHeader({ rssDetail }: { rssDetail: RssDetail })
         })
     }
     return <div className="flex gap-4 px-4 py-6 bg-white flex-1 rounded-md shadow-sm justify-between items-center">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 overflow-hidden">
             <div className="avatar placeholder shrink-0">
                 <div className="size-20">
                     <LogoImage src={rssDetail?.image} title={rssDetail?.title} />
