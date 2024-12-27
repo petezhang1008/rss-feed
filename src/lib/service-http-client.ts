@@ -3,7 +3,7 @@ import { CookieJar } from "tough-cookie";
 import { wrapper } from "axios-cookiejar-support";
 
 const jar = new CookieJar();
-export const serviceHtmlHttpClient = wrapper(axios.create({
+export const fetchHtmlHttpClient = wrapper(axios.create({
     timeout: 30000,
     jar,
     withCredentials: true,
@@ -13,7 +13,7 @@ export const serviceHtmlHttpClient = wrapper(axios.create({
     }
 }))
 
-export const serviceXmlHttpClient = axios.create({
+export const fetchXmlHttpClient = axios.create({
     timeout: 30000,
     headers: {
         'Content-Type': 'application/xml',

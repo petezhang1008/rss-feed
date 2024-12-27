@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { injectService } from "@/inversify.config";
 import { sendJsonResponse } from "@/lib/http-server";
-import { BundleService } from "@/services/bundle-service";
+import { BundleService } from "@/services/prisma/bundle-service";
 import { Bundle } from "@/types/model";
 
 export async function POST(request: Request) {

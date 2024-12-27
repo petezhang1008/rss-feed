@@ -1,12 +1,12 @@
 import { inject, injectable } from "inversify"
-import { RssTaskService } from "../rss-task-service"
+import { RssTaskService } from "../task/rss-task-service"
 import { WebsiteParserService } from "../website-parser-service"
 import { addFeedLinkQueue } from "@/lib/queue"
 import { RssGeneratorType } from "@/enums/rss"
 import { RssParserService } from "../rss-parser-service"
-import { UrlFormateService } from "../url-formate-service"
-import { TaskService, TaskResult } from "../task-service"
-import { FeedService } from "../feed-service"
+import { UrlFormateService } from "../website-parser/url-formate-service"
+import { TaskService, TaskResult } from "../prisma/task-service"
+import { FeedService } from "../prisma/feed-service"
 import { Rss } from "@/types/model"
 
 @injectable()

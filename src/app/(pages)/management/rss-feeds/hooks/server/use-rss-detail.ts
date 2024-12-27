@@ -1,6 +1,6 @@
 import { injectService } from "@/inversify.config"
-import { BundleService } from "@/services/bundle-service"
-import { UserRssService } from "@/services/user-rss-service"
+import { BundleService } from "@/services/prisma/bundle-service"
+import { UserRssService } from "@/services/prisma/user-rss-service"
 
 export default function useRssDetail() {
     const userRssService = injectService<UserRssService>(UserRssService)

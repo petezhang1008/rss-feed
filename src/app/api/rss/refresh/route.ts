@@ -1,9 +1,9 @@
 import { ErrorCode } from "@/enums/error-code"
 import { injectService } from "@/inversify.config"
 import { sendError, sendResponse } from "@/lib/http-server"
-import { TaskResult } from "@/services/task-service"
-import { RssService } from "@/services/rss-service"
-import { RssTaskService } from "@/services/rss-task-service"
+import { TaskResult } from "@/services/prisma/task-service"
+import { RssService } from "@/services/prisma/rss-service"
+import { RssTaskService } from "@/services/task/rss-task-service"
 import { NextRequest } from "next/server"
 import { ErrorData, ResponseType } from '@/lib/http-server';
 

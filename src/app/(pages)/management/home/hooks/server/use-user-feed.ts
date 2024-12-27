@@ -1,5 +1,5 @@
 import { injectService } from "@/inversify.config"
-import { FeedService } from "@/services/feed-service"
+import { FeedService } from "@/services/prisma/feed-service"
 
 export function useUserFeed() {
     const feedService = injectService<FeedService>(FeedService)

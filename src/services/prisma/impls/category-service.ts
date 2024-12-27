@@ -1,5 +1,5 @@
 import { Category } from "@/types/model"
-import { CategoryService } from "../category-service";
+import { CategoryService } from "../prisma/category-service";
 import { CategoryModel } from "@/models/category-model";
 import { injectable, inject } from "inversify";
 

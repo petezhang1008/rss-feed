@@ -1,10 +1,10 @@
+export const XmlParserService = Symbol('XmlParserService')
 
-export const RssParserService = Symbol('RssParserService')
-
-export interface RssParserService {
-    parseRss(url: string): Promise<RssItem[]>
+export interface XmlParserService {
     getRssInfo(url: string): Promise<RssInfo>
 }
+
+
 
 export interface RssInfo {
     title: string
@@ -13,6 +13,7 @@ export interface RssInfo {
     author?: string
     keywords?: string
     link?: string
+    items?: RssItem[]
 }
 
 export interface RssItem {
@@ -22,4 +23,5 @@ export interface RssItem {
     pubDate?: string
     author?: string
     image?: string
+    content?: string
 }

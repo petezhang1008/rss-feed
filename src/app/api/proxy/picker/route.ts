@@ -1,32 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { injectService } from "@/inversify.config";
-import { WebsiteParserService } from "@/services/website-parser-service";
-
-interface PagePickerParam {
-    link: string | null
-}
+import { WebsiteProxyService } from "@/services/website-parser/website-proxy-service";
 
 export async function GET(req: NextRequest): Promise<NextResponse<string>> {
-    const websiteParserService = injectService<WebsiteParserService>(WebsiteParserService)
-    const params: PagePickerParam = {
-        link: req.nextUrl.searchParams.get('link')
-    }
-    const url = params.link
-    if (!url) {
+    const websiteProxyService = injectService<WebsiteProxyService>(WebsiteProxyService)
+    const link = req.nextUrl.searchParams.get('link')
+    if (!link) {
         return new NextResponse(JSON.stringify({ error: 'Missing URL' }), {
             status: 400,
             headers: { 'Content-Type': 'application/json' },
         });
     }
     try {
-        const document = await websiteParserService.getWebsiteDocument(url)
-
-        // 清除所有 <script> 标签
-        const scripts = document.querySelectorAll('script');
-        scripts.forEach(script => script.remove());
-
-        // 获取处理后的 HTML
-        const cleanedHtml = document.documentElement.outerHTML;
+        const cleanedHtml = await websiteProxyService.getProxyHtml(link)
 
         // 返回处理后的 HTML
         return new NextResponse(cleanedHtml, {

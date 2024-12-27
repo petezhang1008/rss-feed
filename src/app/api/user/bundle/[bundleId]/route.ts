@@ -3,7 +3,7 @@ import { ErrorCode } from "@/enums/error-code"
 import { injectService } from "@/inversify.config"
 import { sendError, sendJsonResponse } from "@/lib/http-server"
 import { ErrorData } from "@/lib/http-server"
-import { BundleService } from "@/services/bundle-service"
+import { BundleService } from "@/services/prisma/bundle-service"
 
 const bundleService = injectService<BundleService>(BundleService)
 export async function GET(request: Request, { params }: { params: Promise<{ bundleId: string }> }) {

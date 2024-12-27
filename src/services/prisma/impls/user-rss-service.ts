@@ -1,7 +1,7 @@
 import { CreateUserRssParams, PaginationUserRssParams, QueryUserRssParams, UpdateUserRssParams, UserRssModel } from "@/models/user-rss-model";
 import { inject, injectable } from "inversify";
-import { CreateUserRssByRssIdParams, UserRssService } from "../user-rss-service";
-import { RssService } from "../rss-service";
+import { CreateUserRssByRssIdParams, UserRssService } from "../prisma/user-rss-service";
+import { RssService } from "../prisma/rss-service";
 
 @injectable()
 export class UserRssServiceImpl implements UserRssService {

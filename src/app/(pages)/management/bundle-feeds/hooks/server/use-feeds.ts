@@ -1,6 +1,6 @@
 import { injectService } from "@/inversify.config"
 import { GetBundleFeedParams } from "@/models/feed-model"
-import { FeedService } from "@/services/feed-service"
+import { FeedService } from "@/services/prisma/feed-service"
 
 export default function useFeeds() {
     const feedService = injectService<FeedService>(FeedService)

@@ -2,7 +2,7 @@ import cron from 'node-cron'
 import { addRssQueue } from './queue'
 import { RssGeneratorFrequency } from '@/enums/rss';
 import { injectService } from '@/inversify.config';
-import { RssService } from '@/services/rss-service';
+import { RssService } from '@/services/prisma/rss-service';
 
 
 const rssDailyTask = cron.schedule(' 0 8 * * *', async () => {

@@ -3,7 +3,7 @@ import { UserData } from "@/models/user-model"
 import { ResponseType } from '@/lib/http-server';
 import { NextRequest } from "next/server";
 import { injectService } from "@/inversify.config";
-import { UserService } from "@/services/user-service";
+import { UserService } from "@/services/prisma/user-service";
 
 export async function POST(req: NextRequest): ResponseType<UserData> {
     const userService = injectService<UserService>(UserService)

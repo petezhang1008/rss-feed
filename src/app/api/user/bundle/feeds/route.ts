@@ -3,7 +3,7 @@ import { injectService } from "@/inversify.config"
 import { sendError, sendResponse } from "@/lib/http-server"
 import { ErrorData, ResponseType } from "@/lib/http-server"
 import { PaginationFeeds, GetBundleFeedParams } from "@/models/feed-model"
-import { FeedService } from "@/services/feed-service"
+import { FeedService } from "@/services/prisma/feed-service"
 import { NextRequest } from "next/server"
 
 const feedService = injectService<FeedService>(FeedService)

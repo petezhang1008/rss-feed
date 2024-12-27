@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { injectService } from './inversify.config';
-import { LoginService } from './services/login-service';
+import { LoginService } from './services/auth/login-service';
 import { z } from 'zod';
 
 export const { auth, signIn, signOut, handlers } = NextAuth({

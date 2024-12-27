@@ -1,6 +1,6 @@
 import { BundleData, BundleModel, QueryBundlePaginationParams } from "@/models/bundle-model"
 import { injectable, inject } from "inversify"
-import { BundleService } from "../bundle-service"
+import { BundleService } from "../prisma/bundle-service"
 
 @injectable()
 export class BundleServiceImpl implements BundleService {

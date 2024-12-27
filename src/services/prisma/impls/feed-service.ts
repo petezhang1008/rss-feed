@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify"
-import { FeedService } from "../feed-service"
+import { FeedService } from "../prisma/feed-service"
 import {
     CreateFeedParams,
     FeedModel,
@@ -10,9 +10,9 @@ import {
     GetFeedParams,
     QueryUserFeedParams
 } from "@/models/feed-model"
-import { RssService } from "../rss-service"
-import { UserRssService } from "../user-rss-service"
-import { CategoryService } from "../category-service"
+import { RssService } from "../prisma/rss-service"
+import { UserRssService } from "../prisma/user-rss-service"
+import { CategoryService } from "../prisma/category-service"
 import _ from "lodash"
 import { Rss } from "@/types/model"
 

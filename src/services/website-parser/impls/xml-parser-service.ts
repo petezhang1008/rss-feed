@@ -1,30 +1,20 @@
 import { inject, injectable } from "inversify";
-import { RssInfo, RssItem, RssParserService } from "../rss-parser-service";
+import { RssInfo, RssItem, XmlParserService } from "../xml-parser-service";
+import { WebsiteProxyService } from "../website-proxy-service";
 import { TITLE_REGEX } from "@/constants/regex";
-import { UrlFormateService } from "../url-formate-service";
+import { UrlFormateService } from "@/services/website-parser/url-formate-service";
 const { XMLParser } = require("fast-xml-parser");
 
-
 @injectable()
-export class RssParserServiceImpl implements RssParserService {
+export class XmlParserServiceImpl implements XmlParserService {
     constructor(
+        @inject(WebsiteProxyService)
+        private _websiteProxyService: WebsiteProxyService,
         @inject(UrlFormateService)
         private _urlFormateService: UrlFormateService
     ) { }
 
-    private async fetchRssData(url: string): Promise<string> {
-        try {
-            const response = await fetch(url);
-            const text = await response.text();
-            return text;
-        } catch (error) {
-            console.error('rss fetch error', url, error);
-            throw error;
-        }
-    }
-
     private _formatTitle(title: string) {
-        if (!title) return title
         const parts = title.split(TITLE_REGEX);
         return parts[0].trim()
     }
@@ -34,9 +24,7 @@ export class RssParserServiceImpl implements RssParserService {
         return str.replace(/<[^>]*>/g, ''); // 使用正则表达式匹配 HTML 标签并替换为空字符串
     }
 
-    private parseXmlFeedList(xmlText: string): RssItem[] {
-        const parser = new XMLParser();
-        const xmlJsonObj = parser.parse(xmlText);
+    private parseXmlFeedList(xmlJsonObj: any): RssItem[] {
         const items = xmlJsonObj.rss?.channel?.item || xmlJsonObj.feed?.entry
 
         const rssItems: RssItem[] = [];
@@ -48,23 +36,22 @@ export class RssParserServiceImpl implements RssParserService {
             const pubDate = item.pubDate || new Date().toISOString();
             const author = item.author || "";
             const image = item.image || "";
-
+            const content = item.content || "";
             rssItems.push({
                 title,
                 link,
                 description,
                 pubDate,
                 author,
-                image
+                image,
+                content
             });
         });
 
         return rssItems;
     }
 
-    private parseXmlFeedInfo(xmlText: string, url: string): RssInfo {
-        const parser = new XMLParser();
-        const xmlJsonObj = parser.parse(xmlText);
+    private parseXmlFeedInfo(xmlJsonObj: any, url: string): RssInfo {
         const data = xmlJsonObj.rss?.channel || xmlJsonObj.feed || xmlJsonObj
 
         const title = data.title || ""
@@ -83,15 +70,15 @@ export class RssParserServiceImpl implements RssParserService {
             link
         }
     }
-
-    async parseRss(url: string): Promise<RssItem[]> {
-        const xmlText = await this.fetchRssData(url)
-        return this.parseXmlFeedList(xmlText)
-    }
-
     async getRssInfo(url: string): Promise<RssInfo> {
-        const xmlText = await this.fetchRssData(url)
-        return this.parseXmlFeedInfo(xmlText, url)
+        const xmlText = await this._websiteProxyService.getProxyHtml(url)
+        const parser = new XMLParser();
+        const xmlJsonObj = parser.parse(xmlText);
+        const rssInfo = this.parseXmlFeedInfo(xmlJsonObj, url)
+        const rssItems = this.parseXmlFeedList(xmlJsonObj)
+        return {
+            ...rssInfo,
+            items: rssItems
+        }
     }
-
 }

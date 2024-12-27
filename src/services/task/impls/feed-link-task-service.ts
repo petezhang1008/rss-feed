@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify"
 import { FeedTask, FeedLinkTaskService } from "../feed-link-task-service"
 import { WebsiteInfo, WebsiteParserService } from "../website-parser-service"
-import { FeedService } from "../feed-service"
-import { TaskService } from "../task-service"
+import { FeedService } from "../prisma/feed-service"
+import { TaskService } from "../prisma/task-service"
 import _ from "lodash"
 
 @injectable()

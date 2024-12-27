@@ -1,6 +1,6 @@
 import { UserData, UserModel } from "@/models/user-model"
 import { injectable, inject } from "inversify"
-import { UserService } from "../user-service"
+import { UserService } from "../prisma/user-service"
 import bcrypt from 'bcrypt'
 
 const SALT_ROUNDS = 10

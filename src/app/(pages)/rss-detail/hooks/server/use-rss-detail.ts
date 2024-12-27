@@ -1,5 +1,5 @@
 import { injectService } from "@/inversify.config"
-import { RssService } from "@/services/rss-service"
+import { RssService } from "@/services/prisma/rss-service"
 
 export const useRssDetail = () => {
     const rssService = injectService<RssService>(RssService)

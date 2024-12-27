@@ -1,5 +1,5 @@
 import { injectService } from "@/inversify.config"
-import { CategoryService } from "@/services/category-service"
+import { CategoryService } from "@/services/prisma/category-service"
 
 export const useCategory = () => {
     const categoryService = injectService<CategoryService>(CategoryService)

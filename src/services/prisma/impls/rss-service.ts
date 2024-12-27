@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { RssService } from "../rss-service";
+import { RssService } from "../prisma/rss-service";
 import {
     CreateRssParams,
     GetRssByTypeWebsiteSelectorParams,

@@ -1,7 +1,7 @@
 import { ErrorCode } from "@/enums/error-code"
 import { injectService } from "@/inversify.config"
 import { sendError, sendResponse } from "@/lib/http-server"
-import { TaskService } from "@/services/task-service"
+import { TaskService } from "@/services/prisma/task-service"
 import { NextRequest } from "next/server"
 import { ErrorData, ResponseType } from '@/lib/http-server';
 import { Task } from "@/types/model"

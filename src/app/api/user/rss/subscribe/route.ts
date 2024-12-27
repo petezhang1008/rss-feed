@@ -3,7 +3,7 @@ import { ErrorCode } from "@/enums/error-code"
 import { injectService } from "@/inversify.config"
 import { sendError, sendJsonResponse } from "@/lib/http-server"
 import { ErrorData } from "@/lib/http-server"
-import { UserRssService } from "@/services/user-rss-service"
+import { UserRssService } from "@/services/prisma/user-rss-service"
 
 const userRssService = injectService<UserRssService>(UserRssService)
 export async function POST(request: Request) {

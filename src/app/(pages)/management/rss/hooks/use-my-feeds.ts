@@ -1,7 +1,7 @@
 import { injectService } from "@/inversify.config";
 import { PaginationUserRssParams } from "@/models/user-rss-model";
-import { UrlFormateService } from "@/services/url-formate-service";
-import { UserRssService } from "@/services/user-rss-service";
+import { UrlFormateService } from "@/services/website-parser/url-formate-service";
+import { UserRssService } from "@/services/prisma/user-rss-service";
 
 
 export default function useMyFeeds() {
