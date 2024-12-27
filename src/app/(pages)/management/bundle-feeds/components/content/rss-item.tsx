@@ -9,8 +9,8 @@ export function RssItem({ rss }: { rss: Rss }) {
                     <LogoImage src={rss?.image} title={rss?.title} />
                 </div>
             </div>
-            <div className="flex flex-col flex-grow overflow-hidden">
-                <p className="text-sm truncate">{rss?.title}</p>
+            <div className="flex overflow-hidden">
+                <div className="text-sm truncate">{rss?.title}</div>
             </div>
         </div>
     )

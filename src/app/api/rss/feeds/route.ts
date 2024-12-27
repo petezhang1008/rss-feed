@@ -1,7 +1,7 @@
 import { ErrorCode } from "@/enums/error-code"
 import { injectService } from "@/inversify.config"
 import { sendError, sendResponse } from "@/lib/http-server"
-import { ErrorData, ResponseType } from "@/lib/http-server.interface"
+import { ErrorData, ResponseType } from "@/lib/http-server"
 import { PaginationFeeds, GetFeedParams } from "@/models/feed-model"
 import { FeedService } from "@/services/feed-service"
 import { NextRequest } from "next/server"

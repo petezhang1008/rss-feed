@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { WebsiteParserService } from "../website-parser-service";
 import { JSDOM } from "jsdom";
 import { UrlFormateService } from "../url-formate-service";
-import puppeteer from 'puppeteer';
+// import puppeteer from 'puppeteer';
 import { TITLE_REGEX } from "@/constants/regex";
 
 @injectable()
@@ -12,27 +12,16 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
         private _urlFormateService: UrlFormateService
     ) {
     }
+    private _fetchHtml(url: string) {
+        return fetch(url).then(res => res.text())
+    }
 
     async getWebsiteDocument(url: string) {
         url = decodeURIComponent(url)
-
-        const browser = await puppeteer.launch({ headless: true });
-        const page = await browser.newPage();
-        await page.setRequestInterception(true);
-        await page.setViewport({ width: 1280, height: 800 });
-        page.on('request', (request) => {
-            if (['image', 'stylesheet', 'font'].includes(request.resourceType())) {
-                request.abort();
-            } else {
-                request.continue();
-            }
-        });
-        await page.goto(url);
-        const content = await page.content();
-        await browser.close();
+        const html = await this._fetchHtml(url)
 
         // 使用 JSDOM 解析 HTML
-        const dom = new JSDOM(content);
+        const dom = new JSDOM(html);
         const document = dom.window.document;
         // 将所有相对路径转换为绝对路径
         const baseUrl = new URL(url);
@@ -101,6 +90,15 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
             document.querySelectorAll(`meta[property="schema:${property}"]`)[0]?.getAttribute('content')
     }
 
+    private _getWebsiteIcon(document: Document) {
+        return document.querySelectorAll('link[rel="icon"]')[0]?.getAttribute('href') ||
+            document.querySelectorAll('link[rel="shortcut icon"]')[0]?.getAttribute('href') ||
+            document.querySelectorAll('link[rel="apple-touch-icon"]')[0]?.getAttribute('href') ||
+            document.querySelectorAll('link[rel="apple-touch-icon-precomposed"]')[0]?.getAttribute('href') ||
+            document.querySelectorAll('link[rel="apple-touch-icon-precomposed"]')[0]?.getAttribute('href') ||
+            document.querySelectorAll('link[rel="mask-icon"]')[0]?.getAttribute('href')
+    }
+
     async getWebsiteInfo(url: string) {
         const document = await this.getWebsiteDocument(url)
 
@@ -111,6 +109,7 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
         const metaKeywords = this._getMetaValueByProperty(document, 'keywords')
         const metaPubDate = this._getMetaValueByProperty(document, 'published_time') ||
             this._getMetaValueByProperty(document, 'modified_time')
+        const icon = this._getWebsiteIcon(document)
 
         const domain = this._urlFormateService.getDomain(url)
         const image = metaImage ? this._urlFormateService.getFullUrl(metaImage, url) : null
@@ -120,6 +119,7 @@ export class WebsiteParserServiceImpl implements WebsiteParserService {
             title: this._formatTitle(title || ""),
             description: metaDescription || "",
             image: image || "",
+            icon: icon || "",
             author: metaAuthor || "",
             keywords: metaKeywords || "",
             pubDate: metaPubDate ? new Date(metaPubDate) : null,

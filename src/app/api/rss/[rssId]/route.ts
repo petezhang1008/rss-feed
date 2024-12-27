@@ -2,7 +2,7 @@ import { auth } from "@/auth"
 import { ErrorCode } from "@/enums/error-code"
 import { injectService } from "@/inversify.config"
 import { sendError, sendJsonResponse, sendResponse } from "@/lib/http-server"
-import { ErrorData } from "@/lib/http-server.interface"
+import { ErrorData } from "@/lib/http-server"
 import { UserRssService } from "@/services/user-rss-service"
 import { UserRss } from "@/types/model"
 

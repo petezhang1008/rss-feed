@@ -1,6 +1,6 @@
 import { sendJsonResponse } from "@/lib/http-server"
 import { UserData } from "@/models/user-model"
-import { ResponseType } from '@/lib/http-server.interface';
+import { ResponseType } from '@/lib/http-server';
 import { NextRequest } from "next/server";
 import { injectService } from "@/inversify.config";
 import { UserService } from "@/services/user-service";

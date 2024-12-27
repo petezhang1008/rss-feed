@@ -5,7 +5,7 @@ import { TaskResult } from "@/services/task-service"
 import { RssService } from "@/services/rss-service"
 import { RssTaskService } from "@/services/rss-task-service"
 import { NextRequest } from "next/server"
-import { ErrorData, ResponseType } from '@/lib/http-server.interface';
+import { ErrorData, ResponseType } from '@/lib/http-server';
 
 const rssTaskService = injectService<RssTaskService>(RssTaskService)
 const rssService = injectService<RssService>(RssService)

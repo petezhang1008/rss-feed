@@ -2,7 +2,7 @@ import { auth } from "@/auth"
 import { ErrorCode } from "@/enums/error-code"
 import { injectService } from "@/inversify.config"
 import { sendError, sendJsonResponse } from "@/lib/http-server"
-import { ErrorData } from "@/lib/http-server.interface"
+import { ErrorData } from "@/lib/http-server"
 import { BundleService } from "@/services/bundle-service"
 
 const bundleService = injectService<BundleService>(BundleService)

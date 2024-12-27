@@ -21,7 +21,6 @@ export default function PreviewFooter() {
             type: RssGeneratorType.WEBSITE,
             website: websiteLink,
             selector: path,
-            frequency: "daily",
             title: title || ""
         })
         redirect(`${RouterName.RSS_FEEDS}/${res.id}`)

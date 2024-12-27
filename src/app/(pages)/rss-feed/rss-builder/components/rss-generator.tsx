@@ -1,24 +1,36 @@
 'use client';
-import { createRssAction } from "@/app/lib/create-rss-action";
+import { createRssAction, createUserRssAction } from "@/app/lib/create-rss-action";
 import { RouterName } from "@/enums/router";
 import { RssGeneratorType } from "@/enums/rss";
 import { redirect } from "next/navigation";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+
 
 export default function RssBuilder() {
     const [websiteLink, setWebsiteLink] = useState('');
+    const { data: session } = useSession()
+    const userId = session?.user?.id
     function handleWebsiteLink(e: React.ChangeEvent<HTMLInputElement>) {
         setWebsiteLink(e.target.value);
     }
 
     async function handleGenerate() {
-        const res = await createRssAction({
-            type: RssGeneratorType.RSS,
-            website: websiteLink,
-            frequency: "daily",
-        })
-        redirect(`${RouterName.RSS_FEEDS}/${res.id}`)
+        if (userId) {
+            const res = await createUserRssAction({
+                type: RssGeneratorType.RSS,
+                website: websiteLink,
+            })
+            redirect(`${RouterName.RSS_FEEDS}/${res.id}`)
+        } else {
+            const res = await createRssAction({
+                type: RssGeneratorType.RSS,
+                website: websiteLink,
+            })
+            redirect(`${RouterName.RSS_DETAIL}/${res.id}`)
+        }
     }
+
 
     return (
         <div className="join">

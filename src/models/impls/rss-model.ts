@@ -39,6 +39,16 @@ export class RssModelImpl implements RssModel {
         return result
     }
     async createRss(data: CreateRssParams) {
+        const exist = await this._prisma.rss.findFirst({
+            where: {
+                type: data.type,
+                website: data.website,
+                selector: data.selector || ""
+            }
+        })
+        if (exist) {
+            return exist
+        }
         const result = await this._prisma.rss.create({
             data: {
                 ...data

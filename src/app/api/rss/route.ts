@@ -1,50 +1,21 @@
 import { injectService } from "@/inversify.config";
 import { NextRequest } from "next/server";
-import { ErrorData, ResponseType } from '@/lib/http-server.interface';
-import { ErrorCode } from '@/enums/error-code';
-import { CreateUserRssParams, PaginationUserRss } from '@/models/user-rss-model';
-import { sendError, sendResponse } from "@/lib/http-server";
-import { auth } from "@/auth";
+import { ResponseType } from '@/lib/http-server';
+import { sendResponse } from "@/lib/http-server";
 import { RssTaskService } from "@/services/rss-task-service";
-import { UserRssWithRssAndBundle } from "@/types/model";
-import { UserRssService } from "@/services/user-rss-service";
+import { Rss } from "@/types/model";
+import { RssService } from "@/services/rss-service";
+import { CreateRssParams } from "@/models/rss-model";
 
-const userRssService = injectService<UserRssService>(UserRssService);
 const rssTaskService = injectService<RssTaskService>(RssTaskService)
-
-export async function GET(req: NextRequest): ResponseType<PaginationUserRss> {
-    const params = req.nextUrl.searchParams
-    const page = params.get('page')
-    const pageSize = params.get('pageSize')
-    const session = await auth()
-    const userId = session?.user?.id
-    if (!userId) {
-        return sendError<ErrorData>(400, ErrorCode.NO_USER)
-    }
-    const result = await userRssService?.queryUserRssList({
-        userId,
-        page: Number(page),
-        pageSize: Number(pageSize)
-    })
-    if (!result) {
-        return sendError<ErrorData>(404, ErrorCode.NOT_FOUND)
-    }
-    return sendResponse<PaginationUserRss>(result)
-}
+const rssService = injectService<RssService>(RssService)
 
 
-
-export async function POST(req: NextRequest): ResponseType<UserRssWithRssAndBundle> {
-    const data: CreateUserRssParams = await req.json()
-    const session = await auth()
-    const userId = session?.user?.id
-    if (!userId) {
-        return sendError<ErrorData>(400, ErrorCode.NO_USER)
-    }
-    const result = await userRssService?.createUserRss({
+export async function POST(req: NextRequest): ResponseType<Rss> {
+    const data: CreateRssParams = await req.json()
+    const result = await rssService?.createRss({
         ...data,
-        userId
     })
-    rssTaskService.consumeRssTask(result.rss)
-    return sendResponse<UserRssWithRssAndBundle>(result)
+    rssTaskService.consumeRssTask(result)
+    return sendResponse<Rss>(result)
 }

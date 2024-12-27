@@ -19,7 +19,7 @@ export default function RssDetailHeader({ rssDetail }: { rssDetail: RssDetail })
             toast.error(error.message)
         })
     }
-    return <div className="flex gap-4 px-4 py-6 bg-white rounded-md shadow-sm justify-between items-center">
+    return <div className="flex gap-4 px-4 py-6 bg-white flex-1 rounded-md shadow-sm justify-between items-center">
         <div className="flex items-center gap-4">
             <div className="avatar placeholder shrink-0">
                 <div className="size-20">

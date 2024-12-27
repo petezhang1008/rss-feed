@@ -35,7 +35,7 @@ export default function LogoImage({ src, title }: { src: string | null, title: s
                         src={src}
                         alt={title}
                         referrerPolicy="no-referrer"
-                        className="!object-cover"
+                        className="w-full h-full object-cover"
                     />
                 )
             ) : (

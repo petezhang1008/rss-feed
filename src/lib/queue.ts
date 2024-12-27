@@ -11,6 +11,7 @@ rssQueue.process(async (job: Job<Rss>, done: (error?: Error | null) => void) => 
     const rssTaskService = injectService<RssTaskService>(RssTaskService)
     const data: Rss = job.data
     rssTaskService.consumeRssTask(data)
+    console.log('===rss generator task===')
     done()
 })
 
@@ -24,6 +25,7 @@ feedLinkQueue.process(async (job: Job<FeedTask>, done: (error?: Error | null) =>
     const feedLinkTaskService = injectService<FeedLinkTaskService>(FeedLinkTaskService)
     const data: FeedTask = job.data
     feedLinkTaskService.consumeFeedTask(data)
+    console.log('===feed link task===')
     done()
 })
 
