@@ -5,11 +5,9 @@ import { sendError, sendResponse } from "@/lib/http-server"
 import { ErrorData, ResponseType } from "@/lib/http-server"
 import { GetFeedParams, PaginationFeeds } from "@/models/feed-model"
 import { FeedService } from "@/services/prisma/feed-service"
-import { UserRssService } from "@/services/prisma/user-rss-service"
 import { NextRequest } from "next/server"
 
 const feedService = injectService<FeedService>(FeedService)
-const userRssService = injectService<UserRssService>(UserRssService)
 export async function GET(req: NextRequest): ResponseType<PaginationFeeds> {
     const page: number = parseInt(req.nextUrl.searchParams.get('page') || '1')
     const pageSize: number = parseInt(req.nextUrl.searchParams.get('pageSize') || '50')
