@@ -29,7 +29,7 @@ export class XmlParserServiceImpl implements XmlParserService {
 
         const rssItems: RssItem[] = [];
 
-        items.forEach((item: any) => {
+        items?.forEach((item: any) => {
             const title = this._formatTitle(item.title || "");
             const link = item.link || "";
             const description = this._removeHtmlTags(item.description || "");

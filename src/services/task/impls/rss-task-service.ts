@@ -26,6 +26,7 @@ export class RssTaskServiceImpl implements RssTaskService {
     }
 
     async consumeRssTask(data: Rss): Promise<TaskResult> {
+        console.log('====consumeRssTask=======', data)
         if (data.type === RssGeneratorType.WEBSITE) {
             return await this._initWebsiteGenerator(data)
         } else {
@@ -44,7 +45,11 @@ export class RssTaskServiceImpl implements RssTaskService {
             return !_links.includes(item)
         })
         if (targetPages.length === 0) {
-            throw new Error('No Feed To Update')
+            console.log('====No Feed To Update=======', data.title)
+            // throw new Error('No Feed To Update')
+        }
+        if (!data.id) {
+            throw new Error('No Rss Id')
         }
         const task = await this._executeTaskService.startTask({
             rssId: data.id!,
@@ -67,7 +72,11 @@ export class RssTaskServiceImpl implements RssTaskService {
             return !_links.includes(item)
         })
         if (targetPages.length === 0) {
-            throw new Error('No Feed To Update')
+            console.log('====No Feed To Update=======', rssInfo.title)
+            // throw new Error('No Feed To Update')
+        }
+        if (!data.id) {
+            throw new Error('No Rss Id')
         }
         const task = await this._executeTaskService.startTask({
             rssId: data.id!,
