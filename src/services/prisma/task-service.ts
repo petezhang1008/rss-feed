@@ -8,6 +8,7 @@ export interface TaskService {
     finishTask: (id: string, params: FinishTaskParams) => Promise<Task>
     readTask: (id: string) => Promise<Task>
     getLatestTaskByRssId: (rssId: string) => Promise<Task | null>
+    getTaskStatus: (id: string) => Promise<Task | null>
 }
 
 export type TaskResult = Pick<Task, 'id'>

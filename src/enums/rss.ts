@@ -9,6 +9,6 @@ export enum RssGeneratorFrequency {
 }
 
 export enum RssTaskStatus {
-    pending = 'pending',
-    finished = 'finished'
+    PENDING = 'pending',
+    FINISHED = 'finished',
 }

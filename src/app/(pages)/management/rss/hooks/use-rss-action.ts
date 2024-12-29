@@ -2,6 +2,7 @@ import { deleteAlert } from "@/app/components/common/delete-alert"
 import useToast from "@/app/hooks/use-toast"
 import { RouterName } from "@/enums/router"
 import { httpClient } from "@/lib/http-client"
+import { TaskResult } from "@/services/prisma/task-service"
 import { UserRss } from "@/types/model"
 import { redirect } from "next/navigation"
 
@@ -18,13 +19,12 @@ export const useRssAction = () => {
         return res
     }
 
-    const refreshRssApi = async (rssId: string) => {
-        const res = await httpClient.get('/rss/refresh', {
+    const refreshRssApi = async (rssId: string): Promise<TaskResult> => {
+        return httpClient.get<TaskResult>('/rss/refresh', {
             params: {
                 rssId
             }
-        })
-        return res;
+        }).then(res => res.data)
     }
 
     async function deleteRss(id: string) {

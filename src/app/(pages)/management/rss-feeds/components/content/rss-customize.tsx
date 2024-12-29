@@ -2,9 +2,18 @@
 import { Pencil1Icon, TrashIcon, DotsVerticalIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { useRssAction } from "../../../rss/hooks/use-rss-action";
 import { UserRssWithRssAndBundle } from "@/types/model";
+import { usePathname, useRouter } from "next/navigation";
+import useToast from "@/app/hooks/use-toast";
+import FullPageLoading from "@/app/components/loading/full-page-loading";
+import { useState } from "react";
+import useFeedsPaginationStore from "../../stores/use-feeds-pagination";
+import TaskStatus from "./task-status";
 
 export default function RssCustomize({ rssDetail }: { rssDetail: UserRssWithRssAndBundle }) {
     const { deleteRss, editRss, refreshRssApi } = useRssAction()
+    const { toast } = useToast()
+    const { refresh } = useFeedsPaginationStore()
+
     async function handleEditRss(rssDetail: UserRssWithRssAndBundle) {
         await editRss(rssDetail)
     }
@@ -12,9 +21,21 @@ export default function RssCustomize({ rssDetail }: { rssDetail: UserRssWithRssA
     async function handleDeleteRss(rssDetail: UserRssWithRssAndBundle) {
         await deleteRss(rssDetail.id)
     }
-
+    const [isLoading, setIsLoading] = useState(false)
+    const [taskId, setTaskId] = useState<string | undefined>(undefined)
     async function handleRefresh(rssId: string) {
-        await refreshRssApi(rssId)
+        setIsLoading(true)
+        await refreshRssApi(rssId).then(data => {
+            setTaskId(data?.id)
+        }).catch(error => {
+            toast.success('There is no data to refresh')
+            setIsLoading(false)
+        })
+    }
+
+    function handleRefreshCallback() {
+        setTaskId(undefined)
+        setIsLoading(false)
     }
 
     return (
@@ -38,6 +59,7 @@ export default function RssCustomize({ rssDetail }: { rssDetail: UserRssWithRssA
                     <DotsVerticalIcon className="size-4" />
                 </button>
             </div>
+            {isLoading && <TaskStatus taskId={taskId} callback={handleRefreshCallback} />}
         </div>
     )
 }

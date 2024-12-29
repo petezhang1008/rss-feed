@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export interface SelectedNodesStore{
+export interface SelectedNodesStore {
     selectedNodes: Element[]
     clearSelectedNodes: () => void
     setSelectedNodes: (nodes: Element[]) => void

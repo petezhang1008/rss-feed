@@ -4,8 +4,15 @@ import FeedContent from "../components/content/content";
 import useFeeds from "../hooks/server/use-feeds";
 import useRssDetail from "../hooks/server/use-rss-detail";
 
-export default async function Feed({ params }: { params: Promise<{ userRssId: string }> }) {
+export default async function Feed({
+    params,
+    searchParams
+}: {
+    params: Promise<{ userRssId: string }>,
+    searchParams: Promise<{ taskId?: string }>
+}) {
     const data = await params
+    const { taskId } = await searchParams
     const userRssId = data.userRssId
     const { getFeed } = useFeeds()
     const { getRssDetail } = useRssDetail()
@@ -22,7 +29,7 @@ export default async function Feed({ params }: { params: Promise<{ userRssId: st
                 <FeedHeader rssDetail={rssDetail!} />
             </ManagementHeader>
             <div className="p-4 overflow-auto flex-1">
-                <FeedContent paginationFeeds={res} rssDetail={rssDetail!} />
+                <FeedContent paginationFeeds={res} rssDetail={rssDetail!} taskId={taskId} />
             </div>
         </div>
     )

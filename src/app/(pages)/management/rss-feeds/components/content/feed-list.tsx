@@ -1,37 +1,36 @@
 'use client'
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import FeedItem from "./feed-item";
-import { useState } from "react";
-import { useClientFeeds } from "../../hooks/client/use-feeds";
+import { useEffect } from "react";
 import { PaginationFeeds } from "@/models/feed-model";
 import FeedCardSkeleton from "@/app/components/skeleton/feed-card-skeleton";
 import NoMoreData from "@/app/components/more-data/no-more-data";
-import { Feed, UserRssWithRss } from "@/types/model";
+import { UserRssWithRss } from "@/types/model";
+import useFeedsPaginationStore from "../../stores/use-feeds-pagination";
 
-export default function FeedList({ paginationFeeds, rssDetail }: { paginationFeeds: PaginationFeeds, rssDetail: UserRssWithRss }) {
-    const [feedList, setFeedList] = useState<Feed[]>(paginationFeeds?.result || [])
-    const [page, setPage] = useState(paginationFeeds?.page || 1)
-    const [pageSize] = useState(paginationFeeds?.pageSize || 50)
-    const [total, setTotal] = useState(paginationFeeds?.total || 0)
+export default function FeedList({
+    paginationFeeds,
+    rssDetail,
+}: {
+    paginationFeeds: PaginationFeeds,
+    rssDetail: UserRssWithRss,
+}) {
 
-    const { getFeedsApi } = useClientFeeds()
+    const {
+        feedList,
+        total,
+        init,
+        nextPage,
+    } = useFeedsPaginationStore()
 
-    function fetchData() {
-        getFeedsApi({
-            page: page + 1,
-            pageSize,
-            rssId: rssDetail?.rss?.id || ''
-        }).then(res => {
-            setFeedList(feedList.concat(res.result))
-            setPage(page + 1)
-            setTotal(res.total)
-        })
-    }
+    useEffect(() => {
+        init(rssDetail?.rss?.id || '', paginationFeeds)
+    }, [rssDetail])
 
     const [ref] = useInfiniteScroll({
         loading: false,
         hasNextPage: total > feedList.length,
-        onLoadMore: fetchData
+        onLoadMore: nextPage
     });
 
     return <>

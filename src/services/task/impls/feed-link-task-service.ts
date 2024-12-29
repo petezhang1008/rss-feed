@@ -40,9 +40,6 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
     async consumeFeedTask(data: FeedTask): Promise<void> {
         this._queue = data.targetPages
         const result = await this._processQueue()
-        this._executeTaskService.finishTask(data.taskId, {
-            successCount: result?.length || 0,
-        })
         if (!result || result.length === 0) {
             console.log('==================No Feed To Create================', data.rssId)
             return
@@ -61,6 +58,9 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
                 }
             })
             await this.feedService.createBatchFeed(paramList)
+            await this._executeTaskService.finishTask(data.taskId, {
+                successCount: result?.length || 0,
+            })
         } catch (error) {
             console.error(error)
         }

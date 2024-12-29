@@ -1,52 +1,67 @@
-
-import { injectService } from '@/inversify.config'
-import { GetFeedParams } from '@/models/feed-model'
-import { FeedService } from '@/services/prisma/feed-service'
+import { GetFeedParams, PaginationFeeds } from '@/models/feed-model'
 import { Feed } from '@prisma/client'
 import { create } from 'zustand'
+import { useClientFeeds } from '../hooks/client/use-feeds'
 
-export interface IframeDataStore {
-    allFeeds: Feed[]
+
+const useFeedsPaginationStore = create<{
+    rssId: string
+    feedList: Feed[]
     total: number
     page: number
     pageSize: number
     isLoading: boolean
-    getFeeds: (rssId: string) => Promise<void>
-    reset: () => void
-}
-
-const useFeedsPaginationStore = create<IframeDataStore>((set, get) => ({
-    feedId: '',
-    isLoading: false,
-    allFeeds: [],
+    init: (rssId: string, feeds: PaginationFeeds) => void
+    nextPage: () => Promise<void>
+    refresh: () => Promise<void>
+}>((set, get) => ({
+    rssId: '',
+    feedList: [],
     total: 0,
     page: 0,
     pageSize: 50,
-    getFeeds: async (rssId: string) => {
+    isLoading: false,
+    init: (rssId: string, paginationFeeds: PaginationFeeds) => {
+        set({
+            rssId,
+            feedList: paginationFeeds.result,
+            total: paginationFeeds.total,
+            page: paginationFeeds.page,
+            pageSize: paginationFeeds.pageSize,
+        })
+    },
+    nextPage: async () => {
         set({ isLoading: true })
-        const feedService = injectService<FeedService>(FeedService)
+        const { getFeedsApi } = useClientFeeds()
         const { page, pageSize } = get()
         const nextPage = page + 1
         const params: GetFeedParams = {
-            rssId: rssId,
+            rssId: get().rssId,
             page: nextPage,
             pageSize,
         }
-        const res = await feedService.getFeed(params)
+        const res = await getFeedsApi(params)
         set({
-            allFeeds: [...get().allFeeds, ...res.result],
+            feedList: [...get().feedList, ...res.result],
             total: res.total,
             page: res.page,
             pageSize: res.pageSize,
         })
         set({ isLoading: false })
     },
-    reset: () => {
+    refresh: async () => {
+        const params: GetFeedParams = {
+            rssId: get().rssId,
+            page: 1,
+            pageSize: get().pageSize,
+        }
+        const { getFeedsApi } = useClientFeeds()
+        const res = await getFeedsApi(params)
         set({
-            allFeeds: [],
-            total: 0,
-            page: 0,
-            pageSize: 50,
+            feedList: res.result,
+            total: res.total,
+            page: res.page,
+            pageSize: res.pageSize,
         })
     },
 }))

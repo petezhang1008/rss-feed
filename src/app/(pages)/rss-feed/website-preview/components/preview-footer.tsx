@@ -4,36 +4,49 @@ import useWebsiteLink from "../hooks/use-website-link";
 import useNodePathStore from "../store/use-node-path";
 import useSelectedNodesStore from "../store/use-selected-nodes"
 import { createRssAction, createUserRssAction } from "@/app/lib/create-rss-action"
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { RouterName } from "@/enums/router";
 import useIframeDataStore from "../store/use-iframe-data";
 import { useSession } from "next-auth/react";
+import useToast from "@/app/hooks/use-toast";
 
 export default function PreviewFooter() {
     const selectedNodes = useSelectedNodesStore(state => state.selectedNodes)
-    const websiteLink = useWebsiteLink()
+    const { websiteLink } = useWebsiteLink()
     const path = useNodePathStore(state => state.path)
     const title = useIframeDataStore(state => state.title)
     const { data: session } = useSession()
     const userId = session?.user?.id
+    const { toast } = useToast()
+    const router = useRouter()
 
 
     async function submit() {
         if (!websiteLink || !path) return
         if (userId) {
-            const userRss = await createUserRssAction({
-                type: RssGeneratorType.WEBSITE,
-                website: websiteLink,
-            })
-            redirect(`${RouterName.RSS_FEEDS}/${userRss.id}`)
-        } else {
-            const rss = await createRssAction({
+            createUserRssAction({
                 type: RssGeneratorType.WEBSITE,
                 website: websiteLink,
                 selector: path,
                 title: title || ""
+            }).then(data => {
+                router.push(`${RouterName.RSS_FEEDS}/${data.userRss.id}${data.task?.id ? `?taskId=${data.task?.id}` : ''}`)
+            }).catch(error => {
+                toast.error('Failed to create rss')
+                console.error(error)
             })
-            redirect(`${RouterName.RSS_DETAIL}/${rss.id}`)
+        } else {
+            createRssAction({
+                type: RssGeneratorType.WEBSITE,
+                website: websiteLink,
+                selector: path,
+                title: title || ""
+            }).then(data => {
+                router.push(`${RouterName.RSS_DETAIL}/${data.rss.id}${data.task?.id ? `?taskId=${data.task?.id}` : ''}`)
+            }).catch(error => {
+                toast.error('Failed to create rss')
+                console.error(error)
+            })
         }
     }
 

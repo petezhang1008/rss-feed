@@ -5,48 +5,65 @@ import { FeedService } from '@/services/prisma/feed-service'
 import { Feed } from '@prisma/client'
 import { create } from 'zustand'
 
-export interface IframeDataStore {
-    allFeeds: Feed[]
+
+const useFeedsPaginationStore = create<{
+    rssId: string
+    feedList: Feed[]
     total: number
     page: number
     pageSize: number
     isLoading: boolean
-    getFeeds: (feedId: string) => Promise<void>
-    reset: () => void
-}
-
-const useFeedsPaginationStore = create<IframeDataStore>((set, get) => ({
-    feedId: '',
-    isLoading: false,
-    allFeeds: [],
+    init: (rssId: string, feeds: Feed[]) => void
+    nextPage: () => Promise<void>
+    refresh: () => void
+}>((set, get) => ({
+    rssId: '',
+    feedList: [],
     total: 0,
     page: 0,
     pageSize: 50,
-    getFeeds: async (rssId: string) => {
+    isLoading: false,
+    init: (rssId: string, feeds: Feed[]) => {
+        set({
+            rssId,
+            feedList: feeds,
+            total: 0,
+            page: 0,
+            pageSize: 50,
+        })
+    },
+    nextPage: async () => {
         set({ isLoading: true })
         const feedService = injectService<FeedService>(FeedService)
         const { page, pageSize } = get()
         const nextPage = page + 1
         const params: GetFeedParams = {
-            rssId,
+            rssId: get().rssId,
             page: nextPage,
             pageSize,
         }
         const res = await feedService.getFeed(params)
         set({
-            allFeeds: [...get().allFeeds, ...res.result],
+            feedList: [...get().feedList, ...res.result],
             total: res.total,
             page: res.page,
             pageSize: res.pageSize,
         })
         set({ isLoading: false })
     },
-    reset: () => {
+    refresh: async () => {
+        const params: GetFeedParams = {
+            rssId: get().rssId,
+            page: 1,
+            pageSize: get().pageSize,
+        }
+        const feedService = injectService<FeedService>(FeedService)
+        const res = await feedService.getFeed(params)
         set({
-            allFeeds: [],
-            total: 0,
-            page: 0,
-            pageSize: 50,
+            feedList: res.result,
+            total: res.total,
+            page: res.page,
+            pageSize: res.pageSize,
         })
     },
 }))

@@ -20,4 +20,7 @@ export class ExecuteTaskServiceImpl implements TaskService {
     getLatestTaskByRssId(rssId: string) {
         return this._executeTaskModel.getLatestTaskByRssId(rssId)
     }
+    getTaskStatus(id: string) {
+        return this._executeTaskModel.getTaskStatus(id)
+    }
 }

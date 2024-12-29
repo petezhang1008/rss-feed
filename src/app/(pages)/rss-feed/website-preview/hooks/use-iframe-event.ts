@@ -1,9 +1,8 @@
-import { useEffect, useRef } from 'react';
-import useNodePathStore from '../store/use-node-path';
-import useSelectedNodesStore from '../store/use-selected-nodes';
-import useIframeDataStore from '../store/use-iframe-data';
+import useIframeDataStore from "../store/use-iframe-data";
+import useNodePathStore from "../store/use-node-path";
+import useSelectedNodesStore from "../store/use-selected-nodes";
 
-function initStyle(iframeDocument: Document) {
+export function initStyle(iframeDocument: Document) {
     const style = iframeDocument.createElement('style');
     style.innerHTML = `
         [rss-aria-hovered='true'] {
@@ -20,7 +19,7 @@ function initStyle(iframeDocument: Document) {
 }
 
 
-function onStopLinkEvent(iframeDocument: Document) {
+export function onStopLinkEvent(iframeDocument: Document) {
     iframeDocument.querySelectorAll('a').forEach(anchor => {
         anchor.addEventListener('click', function (event) {
             event.preventDefault();
@@ -37,7 +36,7 @@ type SelectNodeOptions = {
     clearSelectedNodes: () => void;
 }
 
-function onSelectNode(iframeDocument: Document, {
+export function onSelectNode(iframeDocument: Document, {
     setPath,
     clearPath,
     setSelectedNodes,
@@ -69,7 +68,7 @@ function onSelectNode(iframeDocument: Document, {
     })
 }
 
-function onHoverNode(iframeDocument: Document) {
+export function onHoverNode(iframeDocument: Document) {
     iframeDocument.addEventListener('mouseover', function (event) {
         iframeDocument.querySelectorAll('[rss-aria-hovered]').forEach((element) => {
             element.removeAttribute('rss-aria-hovered')
@@ -137,49 +136,57 @@ function findLinkTarget(node: Element, iframeDocument: Document) {
     return null;
 }
 
-function getTitle(iframeDocument: Document) {
+export function getTitle(iframeDocument: Document) {
     const title = iframeDocument.title;
     return title;
 }
 
 
-const useIframeEvent = () => {
-    const iframeRef = useRef<HTMLIFrameElement | null>(null);
+export default function useIframeEvent() {
+
     const setPath = useNodePathStore((state) => state.setPath);
     const setTitle = useIframeDataStore((state) => state.setTitle);
     const clearPath = useNodePathStore((state) => state.clearPath);
     const setSelectedNodes = useSelectedNodesStore((state) => state.setSelectedNodes);
     const clearSelectedNodes = useSelectedNodesStore((state) => state.clearSelectedNodes);
 
-    useEffect(() => {
+    function initIframeEvent(iframeRef: React.RefObject<HTMLIFrameElement>) {
+        const iframeDocument = iframeRef.current?.contentDocument || iframeRef.current?.contentWindow?.document;
+        if (!iframeDocument) return
 
-        const handleLoad = () => {
-            if (iframeRef.current) {
-                const iframeDocument = iframeRef.current?.contentDocument || iframeRef.current?.contentWindow?.document;
-                if (iframeDocument) {
-                    initStyle(iframeDocument);
-                    onStopLinkEvent(iframeDocument);
-                    onHoverNode(iframeDocument);
+        initStyle(iframeDocument);
+        onStopLinkEvent(iframeDocument);
+        onHoverNode(iframeDocument);
 
-                    onSelectNode(iframeDocument, {
-                        setPath,
-                        clearPath,
-                        setSelectedNodes,
-                        clearSelectedNodes
-                    });
-                    setTitle(getTitle(iframeDocument));
-                }
+        onSelectNode(iframeDocument, {
+            setPath,
+            clearPath,
+            setSelectedNodes,
+            clearSelectedNodes
+        });
+        setTitle(getTitle(iframeDocument));
+
+    };
+
+    function checkIframeLoaded(iframeRef: React.RefObject<HTMLIFrameElement>, callback: () => void) {
+        let iframe = iframeRef.current;
+        if (!iframe) {
+            return false;
+        }
+        if (iframe.contentDocument?.readyState === 'complete') {
+            callback();
+            return;
+        }
+        let checkLoad = setInterval(() => {
+            if (iframe.contentDocument?.readyState === 'complete') {
+                clearInterval(checkLoad);
+                callback();
             }
-        };
+        }, 200)
+    }
 
-        const currentIframe: Element | null = iframeRef.current;
-        currentIframe?.addEventListener('load', handleLoad);
-
-        return () => {
-            currentIframe?.removeEventListener('load', handleLoad);
-        };
-    });
-    return iframeRef;
-};
-
-export default useIframeEvent;
+    return {
+        initIframeEvent,
+        checkIframeLoaded
+    }
+}

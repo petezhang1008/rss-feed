@@ -7,6 +7,7 @@ export interface TaskModel {
     startTask: (params: StartTaskParams) => Promise<Task>
     finishTask: (id: string, params: FinishTaskParams) => Promise<Task>
     readTask: (id: string) => Promise<Task>
+    getTaskStatus: (id: string) => Promise<Task | null>
 }
 
 export type StartTaskParams = Pick<Task, 'count' | 'rssId'>

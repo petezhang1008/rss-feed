@@ -13,7 +13,7 @@ export class TaskModelImpl implements TaskModel {
         return this._prisma.task.findFirst({
             where: {
                 rssId,
-                status: RssTaskStatus.finished,
+                status: RssTaskStatus.FINISHED,
                 successCount: {
                     gt: 0
                 }
@@ -34,7 +34,7 @@ export class TaskModelImpl implements TaskModel {
                 id
             },
             data: {
-                status: RssTaskStatus.finished,
+                status: RssTaskStatus.FINISHED,
                 ...params
             }
         })
@@ -46,6 +46,13 @@ export class TaskModelImpl implements TaskModel {
             },
             data: {
                 isRead: true
+            }
+        })
+    }
+    async getTaskStatus(id: string) {
+        return this._prisma.task.findUnique({
+            where: {
+                id
             }
         })
     }

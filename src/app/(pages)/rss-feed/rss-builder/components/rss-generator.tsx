@@ -2,9 +2,11 @@
 import { createRssAction, createUserRssAction } from "@/app/lib/create-rss-action";
 import { RouterName } from "@/enums/router";
 import { RssGeneratorType } from "@/enums/rss";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import FullPageLoading from "@/app/components/loading/full-page-loading";
+import useToast from "@/app/hooks/use-toast";
 
 
 export default function RssBuilder() {
@@ -15,19 +17,36 @@ export default function RssBuilder() {
         setWebsiteLink(e.target.value);
     }
 
+    const [isLoading, setIsLoading] = useState(false)
+    const { toast } = useToast()
+    const router = useRouter()
+
     async function handleGenerate() {
+        setIsLoading(true)
         if (userId) {
-            const userRss = await createUserRssAction({
+            createUserRssAction({
                 type: RssGeneratorType.RSS,
                 website: websiteLink,
+            }).then((data) => {
+                router.push(`${RouterName.RSS_FEEDS}/${data.userRss.id}${data.task ? `?taskId=${data.task?.id}` : ''}`)
+            }).catch((error) => {
+                toast.error('Oops, Create RSS Feed Failed! Please try again later.')
+                console.error(error)
+            }).finally(() => {
+                setIsLoading(false)
             })
-            redirect(`${RouterName.RSS_FEEDS}/${userRss.id}`)
         } else {
-            const res = await createRssAction({
+            createRssAction({
                 type: RssGeneratorType.RSS,
                 website: websiteLink,
+            }).then((data) => {
+                router.push(`${RouterName.RSS_DETAIL}/${data.rss.id}${data.task ? `?taskId=${data.task?.id}` : ''}`)
+            }).catch((error) => {
+                toast.error('Oops, Create RSS Feed Failed! Please try again later.')
+                console.error(error)
+            }).finally(() => {
+                setIsLoading(false)
             })
-            redirect(`${RouterName.RSS_DETAIL}/${res.id}`)
         }
     }
 
@@ -40,6 +59,7 @@ export default function RssBuilder() {
                 className="input input-bordered join-item  w-[600px]"
                 placeholder="RSS Feed Link" />
             <button className="btn join-item btn-primary" onClick={handleGenerate}>Generate</button>
+            {isLoading && <FullPageLoading />}
         </div>
     )
 }
