@@ -1,12 +1,12 @@
 import cron from 'node-cron'
-import { addRssQueue } from './queue'
+import { addRssQueue, clearFeedLinkQueue, clearRssQueue } from './queue'
 import { RssGeneratorFrequency } from '@/enums/rss';
 import { injectService } from '@/inversify.config';
 import { RssService } from '@/services/prisma/rss-service';
 
 
 const rssDailyTask = cron.schedule(' 0 8 * * *', async () => {
-    console.log('===start rss generator task===')
+    console.log('===start rss Daily task===')
     const rssGeneratorService = injectService<RssService>(RssService)
     const pageSize = 100
     let page = 1
@@ -29,7 +29,7 @@ const rssDailyTask = cron.schedule(' 0 8 * * *', async () => {
 
 
 const rssHourlyTask = cron.schedule(' 0 * * * *', async () => {
-    console.log('===start rss generator task===')
+    console.log('===start Hourly task===')
     const rssGeneratorService = injectService<RssService>(RssService)
     const pageSize = 100
     let page = 1
@@ -48,6 +48,10 @@ const rssHourlyTask = cron.schedule(' 0 * * * *', async () => {
         }
     }
     initRssQueue()
+
+    // 清理队列
+    clearRssQueue()
+    clearFeedLinkQueue()
 });
 
 

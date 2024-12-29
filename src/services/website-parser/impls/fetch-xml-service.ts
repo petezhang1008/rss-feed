@@ -3,6 +3,8 @@ import fetch from 'node-fetch'
 
 export class FetchXmlServiceImpl implements FetchXmlService {
     async fetchXml(url: string): Promise<string> {
-        return fetch(url).then(res => res.text())
+        return fetch(url, {
+            timeout: 5000,
+        }).then(res => res.text())
     }
 }

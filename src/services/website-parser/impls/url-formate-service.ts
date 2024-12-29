@@ -14,6 +14,7 @@ export class UrlFormateServiceImpl implements UrlFormateService {
         }
         const { protocol: websiteProtocol, host: websiteHost } = URL.parse(website || '')
         // 去掉前后的空格
+        // console.log('===url===', url)
         url = url?.trim();
         // 检查是否以双斜杠开头
         if (url.startsWith('//')) {

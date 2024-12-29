@@ -29,7 +29,8 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
                         result.push(info); // 存储页面内容
                     }
                 } catch (error) {
-                    console.error(error, 'failed url', url)
+                    this._queue = []
+                    console.error('=====Failed Url=====', url)
                 }
             }
         }
@@ -43,9 +44,10 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
             successCount: result?.length || 0,
         })
         if (!result || result.length === 0) {
+            console.log('==================No Feed To Create================', data.rssId)
             return
         };
-        console.log('===feed link task===>1', result?.length)
+        console.log('===Create Batch Feed, TaskLength:', result?.length)
         try {
             const paramList = _.map(result, info => {
                 return {
@@ -58,9 +60,7 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
                     image: info.image
                 }
             })
-            debugger
             await this.feedService.createBatchFeed(paramList)
-            console.log('===feed link task===', paramList)
         } catch (error) {
             console.error(error)
         }

@@ -5,6 +5,8 @@ import fetch from 'node-fetch'
 @injectable()
 export class FetchHtmlServiceImpl implements FetchHtmlService {
     async fetchHtml(url: string): Promise<string> {
-        return fetch(url).then(res => res.text())
+        return fetch(url, {
+            timeout: 5000,
+        }).then(res => res.text())
     }
 }

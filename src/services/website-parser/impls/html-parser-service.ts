@@ -3,7 +3,6 @@ import { HtmlParserService } from "../html-parser-service";
 import * as cheerio from 'cheerio';
 import { UrlFormateService } from "@/services/website-parser/url-formate-service";
 import { WebsiteProxyService } from "../website-proxy-service";
-import { TITLE_REGEX } from "@/constants/regex";
 
 
 @injectable()
@@ -36,9 +35,7 @@ export class HtmlParserServiceImpl implements HtmlParserService {
     }
 
     private _formatTitle(title: string) {
-        if (!title) return title
-        const parts = title.split(TITLE_REGEX);
-        return parts[0].trim()
+        return title
     }
 
     async getWebsiteInfo(url: string) {

@@ -25,8 +25,7 @@ export class RssTaskServiceImpl implements RssTaskService {
     ) {
     }
 
-    async consumeRssTask(data: Rss): Promise<TaskResult> {
-        console.log('====consumeRssTask=======', data)
+    async consumeRssTask(data: Rss): Promise<TaskResult | null> {
         if (data.type === RssGeneratorType.WEBSITE) {
             return await this._initWebsiteGenerator(data)
         } else {
@@ -34,7 +33,7 @@ export class RssTaskServiceImpl implements RssTaskService {
         }
     }
 
-    async _initWebsiteGenerator(data: Rss): Promise<TaskResult> {
+    async _initWebsiteGenerator(data: Rss): Promise<TaskResult | null> {
         const fullUrl = data.website
         const links = await this._htmlParserService.getTargetLinks(fullUrl, data.selector!)
         const _targetPages = links.map(link => this._urlFormateService.getFullUrl(link, fullUrl))
@@ -45,7 +44,8 @@ export class RssTaskServiceImpl implements RssTaskService {
             return !_links.includes(item)
         })
         if (targetPages.length === 0) {
-            console.log('====No Feed To Update=======', data.title)
+            console.log('====No Feed To Update Website=======', data.title)
+            return null
             // throw new Error('No Feed To Update')
         }
         if (!data.id) {
@@ -63,7 +63,7 @@ export class RssTaskServiceImpl implements RssTaskService {
         return task
     }
 
-    async _initRssSubscribeGenerator(data: Rss): Promise<TaskResult> {
+    async _initRssSubscribeGenerator(data: Rss): Promise<TaskResult | null> {
         const rssInfo = await this._xmlParserService.getRssInfo(data.website!)
         const _targetPages = rssInfo.items?.map(feed => this._urlFormateService.getFullUrl(feed.link, data.website)) || []
         const _feeds = await this._feedService.getFeedByLinks(_targetPages, data.id!)
@@ -72,7 +72,8 @@ export class RssTaskServiceImpl implements RssTaskService {
             return !_links.includes(item)
         })
         if (targetPages.length === 0) {
-            console.log('====No Feed To Update=======', rssInfo.title)
+            console.log('====No Feed To Update Rss Subscribe=======', rssInfo.title)
+            return null
             // throw new Error('No Feed To Update')
         }
         if (!data.id) {
@@ -82,6 +83,7 @@ export class RssTaskServiceImpl implements RssTaskService {
             rssId: data.id!,
             count: targetPages.length,
         })
+        console.log('===Start Add Feed Link Queue===', data.id, 'TaskId:', task.id, 'TargetPages:', targetPages.length)
         addFeedLinkQueue({
             targetPages,
             rssId: data.id!,

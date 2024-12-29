@@ -1,6 +1,5 @@
 import { inject, injectable } from "inversify";
 import { RssInfo, RssItem, XmlParserService } from "../xml-parser-service";
-import { TITLE_REGEX } from "@/constants/regex";
 import { UrlFormateService } from "@/services/website-parser/url-formate-service";
 import { FetchXmlService } from "../fetch-xml-service";
 import { XMLParser } from 'fast-xml-parser';
@@ -15,13 +14,19 @@ export class XmlParserServiceImpl implements XmlParserService {
     ) { }
 
     private _formatTitle(title: string) {
-        const parts = title.split(TITLE_REGEX);
-        return parts[0].trim()
+        return title
     }
 
     private _removeHtmlTags(str: string) {
         if (!str) return str
         return str.replace(/<[^>]*>/g, ''); // 使用正则表达式匹配 HTML 标签并替换为空字符串
+    }
+
+    private _getLink(link: string | string[]) {
+        if (Array.isArray(link)) {
+            return link[0]
+        }
+        return link
     }
 
     private parseXmlFeedList(xmlJsonObj: any): RssItem[] {
@@ -31,7 +36,7 @@ export class XmlParserServiceImpl implements XmlParserService {
 
         items?.forEach((item: any) => {
             const title = this._formatTitle(item.title || "");
-            const link = item.link || "";
+            const link = this._getLink(item.link || "");
             const description = this._removeHtmlTags(item.description || "");
             const pubDate = item.pubDate || new Date().toISOString();
             const author = item.author || "";

@@ -8,7 +8,7 @@ export default function RssCreated({ rssDetail }: { rssDetail: UserRssWithRssAnd
     const { formatDateToMMDDYYYY } = useDayjs()
     return (
         <div className="flex flex-col gap-2 px-2">
-            <h1 className="font-semibold flex items-center gap-1">
+            <h1 className="font-semibold flex items-center gap-1 flex-wrap">
                 <span>Created via</span>
                 <span className="border border-gray-200 rounded-md px-2 bg-gray-100">{rssDetail.rss.type}</span>
                 <span>on</span>
