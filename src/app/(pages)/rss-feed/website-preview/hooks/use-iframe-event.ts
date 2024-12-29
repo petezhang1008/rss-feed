@@ -169,7 +169,7 @@ export default function useIframeEvent() {
     };
 
     function checkIframeLoaded(iframeRef: React.RefObject<HTMLIFrameElement>, callback: () => void) {
-        let iframe = iframeRef.current;
+        const iframe = iframeRef.current;
         if (!iframe) {
             return false;
         }
@@ -177,7 +177,7 @@ export default function useIframeEvent() {
             callback();
             return;
         }
-        let checkLoad = setInterval(() => {
+        const checkLoad = setInterval(() => {
             if (iframe.contentDocument?.readyState === 'complete') {
                 clearInterval(checkLoad);
                 callback();
