@@ -3,12 +3,12 @@ import useInfiniteScroll from "react-infinite-scroll-hook";
 import FeedItem from "./feed-item";
 import { Bundle, Feed, FeedWithRss } from "@/types/model";
 import { useState } from "react";
-import { PaginationFeeds } from "@/models/feed-model";
 import FeedCardSkeleton from "@/app/components/skeleton/feed-card-skeleton";
 import NoMoreData from "@/app/components/more-data/no-more-data";
 import { useClientBundleFeeds } from "../../hooks/client/use-feeds";
+import { FeedWithUserRss, PaginationFeedsWithUserRss } from "@/services/prisma/feed-service";
 
-export default function FeedList({ paginationFeeds, bundle }: { paginationFeeds: PaginationFeeds, bundle: Bundle }) {
+export default function FeedList({ paginationFeeds, bundle }: { paginationFeeds: PaginationFeedsWithUserRss, bundle: Bundle }) {
     const [feedList, setFeedList] = useState<Feed[]>(paginationFeeds?.result || [])
     const [page, setPage] = useState(paginationFeeds?.page || 1)
     const [pageSize] = useState(paginationFeeds?.pageSize || 50)
@@ -36,7 +36,7 @@ export default function FeedList({ paginationFeeds, bundle }: { paginationFeeds:
 
     return <>
         {feedList.map(feed => {
-            return (<FeedItem feed={feed as FeedWithRss} key={feed.id} />)
+            return (<FeedItem feed={feed as FeedWithUserRss} key={feed.id} />)
         })}
         {(total > feedList.length) && <div ref={ref}>
             <FeedCardSkeleton />

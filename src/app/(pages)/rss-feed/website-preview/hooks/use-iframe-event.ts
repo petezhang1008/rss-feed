@@ -6,16 +6,16 @@ export function initStyle(iframeDocument: Document) {
     const style = iframeDocument.createElement('style');
     style.innerHTML = `
         [rss-aria-hovered='true'] {
-            outline: 3px dashed #FF7C33;
-            background-color: rgba(255, 124, 51, 0.3);
+            outline: 3px dashed #FF7C33 !important;
+            background-color: rgba(255, 124, 51, 0.3) !important;
         }
 
         [rss-aria-selected='true'] {
-            outline: 3px dashed #FF7C33;
-            background-color: rgba(255, 124, 51, 0.3);
+            outline: 3px dashed #FF7C33 !important;
+            background-color: rgba(255, 124, 51, 0.3) !important;
         }
     `;
-    iframeDocument.head.appendChild(style);
+    iframeDocument.head?.appendChild(style);
 }
 
 

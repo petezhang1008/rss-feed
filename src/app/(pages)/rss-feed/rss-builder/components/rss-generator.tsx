@@ -1,12 +1,12 @@
 'use client';
-import { createRssAction, createUserRssAction } from "@/app/lib/create-rss-action";
+import { createRssTaskAction } from "@/app/lib/create-rss-action";
 import { RouterName } from "@/enums/router";
 import { RssGeneratorType } from "@/enums/rss";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import FullPageLoading from "@/app/components/loading/full-page-loading";
 import useToast from "@/app/hooks/use-toast";
+import TaskPollingStatus from "./task-polling-status";
 
 
 export default function RssBuilder() {
@@ -18,36 +18,38 @@ export default function RssBuilder() {
     }
 
     const [isLoading, setIsLoading] = useState(false)
+    const [taskId, setTaskId] = useState<string | undefined>(undefined)
     const { toast } = useToast()
     const router = useRouter()
+    let rssId = ''
 
     async function handleGenerate() {
         setIsLoading(true)
-        if (userId) {
-            createUserRssAction({
-                type: RssGeneratorType.RSS,
-                website: websiteLink,
-            }).then((data) => {
-                router.push(`${RouterName.RSS_FEEDS}/${data.userRss.id}${data.task ? `?taskId=${data.task?.id}` : ''}`)
-            }).catch((error) => {
-                toast.error('Oops, Create RSS Feed Failed! Please try again later.')
-                console.error(error)
-            }).finally(() => {
-                setIsLoading(false)
-            })
-        } else {
-            createRssAction({
-                type: RssGeneratorType.RSS,
-                website: websiteLink,
-            }).then((data) => {
-                router.push(`${RouterName.RSS_DETAIL}/${data.rss.id}${data.task ? `?taskId=${data.task?.id}` : ''}`)
-            }).catch((error) => {
-                toast.error('Oops, Create RSS Feed Failed! Please try again later.')
-                console.error(error)
-            }).finally(() => {
-                setIsLoading(false)
-            })
-        }
+        createRssTaskAction({
+            type: RssGeneratorType.RSS,
+            website: websiteLink,
+        }, userId).then((data) => {
+            if ('userRss' in data) {
+                rssId = data.userRss.id
+            } else if ('rss' in data) {
+                rssId = data.rss.id
+            }
+            if (data.task?.id) {
+                setTaskId(data.task?.id)
+            } else {
+                handleCallback()
+            }
+        }).catch((error) => {
+            toast.error('Oops, Create RSS Feed Failed! Please try again later.')
+            console.error(error)
+            setIsLoading(false)
+        })
+    }
+
+    function handleCallback() {
+        const link = userId ? `${RouterName.RSS_FEEDS}/${rssId}` : `${RouterName.RSS_DETAIL}/${rssId}`
+        router.push(link)
+        setIsLoading(false)
     }
 
 
@@ -59,7 +61,7 @@ export default function RssBuilder() {
                 className="input input-bordered join-item  w-[600px]"
                 placeholder="RSS Feed Link" />
             <button className="btn join-item btn-primary" onClick={handleGenerate}>Generate</button>
-            {isLoading && <FullPageLoading />}
+            {isLoading && <TaskPollingStatus taskId={taskId} callback={handleCallback} />}
         </div>
     )
 }

@@ -26,10 +26,15 @@ export class RssTaskServiceImpl implements RssTaskService {
     }
 
     async consumeRssTask(data: Rss): Promise<TaskResult | null> {
-        if (data.type === RssGeneratorType.WEBSITE) {
-            return await this._initWebsiteGenerator(data)
-        } else {
-            return await this._initRssSubscribeGenerator(data)
+        try {
+            if (data.type === RssGeneratorType.WEBSITE) {
+                return await this._initWebsiteGenerator(data)
+            } else {
+                return await this._initRssSubscribeGenerator(data)
+            }
+        } catch (error) {
+            console.error(error)
+            return null
         }
     }
 

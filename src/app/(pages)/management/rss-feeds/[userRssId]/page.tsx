@@ -12,7 +12,6 @@ export default async function Feed({
     searchParams: Promise<{ taskId?: string }>
 }) {
     const data = await params
-    const { taskId } = await searchParams
     const userRssId = data.userRssId
     const { getFeed } = useFeeds()
     const { getRssDetail } = useRssDetail()
@@ -29,7 +28,7 @@ export default async function Feed({
                 <FeedHeader rssDetail={rssDetail!} />
             </ManagementHeader>
             <div className="p-4 overflow-auto flex-1">
-                <FeedContent paginationFeeds={res} rssDetail={rssDetail!} taskId={taskId} />
+                <FeedContent paginationFeeds={res} rssDetail={rssDetail!} />
             </div>
         </div>
     )

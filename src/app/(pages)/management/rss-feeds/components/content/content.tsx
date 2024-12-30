@@ -3,16 +3,13 @@ import { NoData } from "./no-data"
 import FeedList from "./feed-list"
 import { PaginationFeeds } from "@/models/feed-model"
 import { UserRssWithRssAndBundle } from "@/types/model"
-import TaskStatus from "./task-status"
 
 export default function FeedContent({
     paginationFeeds,
     rssDetail,
-    taskId
 }: {
     paginationFeeds: PaginationFeeds,
     rssDetail: UserRssWithRssAndBundle,
-    taskId?: string
 }) {
     return (
         <div className="flex gap-4 overflow-hidden w-full">
@@ -28,7 +25,6 @@ export default function FeedContent({
             <div className="flex grow">
                 <RssInfo rssDetail={rssDetail} />
             </div>
-            {taskId && <TaskStatus taskId={taskId} />}
         </div>
     )
 }

@@ -20,4 +20,7 @@ export async function createRssAction(params: WebsiteSubscribeParams): Promise<C
     return httpClient.post('/rss', params).then(res => res.data)
 }
 
+export async function createRssTaskAction(params: WebsiteSubscribeParams, userId?: string): Promise<CreateUserRssResponse | CreateRssResponse> {
+    return userId ? createUserRssAction(params) : createRssAction(params)
+}
 

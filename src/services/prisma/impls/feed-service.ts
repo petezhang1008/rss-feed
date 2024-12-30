@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify"
-import { FeedService } from "../feed-service"
+import { FeedService, FeedWithUserRss } from "../feed-service"
 import {
     CreateFeedParams,
     FeedModel,
@@ -10,33 +10,54 @@ import {
     GetFeedParams,
     QueryUserFeedParams
 } from "@/models/feed-model"
-import { RssService } from "../rss-service"
 import { UserRssService } from "../user-rss-service"
 import { CategoryService } from "../category-service"
 import _ from "lodash"
-import { Rss } from "@/types/model"
+import { Rss, UserRss } from "@/types/model"
 
 @injectable()
 export class FeedServiceImpl implements FeedService {
     constructor(
         @inject(FeedModel)
         private feedModel: FeedModel,
-        @inject(RssService)
-        private rssService: RssService,
         @inject(UserRssService)
         private userRssService: UserRssService,
         @inject(CategoryService)
         private categoryService: CategoryService
     ) { }
+    private _getUserRssMap(userRssList: UserRss[]) {
+        const userRssMap = new Map<string, UserRss>()
+        for (const userRss of userRssList) {
+            userRssMap.set(userRss.rssId, userRss)
+        }
+        return userRssMap
+    }
     async queryUserFeed(data: QueryUserFeedParams) {
         const { page, pageSize, userId } = data
         const userRssList = await this.userRssService.queryAllRssList({ userId })
+        const userRssMap = this._getUserRssMap(userRssList)
         const rssIds = userRssList.map(item => item.rssId)
-        return this.feedModel.getFeedByRssIds({
+        const res = await this.feedModel.getFeedByRssIds({
             rssIds,
             page,
             pageSize
         })
+        if (!res.result) {
+            return {
+                ...res,
+                result: []
+            }
+        }
+        const feedList: FeedWithUserRss[] = res.result?.map(item => {
+            return {
+                ...item,
+                userRss: userRssMap.get(item.rssId)
+            }
+        })
+        return {
+            ...res,
+            result: feedList
+        }
     }
     getFeed(data: GetFeedParams) {
         return this.feedModel.getFeed(data)
@@ -46,12 +67,29 @@ export class FeedServiceImpl implements FeedService {
         const rssList = await this.userRssService.queryAllRssList({
             bundleId
         })
+        const userRssMap = this._getUserRssMap(rssList)
         const rssIds = rssList.map(item => item.rssId)
-        return this.feedModel.getFeedByRssIds({
+        const res = await this.feedModel.getFeedByRssIds({
             rssIds,
             page,
             pageSize
         })
+        if (!res.result) {
+            return {
+                ...res,
+                result: []
+            }
+        }
+        const feedList: FeedWithUserRss[] = res.result.map(item => {
+            return {
+                ...item,
+                userRss: userRssMap.get(item.rssId)
+            }
+        })
+        return {
+            ...res,
+            result: feedList
+        }
     }
     getFeedByRssIds(data: GetBatchFeedParams) {
         return this.feedModel.getFeedByRssIds(data)

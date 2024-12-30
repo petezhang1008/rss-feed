@@ -3,12 +3,12 @@ import { ErrorCode } from "@/enums/error-code"
 import { injectService } from "@/inversify.config"
 import { sendError, sendResponse } from "@/lib/http-server"
 import { ErrorData, ResponseType } from "@/lib/http-server"
-import { PaginationFeeds, QueryUserFeedParams } from "@/models/feed-model"
-import { FeedService } from "@/services/prisma/feed-service"
+import { QueryUserFeedParams } from "@/models/feed-model"
+import { FeedService, PaginationFeedsWithUserRss } from "@/services/prisma/feed-service"
 import { NextRequest } from "next/server"
 
 const feedService = injectService<FeedService>(FeedService)
-export async function GET(req: NextRequest): ResponseType<PaginationFeeds> {
+export async function GET(req: NextRequest): ResponseType<PaginationFeedsWithUserRss> {
     const page: number = parseInt(req.nextUrl.searchParams.get('page') || '1')
     const pageSize: number = parseInt(req.nextUrl.searchParams.get('pageSize') || '50')
     const session = await auth()
@@ -27,5 +27,5 @@ export async function GET(req: NextRequest): ResponseType<PaginationFeeds> {
     if (!paginationFeeds) {
         return sendError<ErrorData>(400, ErrorCode.NOT_FOUND)
     }
-    return sendResponse<PaginationFeeds>(paginationFeeds)
+    return sendResponse<PaginationFeedsWithUserRss>(paginationFeeds)
 }

@@ -28,7 +28,7 @@ const rssDailyTask = cron.schedule(' 0 8 * * *', async () => {
 });
 
 
-const rssHourlyTask = cron.schedule(' 0 * * * *', async () => {
+const rssHourlyTask = cron.schedule(' 0 8 * * *', async () => {
     console.log('===start Hourly task===')
     const rssGeneratorService = injectService<RssService>(RssService)
     const pageSize = 100

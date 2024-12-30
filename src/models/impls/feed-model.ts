@@ -21,8 +21,6 @@ export class FeedModelImpl implements FeedModel {
             },
             orderBy: [{
                 createdAt: 'desc',
-            }, {
-                title: 'desc'
             }],
             include: {
                 rss: true

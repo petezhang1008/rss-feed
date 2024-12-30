@@ -7,7 +7,7 @@ import useToast from "@/app/hooks/use-toast";
 import FullPageLoading from "@/app/components/loading/full-page-loading";
 import { useState } from "react";
 import useFeedsPaginationStore from "../../stores/use-feeds-pagination";
-import TaskStatus from "./task-status";
+import TaskStatus from "../../../../rss-feed/rss-builder/components/task-polling-status";
 
 export default function RssCustomize({ rssDetail }: { rssDetail: UserRssWithRssAndBundle }) {
     const { deleteRss, editRss, refreshRssApi } = useRssAction()
