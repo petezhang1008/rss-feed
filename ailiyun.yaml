@@ -28,10 +28,11 @@ services:
         caPort: 9000
         customRuntimeConfig:
           command:
-            - npm
+            - sh
           args:
-            - run
-            - start
+            - -c
+            - |
+              yarn install && yarn build && yarn start
       triggers:
         - name: httpTrigger
           type: http
