@@ -7,8 +7,8 @@ services:
     actions:
       pre-deploy:
         - run: ls /usr/local/versions/node
-        - run: export PATH=/usr/local/bin/node:$PATH && npm install
-        - run: export PATH=/usr/local/bin/node:$PATH && npm run build
+        - run: export PATH=/usr/local/versions/node/v18.14.2/bin:$PATH && npm install
+        - run: export PATH=/usr/local/versions/node/v18.14.2/bin:$PATH && npm run build
     props:
       region: cn-hangzhou
       service:
