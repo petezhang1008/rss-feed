@@ -9,7 +9,6 @@ services:
         - run: ls /usr/local/versions/node
         - run: export PATH=/usr/local/bin/node:$PATH && npm install
         - run: export PATH=/usr/local/bin/node:$PATH && npm run build
-        path: ./.next
     props:
       region: cn-hangzhou
       service:
