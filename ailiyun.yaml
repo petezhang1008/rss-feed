@@ -4,6 +4,10 @@ access: default
 services:
   framework:
     component: fc
+    actions:
+      pre-deploy:
+        - npm install
+        - npm run build
     props:
       region: cn-hangzhou
       service:
@@ -28,11 +32,10 @@ services:
         caPort: 9000
         customRuntimeConfig:
           command:
-            - sh
+            - npm
           args:
-            - -c
-            - |
-              yarn install && yarn build && yarn start
+            - run
+            - start
       triggers:
         - name: httpTrigger
           type: http
