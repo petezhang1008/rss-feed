@@ -6,11 +6,10 @@ services:
     component: fc
     actions:
       pre-deploy:
-        - run: ls /usr/local/versions/node
-        - run: export PATH=/usr/local/versions/node/v20.8.1/bin:$PATH && node -v
-        - run: export PATH=/usr/local/versions/node/v20.8.1/bin:$PATH && npm cache clean --force
-        - run: export PATH=/usr/local/versions/node/v20.8.1/bin:$PATH && npm install --legacy-peer-deps
-        - run: export PATH=/usr/local/versions/node/v20.8.1/bin:$PATH && npm run build
+        - run: export PATH=/opt/nodejs18/bin:$PATH && node -v
+        - run: export PATH=/opt/nodejs18/bin:$PATH && npm cache clean --force
+        - run: export PATH=/opt/nodejs18/bin:$PATH && npm install --legacy-peer-deps
+        - run: export PATH=/opt/nodejs18/bin:$PATH && npm run build
     props:
       region: cn-hangzhou
       service:
