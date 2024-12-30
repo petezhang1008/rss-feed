@@ -7,9 +7,9 @@ services:
     actions:
       pre-deploy:
         - run: ls /usr/local/versions/node
-        - run: ls /usr/local/versions/node/v18.14.2/bin
-        - run: export PATH=/usr/local/versions/node/v18.14.2/bin:$PATH && npm install
-        - run: export PATH=/usr/local/versions/node/v18.14.2/bin:$PATH && npm run build
+        - run: export PATH=/usr/local/versions/node/v20.8.1/bin:$PATH && node -v
+        - run: export PATH=/usr/local/versions/node/v20.8.1/bin:$PATH && npm install --legacy-peer-deps
+        - run: export PATH=/usr/local/versions/node/v20.8.1/bin:$PATH && npm run build
     props:
       region: cn-hangzhou
       service:
