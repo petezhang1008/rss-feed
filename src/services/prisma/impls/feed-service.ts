@@ -14,6 +14,7 @@ import { UserRssService } from "../user-rss-service"
 import { CategoryService } from "../category-service"
 import _ from "lodash"
 import { Rss, UserRss } from "@/types/model"
+import { TaskService } from "../task-service"
 
 @injectable()
 export class FeedServiceImpl implements FeedService {
@@ -23,7 +24,9 @@ export class FeedServiceImpl implements FeedService {
         @inject(UserRssService)
         private userRssService: UserRssService,
         @inject(CategoryService)
-        private categoryService: CategoryService
+        private categoryService: CategoryService,
+        @inject(TaskService)
+        private taskService: TaskService
     ) { }
     private _getUserRssMap(userRssList: UserRss[]) {
         const userRssMap = new Map<string, UserRss>()
@@ -34,7 +37,8 @@ export class FeedServiceImpl implements FeedService {
     }
     async queryUserFeed(data: QueryUserFeedParams) {
         const { page, pageSize, userId } = data
-        const userRssList = await this.userRssService.queryAllRssList({ userId })
+        let userRssList = await this.userRssService.queryAllRssList({ userId })
+        userRssList = _.uniqBy(userRssList, 'rssId')
         const userRssMap = this._getUserRssMap(userRssList)
         const rssIds = userRssList.map(item => item.rssId)
         const res = await this.feedModel.getFeedByRssIds({

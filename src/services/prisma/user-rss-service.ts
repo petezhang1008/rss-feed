@@ -5,7 +5,7 @@ import {
     QueryUserRssParams,
     UpdateUserRssParams
 } from "@/models/user-rss-model";
-import { UserRss, UserRssWithRssAndBundle } from "@/types/model";
+import { UserRss, UserRssWithRss, UserRssWithRssAndBundle } from "@/types/model";
 
 export const UserRssService = Symbol.for('UserRssService');
 
@@ -17,10 +17,15 @@ export interface UserRssService {
     deleteUserRss(id: string, userId: string): Promise<UserRss>;
     queryUserRssList(params: PaginationUserRssParams): Promise<PaginationUserRss>;
     queryAllRssList(params: QueryUserRssParams): Promise<UserRssWithRssAndBundle[]>;
+    getUserRssListWithTaskSuccessCount(userId: string): Promise<UserRssWithTaskSuccessCount[]>;
 }
 
 
 export type CreateUserRssByRssIdParams = {
     rssId: string
     userId: string
+}
+
+export interface UserRssWithTaskSuccessCount extends UserRssWithRss {
+    taskSuccessCount: number
 }

@@ -23,6 +23,24 @@ export class TaskModelImpl implements TaskModel {
             }
         })
     }
+
+    async getTasksSuccessCountByRssIds(rssIds: string[]) {
+        return this._prisma.task.groupBy({
+            by: ['rssId'],
+            _sum: {
+                successCount: true
+            },
+            where: {
+                rssId: {
+                    in: rssIds
+                },
+                status: RssTaskStatus.FINISHED,
+                successCount: {
+                    gt: 0
+                }
+            }
+        })
+    }
     async startTask(params: StartTaskParams) {
         return this._prisma.task.create({
             data: params

@@ -23,4 +23,7 @@ export class ExecuteTaskServiceImpl implements TaskService {
     getTaskStatus(id: string) {
         return this._executeTaskModel.getTaskStatus(id)
     }
+    getTasksSuccessCountByRssIds(rssIds: string[]) {
+        return this._executeTaskModel.getTasksSuccessCountByRssIds(rssIds)
+    }
 }

@@ -53,7 +53,9 @@ export class UserRssModelImpl implements UserRssModel {
     queryAllRssList(params: QueryUserRssParams) {
         return this._prisma.userRss.findMany({
             where: {
-                ...params
+                ...params,
+                ...(params.createdAt && { createdAt: { gte: params.createdAt } }),
+                ...(params.updatedAt && { updatedAt: { gte: params.updatedAt } })
             },
             include: {
                 rss: true,
@@ -71,7 +73,7 @@ export class UserRssModelImpl implements UserRssModel {
                 rss: true,
                 bundle: true
             }
-    })
+        })
     }
     deleteUserRss(id: string, userId: string) {
         return this._prisma.userRss.delete({
