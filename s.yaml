@@ -1,56 +1,65 @@
-edition: 1.0.0
-name: my-framework-app
-access: default
-services:
-  framework:
-    component: fc
+# ------------------------------------
+#   官方手册: https://manual.serverless-devs.com/user-guide/aliyun/#fc3
+#   有问题快来钉钉群问一下吧：33947367
+# ------------------------------------
+
+edition: 3.0.0
+name: start-next-app
+access: "undefined"
+vars:
+  region: "cn-hangzhou"
+  functionName: "next-7pav"
+resources:
+  start_next:
+    component: fc3
     actions:
       pre-deploy:
-        - run: ls /usr/local/versions/node
-        - run: export PATH=/usr/local/versions/node/v22.11.0/bin:$PATH && node -v
-        - run: export PATH=/usr/local/versions/node/v22.11.0/bin:$PATH && npm cache clean --force
-        - run: export PATH=/usr/local/versions/node/v22.11.0/bin:$PATH && npm install --legacy-peer-deps
-        - run: export PATH=/usr/local/versions/node/v22.11.0/bin:$PATH && npm run build
+        - run: export PATH=/usr/local/versions/node/v20.8.1/bin:$PATH && npm install
+          path: ./
+        - run: export PATH=/usr/local/versions/node/v20.8.1/bin:$PATH && npm run build
+          path: ./
+        - run: cp -r public .next/standalone/public
+          path: ./
+        - run: cp -r static standalone/.next/static
+          path: ./.next
     props:
-      region: cn-hangzhou
-      service:
-        name: serverless-devs-application
-      function:
-        name: nextjs-feed-srtp
-        description: Initialize
-        runtime: custom.debian10
-        environmentVariables:
-          PATH: >-
-            /usr/local/versions/node/v22.11.0/bin:/usr/local/bin/apache-maven/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/ruby/bin:/opt/bin:/code:/code/bin
-          NODE_PATH: /opt/nodejs/node_modules
-          LD_LIBRARY_PATH: >-
-            /code:/code/lib:/usr/local/lib:/opt/lib:/opt/php8.1/lib:/opt/php8.0/lib:/opt/php7.2/lib
-        memorySize: 1024
-        cpu: 1
-        timeout: 60
-        codeUri: ./.next
-        diskSize: 10240
-        caPort: 9000
-        customRuntimeConfig:
-          command:
-            - npm
-          args:
-            - run
-            - start
+      region: ${vars.region}
+      description: Serverless Devs Web Framework Function
+      runtime: custom.debian10
+      timeout: 60
+      cpu: 1
+      memorySize: 2048
+      diskSize: 512
+      instanceConcurrency: 100
+      layers:
+        - acs:fc:${vars.region}:official:layers/Nodejs20/versions/1
+      environmentVariables:
+        PATH: >-
+          /opt/nodejs20/bin:/usr/local/bin/apache-maven/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/ruby/bin
+      customRuntimeConfig:
+        command:
+          - node
+          - ./server.js
+        port: 3000
+      functionName: ${vars.functionName}
+      code: ./code/.next/standalone
       triggers:
-        - name: httpTrigger
-          type: http
-          config:
-            authType: anonymous
+        - triggerName: httpTrigger
+          triggerType: http
+          triggerConfig:
             methods:
               - GET
               - POST
               - PUT
               - DELETE
-              - HEAD
-              - PATCH
-      customDomains:
-        - domainName: auto
-          protocol: HTTP
-          routeConfigs:
-            - path: '/*'
+            authType: anonymous
+  fc3_domain_0:
+    component: fc3-domain
+    props:
+      region: ${vars.region}
+      domainName: auto
+      protocol: HTTP
+      routeConfig:
+        routes:
+          - path: /*
+            functionName: ${vars.functionName}
