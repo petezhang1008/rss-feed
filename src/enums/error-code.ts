@@ -32,5 +32,8 @@ export enum ErrorCode {
     BAD_REQUEST = "10010",
 
     // invalid params
-    INVALID_PARAMS = "10011"
+    INVALID_PARAMS = "10011",
+
+    // internal server error
+    INTERNAL_SERVER_ERROR = "10012"
 }

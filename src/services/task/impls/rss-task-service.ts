@@ -51,7 +51,6 @@ export class RssTaskServiceImpl implements RssTaskService {
         if (targetPages.length === 0) {
             console.log('====No Feed To Update Website=======', data.title)
             return null
-            // throw new Error('No Feed To Update')
         }
         if (!data.id) {
             throw new Error('No Rss Id')

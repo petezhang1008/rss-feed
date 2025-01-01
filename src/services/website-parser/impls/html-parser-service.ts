@@ -3,6 +3,8 @@ import { HtmlParserService } from "../html-parser-service";
 import * as cheerio from 'cheerio';
 import { UrlFormateService } from "@/services/website-parser/url-formate-service";
 import { WebsiteProxyService } from "../website-proxy-service";
+import { FetchHtmlService } from "../fetch-html-service";
+import _ from "lodash";
 
 
 @injectable()
@@ -11,7 +13,9 @@ export class HtmlParserServiceImpl implements HtmlParserService {
         @inject(WebsiteProxyService)
         private _websiteProxyService: WebsiteProxyService,
         @inject(UrlFormateService)
-        private _urlFormateService: UrlFormateService
+        private _urlFormateService: UrlFormateService,
+        @inject(FetchHtmlService)
+        private _fetchHtmlService: FetchHtmlService
     ) { }
 
     private _getMetaValueByProperty($: cheerio.CheerioAPI, property: string) {
@@ -37,11 +41,10 @@ export class HtmlParserServiceImpl implements HtmlParserService {
     private _formatTitle(title: string) {
         return title
     }
-
     async getWebsiteInfo(url: string) {
-        const html = await this._websiteProxyService.getProxyHtml(url)
+        const html = await this._fetchHtmlService.fetchAndEncodeHtml(url)
         const $ = cheerio.load(html)
-        const title = this._getMetaValueByProperty($, 'title') || $('title').text()
+        const title = this._getMetaValueByProperty($, 'title') || $('head title').first().text()
         const metaDescription = this._getMetaValueByProperty($, 'description')
         const metaImage = this._getMetaValueByProperty($, 'image')
         const metaAuthor = this._getMetaValueByProperty($, 'author')
@@ -55,12 +58,12 @@ export class HtmlParserServiceImpl implements HtmlParserService {
         const link = url
 
         return {
-            title: this._formatTitle(title || ""),
-            description: metaDescription || "",
-            image: image || "",
-            icon: icon || "",
-            author: metaAuthor || "",
-            keywords: metaKeywords || "",
+            title: _.trim(this._formatTitle(title || "")),
+            description: _.trim(metaDescription || ""),
+            image: _.trim(image || ""),
+            icon: _.trim(icon || ""),
+            author: _.trim(metaAuthor || ""),
+            keywords: _.trim(metaKeywords || ""),
             pubDate: metaPubDate ? new Date(metaPubDate) : null,
             domain,
             link
@@ -68,7 +71,7 @@ export class HtmlParserServiceImpl implements HtmlParserService {
     }
 
     async getTargetLinks(url: string, selector: string) {
-        const html = await this._websiteProxyService.getProxyHtml(url)
+        const html = await this._fetchHtmlService.fetchHtml(url)
         const $ = cheerio.load(html)
         return $(selector).map((i, el) => $(el).attr('href')).get()
     }
