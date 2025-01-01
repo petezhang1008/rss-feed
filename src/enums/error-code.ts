@@ -29,5 +29,8 @@ export enum ErrorCode {
     NO_BUNDLE = "10009",
 
     // bad request
-    BAD_REQUEST = "10010"
+    BAD_REQUEST = "10010",
+
+    // invalid params
+    INVALID_PARAMS = "10011"
 }

@@ -1,5 +1,6 @@
 import { DEFAULT_JOB_OPTIONS } from '@/constants/bull';
 import { injectService } from '@/inversify.config';
+import { FeedLinkMQProducer } from '@/services/rabbit-mq/feed-link-mq-producer';
 import { FeedTask, FeedLinkTaskService } from '@/services/task/feed-link-task-service';
 import { RssTaskService } from '@/services/task/rss-task-service';
 import { Rss } from '@/types/model';
@@ -42,8 +43,12 @@ feedLinkQueue.on('completed', (job: Job<FeedTask>) => {
     console.log(`feedLinkQueue Job ${job.id} completed!`);
 });
 
+
+
 export const addFeedLinkQueue = async (data: FeedTask) => {
-    await feedLinkQueue.add(data)
+    const feedLinkMQProducer = injectService<FeedLinkMQProducer>(FeedLinkMQProducer)
+    // await feedLinkQueue.add(data)
+    await feedLinkMQProducer.sendMessage([data])
 }
 
 export function clearFeedLinkQueue() {

@@ -6,6 +6,7 @@ import { websiteParser } from './services/website-parser';
 import { auth } from './services/auth';
 import { task } from './services/task';
 import { prisma } from './services/prisma';
+import { rabbitMQ } from './services/rabbit-mq';
 
 const container = new Container({
     defaultScope: 'Singleton',
@@ -17,6 +18,7 @@ container.load(websiteParser)
 container.load(prisma)
 container.load(auth)
 container.load(task)
+container.load(rabbitMQ)
 
 // 获取服务
 function injectService<T>(serviceIdentifier: interfaces.ServiceIdentifier<T>) {

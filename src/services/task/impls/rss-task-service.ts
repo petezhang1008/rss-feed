@@ -60,7 +60,7 @@ export class RssTaskServiceImpl implements RssTaskService {
             rssId: data.id!,
             count: targetPages.length,
         })
-        addFeedLinkQueue({
+        await addFeedLinkQueue({
             targetPages,
             rssId: data.id!,
             taskId: task.id,
@@ -89,7 +89,7 @@ export class RssTaskServiceImpl implements RssTaskService {
             count: targetPages.length,
         })
         console.log('===Start Add Feed Link Queue===', data.id, 'TaskId:', task.id, 'TargetPages:', targetPages.length)
-        addFeedLinkQueue({
+        await addFeedLinkQueue({
             targetPages,
             rssId: data.id!,
             taskId: task.id
