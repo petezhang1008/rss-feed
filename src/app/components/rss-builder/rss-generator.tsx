@@ -47,7 +47,7 @@ export default function RssBuilder() {
     }
 
     function handleCallback() {
-        const link = userId ? `${RouterName.RSS_FEEDS}/${rssId}` : `${RouterName.RSS_DETAIL}/${rssId}`
+        const link = userId ? `${RouterName.RSS_FEEDS}/${rssId}` : `${RouterName.RSS_DETAIL}?rssId=${rssId}`
         router.push(link)
         setIsLoading(false)
     }

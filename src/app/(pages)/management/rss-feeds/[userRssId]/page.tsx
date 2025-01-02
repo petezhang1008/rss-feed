@@ -1,15 +1,13 @@
-import ManagementHeader from "@/app/components/management/header/header";
 import FeedHeader from "../components/feed-header";
 import FeedContent from "../components/content/content";
 import useFeeds from "../hooks/server/use-feeds";
 import useRssDetail from "../hooks/server/use-rss-detail";
+import ManagementRoot from "@/app/components/root/management-root";
 
 export default async function Feed({
-    params,
-    searchParams
+    params
 }: {
     params: Promise<{ userRssId: string }>,
-    searchParams: Promise<{ taskId?: string }>
 }) {
     const data = await params
     const userRssId = data.userRssId
@@ -23,14 +21,13 @@ export default async function Feed({
     })
 
     return (
-        <div className="flex flex-col size-full overflow-hidden">
-            <ManagementHeader>
+        <ManagementRoot header={
+            <div className="flex items-center justify-between">
                 <FeedHeader rssDetail={rssDetail!} />
-            </ManagementHeader>
-            <div className="p-4 overflow-auto flex-1">
-                <FeedContent paginationFeeds={res} rssDetail={rssDetail!} />
             </div>
-        </div>
+        }>
+            <FeedContent paginationFeeds={res} rssDetail={rssDetail!} />
+        </ManagementRoot>
     )
 }
 

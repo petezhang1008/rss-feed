@@ -42,7 +42,7 @@ export class HtmlParserServiceImpl implements HtmlParserService {
         return title
     }
     async getWebsiteInfo(url: string) {
-        const html = await this._fetchHtmlService.fetchAndEncodeHtml(url)
+        const html = await this._fetchHtmlService.fetchHtml(url)
         const $ = cheerio.load(html)
         const title = this._getMetaValueByProperty($, 'title') || $('head title').first().text()
         const metaDescription = this._getMetaValueByProperty($, 'description')

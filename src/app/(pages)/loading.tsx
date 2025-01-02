@@ -1,8 +1,8 @@
 import React from 'react'
-import HeaderSkeleton from './components/skeleton/header-skeleton'
-import NavSkeleton from './components/skeleton/nav-skeleton'
-import FeedsSkeleton from './components/skeleton/feeds-skeleton'
-import SuggestionSkeleton from './components/skeleton/suggestion-skeleton'
+import HeaderSkeleton from '../components/skeleton/header-skeleton'
+import NavSkeleton from '../components/skeleton/nav-skeleton'
+import FeedsSkeleton from '../components/skeleton/feeds-skeleton'
+import SuggestionSkeleton from '../components/skeleton/suggestion-skeleton'
 
 export default function Loading() {
     return (

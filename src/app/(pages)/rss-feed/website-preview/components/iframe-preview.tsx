@@ -12,7 +12,6 @@ export default function IframePreview() {
     const iframeSrc = `/api/proxy/picker?link=${websiteLink}`;
     const [loading, setLoading] = useState(true)
 
-
     useEffect(() => {
         console.log('loading=>1', loading)
         checkIframeLoaded(iframeRef, () => {

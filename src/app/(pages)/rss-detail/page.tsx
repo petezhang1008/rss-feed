@@ -1,7 +1,7 @@
-import Header from "@/app/components/home/header/header";
 import RssDetailContent from "./components/content";
 import RssDetailRightSidebar from "./components/right-sidebar";
 import { useRssDetail } from "./hooks/server/use-rss-detail";
+import HomeRoot from "@/app/components/root/home-root";
 
 export default async function RssDetailPage({ searchParams }: { searchParams: Promise<{ rssId: string }> }) {
     const { rssId } = await searchParams
@@ -12,15 +12,16 @@ export default async function RssDetailPage({ searchParams }: { searchParams: Pr
         return <div>Not found</div>
     }
 
-    return <div className="flex flex-col size-full">
-        <Header />
-        <div className="flex size-full justify-center overflow-auto">
-            <div className="items-top justify-center p-4">
-                <div className="w-[980px] flex gap-6 overflow-hidden">
-                    <RssDetailContent rssDetail={rssDetail} />
-                    <RssDetailRightSidebar rssDetail={rssDetail} />
+    return (
+        <HomeRoot>
+            <div className="flex size-full justify-center overflow-auto">
+                <div className="items-top justify-center p-4">
+                    <div className="w-[980px] flex gap-6 overflow-hidden">
+                        <RssDetailContent rssDetail={rssDetail} />
+                        <RssDetailRightSidebar rssDetail={rssDetail} />
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </HomeRoot>
+    )
 }

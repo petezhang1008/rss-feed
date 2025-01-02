@@ -1,8 +1,8 @@
-import ManagementHeader from "@/app/components/management/header/header";
 import useRssDetail from "../hooks/server/use-rss-detail";
 import useFeeds from "../hooks/server/use-feeds";
 import FeedHeader from "../components/feed-header";
 import FeedContent from "../components/content/content";
+import ManagementRoot from "@/app/components/root/management-root";
 
 export default async function BundleDetail({ params }: { params: Promise<{ bundleId: string }> }) {
     const data = await params
@@ -18,16 +18,12 @@ export default async function BundleDetail({ params }: { params: Promise<{ bundl
         getBundleDetail(bundleId)
     ])
 
-
     return (
-        <div className="flex flex-col size-full overflow-hidden" >
-            <ManagementHeader>
-                <FeedHeader bundleDetail={bundleDetail!} />
-            </ManagementHeader>
-            <div className="p-4 overflow-auto flex-1">
-                <FeedContent paginationFeeds={res} bundle={bundleDetail!} />
-            </div>
-        </div>
+        <ManagementRoot header={
+            <FeedHeader bundleDetail={bundleDetail!} />
+        }>
+            <FeedContent paginationFeeds={res} bundle={bundleDetail!} />
+        </ManagementRoot>
     )
 }
 

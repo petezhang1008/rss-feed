@@ -1,8 +1,8 @@
-import ManagementHeader from "@/app/components/management/header/header";
 import { auth } from "@/auth";
 import Content from "./components/content";
 import { useUserFeed } from "./hooks/server/use-user-feed";
 import { useUserRss } from "./hooks/server/use-user-rss";
+import ManagementRoot from "@/app/components/root/management-root";
 
 export default async function MyFeedList() {
     const session = await auth()
@@ -14,15 +14,12 @@ export default async function MyFeedList() {
     }
     const [res, userRssList] = await Promise.all([getUserFeeds(userId), getUserRssListWithTaskSuccessCount(userId)])
     return (
-        <div className="flex flex-col size-full overflow-hidden">
-            <ManagementHeader>
-                <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Home</h1>
-                </div>
-            </ManagementHeader>
-            <div className="p-4 gap-4 flex flex-col overflow-y-auto size-full">
-                <Content paginationFeeds={res} userRssList={userRssList} />
+        <ManagementRoot header={
+            <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold">Home</h1>
             </div>
-        </div>
+        }>
+            <Content paginationFeeds={res} userRssList={userRssList} />
+        </ManagementRoot>
     )
 }

@@ -1,6 +1,5 @@
 import type { NextAuthConfig } from 'next-auth';
 import { RouterName } from './enums/router';
-const NOT_AUTH_PATHS = [RouterName.LOGIN, RouterName.REGISTER, RouterName.HOME, RouterName.RSS_BUILDER]
 
 export const authConfig = {
     pages: {
@@ -10,17 +9,16 @@ export const authConfig = {
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
-            const notNeedLogin = NOT_AUTH_PATHS.findIndex(path => {
-                return nextUrl.pathname === path
-            }) !== -1;
-            if (notNeedLogin) {
-                return true; // Redirect unauthenticated users to login page
-            } else if (isLoggedIn && notNeedLogin) {
-                return Response.redirect(new URL('/', nextUrl));
-            } else if (!isLoggedIn) {
-                return Response.redirect(new URL('/login', nextUrl));
+            const needLogin = nextUrl.pathname.includes('/management')
+            const inLoginPage = nextUrl.pathname === RouterName.LOGIN
+
+            if (!isLoggedIn && needLogin) {
+                return Response.redirect(new URL(RouterName.LOGIN, nextUrl));
+            } else if (isLoggedIn && inLoginPage) {
+                return Response.redirect(new URL(RouterName.MANAGEMENT_HOME, nextUrl));
+            } else {
+                return true;
             }
-            return true;
         },
         session({ session, token }) {
             session.user.id = token.sub as string;

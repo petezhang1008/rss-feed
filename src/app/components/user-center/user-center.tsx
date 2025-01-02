@@ -1,16 +1,12 @@
 'use client'
-import { logoutAction } from "@/app/lib/auth-action"
 import { RouterName } from "@/enums/router"
 import { ExitIcon, GearIcon, TokensIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { signOut } from 'next-auth/react';
 
 export default function UserCenter() {
-    const router = useRouter()
-    function handleLogout() {
-        logoutAction().then(() => {
-            router.push(RouterName.LOGIN)
-        })
+    async function handleLogout() {
+        await signOut()
     }
     return (
         <div className="flex flex-col gap-2">

@@ -15,5 +15,5 @@ export enum RouterName {
     BUNDLES = '/management/bundles',
     BUNDLE_FEEDS = '/management/bundle-feeds',
     EXPLORE = '/management/explore',
-    SETTINGS = '/settings',
+    SETTINGS = '/management/settings',
 }

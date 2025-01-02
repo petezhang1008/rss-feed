@@ -42,6 +42,9 @@ export class FeedLinkTaskServiceImpl implements FeedLinkTaskService {
         const result = await this._processQueue()
         if (!result || result.length === 0) {
             console.log('==================No Feed To Create================', data.rssId)
+            await this._executeTaskService.finishTask(data.taskId, {
+                successCount: result?.length || 0,
+            })
             return
         };
         console.log('===Create Batch Feed, TaskLength:', result?.length)

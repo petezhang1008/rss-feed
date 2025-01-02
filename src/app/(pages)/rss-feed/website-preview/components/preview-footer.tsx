@@ -8,11 +8,12 @@ import { useRouter } from 'next/navigation';
 import { RouterName } from "@/enums/router";
 import { useSession } from "next-auth/react";
 import useToast from "@/app/hooks/use-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TaskPollingStatus from "../../rss-builder/components/task-polling-status";
 
 export default function PreviewFooter() {
     const selectedNodes = useSelectedNodesStore(state => state.selectedNodes)
+    const clearSelectedNodes = useSelectedNodesStore(state => state.clearSelectedNodes)
     const { websiteLink } = useWebsiteLink()
     const path = useNodePathStore(state => state.path)
     const { data: session } = useSession()
@@ -21,12 +22,18 @@ export default function PreviewFooter() {
     const router = useRouter()
     const [isLoading, setIsLoading] = useState(false)
     const [taskId, setTaskId] = useState<string | undefined>(undefined)
+
+    useEffect(() => {
+        clearSelectedNodes()
+    }, [])
+
     let rssId = ''
     async function handleGenerate() {
         setIsLoading(true)
         createRssTaskAction({
             type: RssGeneratorType.WEBSITE,
             website: websiteLink,
+            selector: path || undefined
         }, userId).then((data) => {
             if ('userRss' in data) {
                 rssId = data.userRss.id
@@ -45,7 +52,7 @@ export default function PreviewFooter() {
         })
     }
     function handleCallback() {
-        const link = userId ? `${RouterName.RSS_FEEDS}/${rssId}` : `${RouterName.RSS_DETAIL}/${rssId}`
+        const link = userId ? `${RouterName.RSS_FEEDS}/${rssId}` : `${RouterName.RSS_DETAIL}?rssId=${rssId}`
         router.push(link)
         setIsLoading(false)
     }

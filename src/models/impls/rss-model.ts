@@ -43,7 +43,7 @@ export class RssModelImpl implements RssModel {
             where: {
                 type: data.type,
                 website: data.website,
-                selector: data.selector || null
+                selector: data.selector
             }
         })
         if (exist) {
