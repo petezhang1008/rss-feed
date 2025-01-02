@@ -1,5 +1,4 @@
 import HowWork from "./how-work";
-import Introduction from "./introduction";
 import KeyFeature from "./key-feature";
 import Reason from "./reason";
 import StartTrial from "./start-trail";
