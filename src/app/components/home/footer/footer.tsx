@@ -4,7 +4,7 @@ import FooterLogo from "./footer-logo";
 
 export default function Footer() {
     return (
-        <div className="flex flex-col size-full bg-neutral-800 mt-12 p-8 gap-8">
+        <div className="flex flex-col size-full bg-neutral-800 p-8 gap-8">
             <FooterLogo />
             <FooterLinks />
             <Copyright />

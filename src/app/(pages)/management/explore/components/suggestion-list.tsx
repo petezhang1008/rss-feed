@@ -1,6 +1,6 @@
 'use client'
-import useSuggestRss from "@/app/(pages)/rss-source/hooks/use-suggest-rss";
-import SuggestionItem from "@/app/components/rss-source/suggestion-item";
+import useSuggestRss from "@/app/(pages)/rss-sources/hooks/use-suggest-rss";
+import SuggestionItem from "@/app/components/rss-sources/suggestion-item";
 import { RouterName } from "@/enums/router";
 import { CategoryWithRss } from "@/types/model";
 import Link from "next/link";

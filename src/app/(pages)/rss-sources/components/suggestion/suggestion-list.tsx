@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { RouterName } from "@/enums/router";
 import Link from "next/link";
 import useSuggestRss from "../../hooks/use-suggest-rss";
-import SuggestionItem from "@/app/components/rss-source/suggestion-item";
+import SuggestionItem from "@/app/components/rss-sources/suggestion-item";
 
 export default function SuggestionList({ categories }: { categories: CategoryWithRss[] }) {
     const { getSuggestRss } = useSuggestRss()
