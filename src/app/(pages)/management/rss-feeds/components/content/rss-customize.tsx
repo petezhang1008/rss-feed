@@ -4,7 +4,6 @@ import { useRssAction } from "../../../rss/hooks/use-rss-action";
 import { UserRssWithRssAndBundle } from "@/types/model";
 import { usePathname, useRouter } from "next/navigation";
 import useToast from "@/app/hooks/use-toast";
-import FullPageLoading from "@/app/components/loading/full-page-loading";
 import { useState } from "react";
 import useFeedsPaginationStore from "../../stores/use-feeds-pagination";
 import TaskStatus from "../../../../rss-feed/rss-builder/components/task-polling-status";

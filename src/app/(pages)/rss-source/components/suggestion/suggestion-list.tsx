@@ -1,10 +1,10 @@
 'use client'
 import { CategoryWithRss } from "@/types/model";
-import SuggestionItem from "./suggestion-item";
 import { useSearchParams } from "next/navigation";
-import useSuggestRss from "../../hooks/use-suggest-rss";
 import { RouterName } from "@/enums/router";
 import Link from "next/link";
+import useSuggestRss from "../../hooks/use-suggest-rss";
+import SuggestionItem from "@/app/components/rss-source/suggestion-item";
 
 export default function SuggestionList({ categories }: { categories: CategoryWithRss[] }) {
     const { getSuggestRss } = useSuggestRss()

@@ -1,5 +1,8 @@
 export enum RouterName {
     HOME = '/',
+    RSS_SOURCE = '/rss-source',
+    FEEDS = '/feeds',
+    BLOG = '/blog',
     LOGIN = '/login',
     REGISTER = '/register',
     ABOUT = '/about',

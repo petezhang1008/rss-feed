@@ -3,8 +3,9 @@ import NavItem from "./nav-item";
 
 const NAVS = [
     { href: RouterName.HOME, label: 'Home' },
-    { href: RouterName.RSS_BUILDER, label: 'Rss Builder' },
-    { href: RouterName.ABOUT, label: 'About' },
+    { href: RouterName.RSS_SOURCE, label: 'Rss Source' },
+    { href: RouterName.FEEDS, label: 'Feeds' },
+    { href: RouterName.BLOG, label: 'Blog' }
 ]
 
 export default function HeaderNavs() {
